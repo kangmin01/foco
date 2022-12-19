@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import AWS from "aws-sdk";
 
 const envFound = dotenv.config();
 
@@ -12,8 +13,21 @@ if(process.env.MONGODB_URI === undefined) {
 
 const PORT = parseInt(process.env.PORT ?? '8000');
 const MONGODB_URI = process.env.MONGODB_URI;
+const s3AccessKey = process.env.***REMOVED***;
+const s3SecretKey = process.env.***REMOVED***;
+const bucketName = process.env.BUCKET_NAME;
+
+const storage: AWS.S3 = new AWS.S3({
+    accessKeyId: s3AccessKey,
+    secretAccessKey: s3SecretKey,
+    region: 'ap-northeast-2'
+})
+
 
 export {
     PORT,
-    MONGODB_URI
+    MONGODB_URI,
+    s3AccessKey,
+    s3SecretKey,
+    bucketName
 }
