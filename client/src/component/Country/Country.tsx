@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { CountryWrapper, Title } from './style';
 import MultiSelectBox from '../MultiSelectBox/MultiSelectBox';

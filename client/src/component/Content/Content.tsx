@@ -32,16 +32,15 @@ interface Iprops {
 
 const Content = (props: Iprops) => {
   const [data, setData] = useState<Icontent[]>([]);
-  const [OpenModal, setOpenModal] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { country } = props;
 
   const getPostData = () => {
     return axios({
       method: 'get',
-      // 임시 mock data 연결
-      url: 'http://localhost:3000/Data/post.json',
+      url: `/post?country=${country}`,
     }).then((res) => {
-      setData(res.data.data);
+      setData(res.data);
     });
   };
   useEffect(() => {
@@ -51,46 +50,40 @@ const Content = (props: Iprops) => {
     fetchData();
   }, []);
 
-  const handleClick = useCallback(() => {
-    setOpenModal(!OpenModal);
-  }, [OpenModal]);
-
-  const closeModal = () => {
-    setOpenModal(false);
-    console.log('click!');
+  const openModal = () => {
+    setModalOpen(true);
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   return (
     <ContentsWrapper>
-      {OpenModal && <Modal closeModal={closeModal} />}
-      {data
-        .filter((content: Icontent) => {
-          return content.country === country;
-        })
-        .map((content: Icontent, index: number) => {
-          return (
-            <ContentWrapper key={index}>
-              <HoverContent onClick={handleClick}>
-                <img src={ImgShawdow} />
-                <HoverBottom>
-                  <City>
-                    <MdLocationOn />
-                    {content.city}
-                  </City>
-                  <Icons>
-                    <HiHeart />
-                    <ImSpoonKnife />
-                  </Icons>
-                </HoverBottom>
-              </HoverContent>
-              <img src={content.img} alt={content.storeName}></img>
-              <LikeWrapper>
-                <HiHeart />
-                <TotalLike>{content.like}</TotalLike>
-              </LikeWrapper>
-            </ContentWrapper>
-          );
-        })}
+      {modalOpen && <Modal closeModal={closeModal} />}
+      {data.map((content: Icontent, index: number) => {
+        return (
+          <ContentWrapper key={index}>
+            <HoverContent onClick={openModal}>
+              <img src={ImgShawdow} />
+              <HoverBottom>
+                <City>
+                  <MdLocationOn />
+                  {content.city}
+                </City>
+                <Icons>
+                  <HiHeart />
+                  <ImSpoonKnife />
+                </Icons>
+              </HoverBottom>
+            </HoverContent>
+            <img src={content.img} alt={content.storeName}></img>
+            <LikeWrapper>
+              <HiHeart />
+              <TotalLike>{content.like}</TotalLike>
+            </LikeWrapper>
+          </ContentWrapper>
+        );
+      })}
     </ContentsWrapper>
   );
 };
