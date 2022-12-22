@@ -8,7 +8,7 @@ interface postControllerInterface {
     readPost: AsyncRequestHandler;
     readOnePost: AsyncRequestHandler;
     deleteOnePost: AsyncRequestHandler;
-    readForCityPost: AsyncRequestHandler;
+    uploadFileToS3: AsyncRequestHandler;
 }
 
 export const postController: postControllerInterface = {
@@ -23,7 +23,9 @@ export const postController: postControllerInterface = {
         res.json(post);
     },
     async readPost(req, res) {
-        const posts = await postService.readPost();
+        const city = req.query.city;
+        const country = req.query.country;
+        const posts = await postService.readPost(city, country);
         res.json(posts);
     },
     async readOnePost(req, res) {
@@ -36,10 +38,14 @@ export const postController: postControllerInterface = {
         const post = await postService.deleteOnePost(id);
         res.json(post);
     },
-    async readForCityPost(req, res) {
-        const city = req.query.city;
-        const posts = await postService.readForCityPost(city);
-        res.json(posts);
+    async uploadFileToS3(req, res){
+        if (!req.files) return res.status(400);
+        const fileData: any = req.files;
+        const ret: string[] = fileData.map((value: any)=> value.location);
+        try {
+            res.send(ret);
+        } catch (error){
+            console.log(error);
+        }
     }
-    
 }

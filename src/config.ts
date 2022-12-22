@@ -18,16 +18,18 @@ const s3SecretKey = process.env.***REMOVED***;
 const bucketName = process.env.BUCKET_NAME;
 
 const storage: AWS.S3 = new AWS.S3({
-    accessKeyId: s3AccessKey,
-    secretAccessKey: s3SecretKey,
-    region: 'ap-northeast-2'
+    credentials: {
+        accessKeyId: s3AccessKey as string,
+        secretAccessKey: s3SecretKey as string,
+    },
+    region: 'ap-northeast-2',
 })
-
 
 export {
     PORT,
     MONGODB_URI,
     s3AccessKey,
     s3SecretKey,
-    bucketName
+    bucketName,
+    storage,
 }
