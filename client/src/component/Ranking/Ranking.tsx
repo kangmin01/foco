@@ -72,7 +72,7 @@ const Ranking = (props: Iprops) => {
           <IoCloseCircleOutline />
         </Button>
       </Header>
-      <Link to={`/list/${country}`}>
+      <Link to={`/${country}`}>
         <MoreButton>more</MoreButton>
       </Link>
       {data
