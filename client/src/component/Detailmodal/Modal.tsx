@@ -25,10 +25,10 @@ import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ScrollHorizontal from 'react-scroll-horizontal';
-import { Icontent } from './Icontent';
+import { Icontent } from '../Icontent';
 
 interface Iprops {
-  postNum: number;
+  // postNum: number;
   closeModal: () => void;
 }
 

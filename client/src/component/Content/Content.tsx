@@ -50,7 +50,7 @@ const Content = (props: Iprops) => {
   };
   return (
     <ContentsWrapper>
-      {/* {modalOpen && <Modal closeModal={closeModal} />} */}
+      {modalOpen && <Modal closeModal={closeModal} />}
       {data.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={index}>

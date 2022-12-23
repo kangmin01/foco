@@ -16,20 +16,13 @@ import {
 } from './style';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { HiHeart } from 'react-icons/hi';
+import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
   closeModal: () => void;
   showWholeMap: () => void;
   changeFill: (city: string) => void;
-}
-
-interface Icontent {
-  country: string;
-  like: number;
-  storeName: string;
-  img: string;
-  city: string;
 }
 
 const Ranking = (props: Iprops) => {
@@ -93,7 +86,7 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
-            <img src={content.img} alt={content.storeName}></img>
+            <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
       })}
