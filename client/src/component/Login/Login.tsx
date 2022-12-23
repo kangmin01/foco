@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios, { AxiosHeaders } from 'axios';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
 import {
@@ -75,15 +76,23 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (
       error.emailError === '' &&
       error.passwordError === '' &&
       info.email !== '' &&
       info.password !== ''
     ) {
+      axios
+        .post('http://localhost:3000/auth/login', info)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       alert('로그인 성공');
-      console.log(info);
     } else {
       alert('내용확인!');
     }
