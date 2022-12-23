@@ -46,10 +46,10 @@ authRouter.post(
   asyncHandler((req, res, next) => {
     setUserToken(res, req.user);
     if (req.user.passwordReset) {
-      res.redirect('/auth/change-password');
+      // res.redirect('/auth/change-password');
       return;
     }
-    res.redirect('/');
+    // res.redirect('/');
   })
 );
 
