@@ -23,6 +23,8 @@ const AddImages = (props: any) => {
         URL.createObjectURL(file)
       );
 
+      console.log(e.target.files);
+
       const newArr = [...fileArray];
 
       setSelectedImages((prevImages) => prevImages.concat(newArr));
