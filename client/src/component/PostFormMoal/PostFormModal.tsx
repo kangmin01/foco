@@ -65,14 +65,9 @@ const PostFormModal = (props: any) => {
     }
   };
 
-  useEffect(() => {}, [
-    storeName,
-    review,
-    stars,
-    address,
-    imageList,
-    strLength,
-  ]);
+  useEffect(() => {
+    console.log(imageList);
+  }, [storeName, review, stars, address, imageList, strLength]);
 
   return (
     <Modal>

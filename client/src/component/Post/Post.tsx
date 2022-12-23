@@ -2,12 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Header from '../Header/Header';
-<<<<<<< HEAD
-import ReviewForm from '../PostForm/PostForm';
-// import AddImg from '../PostForm/func/AddImg';
-=======
+
 import PostFormModal from '../PostFormMoal/PostFormModal';
->>>>>>> feature/FE/post
 
 import {
   ReviewButton,
@@ -61,10 +57,6 @@ const Post = () => {
       <Header />
       <ReviewContainer>
         <Title>review management</Title>
-<<<<<<< HEAD
-        {/* <AddImg></AddImg> */}
-=======
->>>>>>> feature/FE/post
         <ReviewManagement>
           <ReviewButton onClick={handleAddReview}>+ review</ReviewButton>
           <ReviewList>

@@ -4,17 +4,10 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 
-<<<<<<< HEAD:client/src/component/PostForm/func/LocationSearchInput.tsx
-const LocationSearchInput = () => {
-  const [address, setAddress] = useState('');
-
-  const handleChange: any = (address: string) => {
-=======
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
 
   const handleChange: any = (address: any): void => {
->>>>>>> feature/FE/post:client/src/component/PostFormMoal/func/LocationSearchInput.tsx
     setAddress(address);
     props.setAddress(address);
   };
