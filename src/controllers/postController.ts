@@ -17,25 +17,27 @@ export const postController: postControllerInterface = {
         res.json({post});
     },
     async patchPost(req, res) {
-        const { id } = req.params;
+        const { postNum } = req.params;
         const newInfo: PostInterface = req.body;
-        const post = await postService.patchPost(id, newInfo);
+        const post = await postService.patchPost(postNum, newInfo);
         res.json(post);
     },
     async readPost(req, res) {
-        const city = req.query.city;
-        const country = req.query.country;
-        const posts = await postService.readPost(city, country);
+        const country = req.body.country;
+        const city = req.body.city;
+        const mood = req.body.mood;
+        const foodType = req.body.foodType;
+        const posts = await postService.readPost(country, city, mood, foodType);
         res.json(posts);
     },
     async readOnePost(req, res) {
-        const { id } = req.params;
-        const post = await postService.readOnePost(id);
+        const { postNum } = req.params;
+        const post = await postService.readOnePost(postNum);
         res.json(post);
     },
     async deleteOnePost(req, res) {
-        const { id } = req.params;
-        const post = await postService.deleteOnePost(id);
+        const { postNum } = req.params;
+        const post = await postService.deleteOnePost(postNum);
         res.json(post);
     },
     async uploadFileToS3(req, res){

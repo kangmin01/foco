@@ -1,6 +1,9 @@
 import { postModel, postModelType } from "../models";
 import { PostInterface } from "../models/schemas/post";
 
+interface Diction{
+    [key: string]: any;
+}
 class PostServie {
     private Post: postModelType;
 
@@ -30,31 +33,62 @@ class PostServie {
     }
 
     //게시글 수정
-    async patchPost(_id: string, postInfo: PostInterface) {
-        return await this.Post.findOneAndUpdate({_id}, { $set: postInfo}).exec();
+    async patchPost(postNum: any, postInfo: PostInterface) {
+        return await this.Post.findOneAndUpdate({postNum}, { $set: postInfo}).exec();
     }
     
     //전체 게시글 가져옴, 도시별, 나라별로 가져옴
-    async readPost(city?: any, country?: any) {
-        if ((typeof city) === "string") {
-            return await this.Post.find({city});
+    async readPost(country?: any, city?: any, mood?: any, foodType?: any) {
+        var query: Diction= {};
+        //나라별로 조회
+        if (country !== undefined && city === undefined) {
+            query = {
+                "country" : country
         }
-        else if ((typeof country) === "string"){
-            return await this.Post.find({country});
+    }   //나라 -> 도시별로 조회
+        else if(country !== undefined && city !== undefined){
+            query = {
+                "country" : country,
+                "city" : city
+            }
+            //나라 -> 도시별 -> mood & foodType으로 조회
+            if (mood !== undefined && foodType !==undefined) {
+                query = {
+                    "country" : country,
+                    "city" : city,
+                    "mood" : mood,
+                    "foodType" : foodType
+                }
+            }
+            //나라 -> 도시별 -> mood만 입력
+            else if(mood !== undefined && foodType === undefined) {
+                query = {
+                    "country" : country,
+                    "city" : city,
+                    "mood" : {$in : [mood]}
+                }
+            }
+            //나라 -> 도시별 -> foodType만 입력
+            else if(foodType !== undefined && mood === undefined) {
+                query = {
+                    "country" : country,
+                    "city" : city,
+                    "foodType" : {$in : [foodType]}
+                }
+            }
         }
-        else {
-            return await this.Post.find();
-        }
+        else return await this.Post.find().exec();
+        return await this.Post.find(query).exec();
     }
 
     //한 게시글 가져옴
-    async readOnePost(_id: string) {
-        return await this.Post.findOne({_id}).exec();
+    async readOnePost(postNum: any) {
+        return await this.Post.findOne({postNum}).exec();
     }
     
     //한 게시물 삭제
-    async deleteOnePost(_id: string) {
-        return await this.Post.deleteOne({_id}).exec();
+    async deleteOnePost(postNum: any) {
+        return await this.Post.deleteOne({postNum}).exec();
     }
 }
 
