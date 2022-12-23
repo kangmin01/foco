@@ -42,7 +42,7 @@ const Ranking = (props: Iprops) => {
       method: 'get',
       url: `/post?country=${country}`,
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       setData(res.data);
     });
   };
