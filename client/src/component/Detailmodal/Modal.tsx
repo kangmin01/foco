@@ -20,7 +20,6 @@ import {
 } from './style';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import useOpenModal from './useOpenModal';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
