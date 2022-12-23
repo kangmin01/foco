@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios, { AxiosHeaders } from 'axios';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
@@ -30,6 +30,7 @@ interface errorData {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
   const [info, setInfo] = useState<inputData>({
     email: '',
     password: '',
@@ -85,7 +86,7 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('http://localhost:3000/auth/login', info)
+        .post('/auth/login', info)
         .then((res) => {
           console.log(res);
         })
@@ -93,6 +94,7 @@ const Login = () => {
           console.log(error);
         });
       alert('로그인 성공');
+      navigate('/');
     } else {
       alert('내용확인!');
     }
