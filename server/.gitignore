@@ -1,2 +1,8 @@
 node_modules
+<<<<<<< HEAD
 .env
+=======
+.env
+awscli-bundle
+uploads
+>>>>>>> 9360a81c02a4ade94e93114041dada2fc5778d6f

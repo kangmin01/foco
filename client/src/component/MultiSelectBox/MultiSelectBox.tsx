@@ -20,7 +20,7 @@ const MultiSelectBox = () => {
     return axios({
       method: 'get',
       // 임시 mock data 연결
-      url: 'http://localhost:3000/Data/post.json',
+      url: 'http://localhost:4000/Data/post.json',
     }).then((res) => {
       setData(res.data.data);
     });
@@ -72,9 +72,24 @@ const MultiSelectBox = () => {
 
   return (
     <MultiSelectBoxWrapper>
-      <Select isMulti={true} options={cityType()} className="selectBox" />
-      <Select isMulti={true} options={foodType()} className="selectBox" />
-      <Select isMulti={true} options={moodType()} className="selectBox" />
+      <Select
+        isMulti={true}
+        placeholder="City"
+        options={cityType()}
+        className="selectBox"
+      />
+      <Select
+        isMulti={true}
+        placeholder="FoodType"
+        options={foodType()}
+        className="selectBox"
+      />
+      <Select
+        isMulti={true}
+        placeholder="Mood"
+        options={moodType()}
+        className="selectBox"
+      />
     </MultiSelectBoxWrapper>
   );
 };

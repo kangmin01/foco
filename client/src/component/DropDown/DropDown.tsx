@@ -60,7 +60,7 @@ const DropDown = (props: any) => {
 
   return (
     <DropDownWrapper>
-      <Select options={options} onChange={handleChange} />
+      <Select options={options} placeholder="Country" onChange={handleChange} />
     </DropDownWrapper>
   );
 };
