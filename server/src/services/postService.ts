@@ -1,5 +1,11 @@
 import { postModel, postModelType } from "../models";
 import { PostInterface } from "../models/schemas/post";
+import { whereCity, 
+    whereCountry, 
+    Diction, 
+    whereFoodType, 
+    whereMood } from "../function";
+
 
 class PostServie {
     private Post: postModelType;
@@ -19,7 +25,6 @@ class PostServie {
             city,
             country,
             address,
-            price,
             like,
             lat,
             lng,
@@ -30,31 +35,29 @@ class PostServie {
     }
 
     //게시글 수정
-    async patchPost(_id: string, postInfo: PostInterface) {
-        return await this.Post.findOneAndUpdate({_id}, { $set: postInfo}).exec();
+    async patchPost(postNum: any, postInfo: PostInterface) {
+        return await this.Post.findOneAndUpdate({postNum}, { $set: postInfo}).exec();
     }
-    
-    //전체 게시글 가져옴, 도시별, 나라별로 가져옴
-    async readPost(city?: any, country?: any) {
-        if ((typeof city) === "string") {
-            return await this.Post.find({city});
-        }
-        else if ((typeof country) === "string"){
-            return await this.Post.find({country});
-        }
-        else {
-            return await this.Post.find();
-        }
+
+    //게시글 가져옴
+    async readPost(someObject: any) {
+        let query: Diction = {};
+        query = whereCity(someObject, query);
+        query = whereCountry(someObject, query);
+        query = whereMood(someObject, query);
+        query = whereFoodType(someObject, query);
+        
+        return await this.Post.find(query);
     }
 
     //한 게시글 가져옴
-    async readOnePost(_id: string) {
-        return await this.Post.findOne({_id}).exec();
+    async readOnePost(postNum: any) {
+        return await this.Post.findOne({postNum}).exec();
     }
     
     //한 게시물 삭제
-    async deleteOnePost(_id: string) {
-        return await this.Post.deleteOne({_id}).exec();
+    async deleteOnePost(postNum: any) {
+        return await this.Post.deleteOne({postNum}).exec();
     }
 }
 

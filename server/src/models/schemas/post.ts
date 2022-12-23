@@ -11,7 +11,6 @@ export interface PostInterface {
     city: string;
     country: string;
     address: string;
-    price: number;
     like: string[];
     lat: number;
     lng: number;
@@ -51,10 +50,6 @@ export const PostSchema = new Schema<PostInterface>({
     },
     address: {
         type: String,
-        required: true
-    },
-    price: {
-        type: Number,
         required: true
     },
     like: {

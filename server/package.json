@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "app.ts",
   "repository": "https://kdt-gitlab.elice.io/sw_track/class_03/web_project_2/team11/foco.git",
   "author": "hddhdd96 <ciko111@naver.com>",
   "license": "MIT",
@@ -13,40 +13,27 @@
     "@types/multer-s3": "^3.0.0",
     "@types/node": "^18.11.15",
     "aws-sdk": "^2.1279.0",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "eslint": "^8.29.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "express": "^4.18.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^4.12.1",
     "mongoose": "^6.8.0",
     "mongoose-auto-increment": "^5.0.1",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
-    "nanoid": "^3.0.0",
-    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.20",
-    "passport": "^0.6.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "path": "^0.12.7",
     "prettier": "^2.8.1",
-    "pug": "^3.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
   "scripts": {
     "start": "node dist/app.ts",
     "build": "tsc -p .",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" index.ts"
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
   },
   "dependencies": {
+    "@types/sharp": "^0.31.0",
     "dotenv": "^16.0.3",
-    "nodemailer": "^6.8.0",
-    "passport-google-oauth20": "^2.0.0",
     "sharp": "^0.31.2"
   }
 }
