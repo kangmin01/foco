@@ -15,16 +15,7 @@ import Modal from './../Detailmodal/Modal';
 import { HiHeart } from 'react-icons/hi';
 import { ImSpoonKnife } from 'react-icons/im';
 import { MdLocationOn } from 'react-icons/md';
-
-interface Icontent {
-  country: string;
-  like: number;
-  city: string;
-  storeName: string;
-  img: string;
-  foodType: string[];
-  mood: string[];
-}
+import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
@@ -59,7 +50,7 @@ const Content = (props: Iprops) => {
   };
   return (
     <ContentsWrapper>
-      {/* {modalOpen && <Modal closeModal={closeModal} />} */}
+      {modalOpen && <Modal closeModal={closeModal} />}
       {data.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={index}>
@@ -76,7 +67,7 @@ const Content = (props: Iprops) => {
                 </Icons>
               </HoverBottom>
             </HoverContent>
-            <img src={content.img} alt={content.storeName}></img>
+            <img src={content.img[0]} alt={content.storeName}></img>
             <LikeWrapper>
               <HiHeart />
               <TotalLike>{content.like}</TotalLike>

@@ -72,9 +72,24 @@ const MultiSelectBox = () => {
 
   return (
     <MultiSelectBoxWrapper>
-      <Select isMulti={true} options={cityType()} className="selectBox" />
-      <Select isMulti={true} options={foodType()} className="selectBox" />
-      <Select isMulti={true} options={moodType()} className="selectBox" />
+      <Select
+        isMulti={true}
+        placeholder="City"
+        options={cityType()}
+        className="selectBox"
+      />
+      <Select
+        isMulti={true}
+        placeholder="FoodType"
+        options={foodType()}
+        className="selectBox"
+      />
+      <Select
+        isMulti={true}
+        placeholder="Mood"
+        options={moodType()}
+        className="selectBox"
+      />
     </MultiSelectBoxWrapper>
   );
 };

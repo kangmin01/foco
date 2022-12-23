@@ -43,8 +43,15 @@ const Profile = () => {
   const [error, setError] = useState<string>('');
 
   const getUserData = async () => {
-    const res = await axios.get('http://localhost:4000/Data/user.json');
-    setInfo(res.data[0]);
+    axios
+      .get('http://localhost:3000/auth/myAccount')
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // setInfo(res.data[0]);
   };
 
   const getCountriesName = async () => {

@@ -103,7 +103,7 @@ const MainMap = () => {
     return (
       <Marker key={name} coordinates={coordinates} className="markWrapper">
         {modalOpen && (
-          <Link to={`/list/country/${country}/${name}`}>
+          <Link to={`/${country}/${name}`}>
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
