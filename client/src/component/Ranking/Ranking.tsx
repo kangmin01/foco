@@ -16,8 +16,8 @@ import {
 } from './style';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { HiHeart } from 'react-icons/hi';
-import { Icontent } from '../Icontent';
 import { MdZoomOutMap } from 'react-icons/md';
+import { Icontent } from '../Icontent';
 import Modal from './../Detailmodal/Modal';
 
 interface Iprops {
@@ -93,7 +93,7 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
-            <MdZoomOutMap />
+            <MdZoomOutMap onClick={openModal} />
             <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
