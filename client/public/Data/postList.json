@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "식당1",
+    "src": "./Data/img/food.png"
+  },
+  {
+    "id": 2,
+    "name": "식당2",
+    "src": "./Data/img/food.png"
+  },
+  {
+    "id": 3,
+    "name": "식당3",
+    "src": "./Data/img/food.png"
+  },
+  {
+    "id": 4,
+    "name": "식당4",
+    "src": "./Data/img/food.png"
+  }
+]
