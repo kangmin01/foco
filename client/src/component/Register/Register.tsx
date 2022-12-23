@@ -26,14 +26,14 @@ import {
 } from './register-style';
 
 interface userData {
-  nickname: string;
+  name: string;
   email: string;
   password: string;
   country: string;
 }
 
 interface errorData {
-  nicknameError: string;
+  nameError: string;
   emailError: string;
   passwordError: string;
   confirmPasswordError: string;
@@ -44,14 +44,14 @@ const Register = () => {
   const navigate = useNavigate();
   const [countries, setCountries] = useState<any[]>([]);
   const [info, setInfo] = useState<userData>({
-    nickname: '',
+    name: '',
     email: '',
     password: '',
     country: '',
   });
 
   const [error, setError] = useState<errorData>({
-    nicknameError: '',
+    nameError: '',
     emailError: '',
     passwordError: '',
     confirmPasswordError: '',
@@ -65,7 +65,7 @@ const Register = () => {
   const getCountriesName = async () => {
     const res = await axios({
       method: 'get',
-      url: 'http://localhost:3000/Data/worldmap.json',
+      url: 'http://localhost:4000/Data/worldmap.json',
     });
     setCountries(res.data.objects.world.geometries);
   };
@@ -85,16 +85,16 @@ const Register = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === 'nickname') {
+    if (e.target.name === 'name') {
       if (!validateNickname(e.target.value)) {
         setError((prev) => ({
           ...prev,
-          nicknameError: 'English only',
+          nameError: 'English only',
         }));
       } else {
         setError((prev) => ({
           ...prev,
-          nicknameError: '',
+          nameError: '',
         }));
         setInfo((prev) => ({
           ...prev,
@@ -158,16 +158,24 @@ const Register = () => {
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (
-      error.nicknameError === '' &&
+      error.nameError === '' &&
       error.emailError === '' &&
       error.passwordError === '' &&
       error.confirmPasswordError === '' &&
       error.countryError === '' &&
-      info.nickname !== '' &&
+      info.name !== '' &&
       info.email !== '' &&
       info.password !== '' &&
       info.country !== ''
     ) {
+      axios
+        .post('/auth/join', info)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       alert('회원가입 성공');
       navigate('/login');
     } else {
@@ -182,12 +190,12 @@ const Register = () => {
         <Form>
           <Nickname
             type="text"
-            name="nickname"
+            name="name"
             onChange={handleChange}
-            placeholder="nickname"
+            placeholder="name"
           />
           <Errormsg>
-            <p>{error.nicknameError}</p>
+            <p>{error.nameError}</p>
           </Errormsg>
           <Email
             type="text"
