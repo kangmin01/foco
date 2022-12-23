@@ -17,34 +17,33 @@ export const ModalBackground = styled.div`
 export const ModalWrapper = styled.div`
   width: 50vw;
   height: 70vh;
-  border-radius: 30px;
+  padding: 20px;
+  border-radius: 20px;
   background-color: #fff;
-  overflow: auto;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: #ccc;
+  }
 `;
 // 상단 타이틀
 export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  // margin: 1vh 30px;
   height: 20vh;
-  //   width: 72.5vw;
-  padding: 2vh;
 `;
 // 상단(좋아요~닫기)
 export const IconsWrapper = styled.div`
   display: flex;
-  flex-direction: row;
   font-size: 1.5vh;
   justify-content: space-between;
 `;
+
 export const Icons = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-export const Icon = styled.div`
-  + div {
-    margin-left: 10px;
-  }
   .heart {
     color: pink;
     cursor: pointer;
@@ -52,14 +51,15 @@ export const Icon = styled.div`
       color: red;
       scale: 1.5;
     }
-  }
-  .heart.active {
-    color: red;
-    scale: 1.5;
+    &:active {
+      color: red;
+      scale: 1.5;
+    }
   }
   .spoon {
     color: lightgray;
     cursor: pointer;
+    margin-left: 15px;
     &:hover {
       color: gold;
       scale: 1.5;
@@ -76,21 +76,23 @@ export const CloseIcon = styled.div`
 export const TitleBox = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
+  padding: 0 30px;
   margin-top: 2vh;
-  margin-left: 2vw;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
+
+export const StoreInfo = styled.div`
+  display: flex;
+`;
+
 export const TitleBlock = styled.div`
   font-size: 9rem;
   font-weight: 1;
   margin-right: 1rem;
 `;
-export const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`;
+
 export const Title = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,47 +103,39 @@ export const StoreName = styled.div`
   font-weight: 400;
   font-size: 5vh;
 `;
-export const Address = styled.div`
+export const Info = styled.div`
   font-size: 1.8vh;
   margin-top: 0.5vh;
   color: #868686;
 `;
-export const Score = styled.div`
-  font-size: 1.8vh;
-  margin-top: 0.5vh;
-  color: #868686;
-`;
+
 export const Profile = styled.img`
-  width: 2.5vw;
-  height: 2.5vw;
+  height: 35px;
+  width: 35px;
   border-radius: 100%;
-  margin-right: 10%;
 `;
 // 본문 내용()
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
 `;
-// 본문- 이미지 왔다갔다
-export const ImgPage = styled.div`
-  height: 25vh;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-`;
-export const ImgArrow = styled.div`
-  margin-top: 11vh;
-  font-size: 3vh;
-  color: B1B1B1;
-`;
+
 // 본문- 아이템 이미지 여러개
-export const ItemBox = styled.div`
+export const ImgBox = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   //   padding: 10px;
   margin: 1rem;
   padding: 0.5rem;
+  height: 25vh;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  & img {
+    border-radius: 10px;
+    margin-right: 10px;
+  }
 `;
 // 본문- 아이템 이미지
 export const Item = styled.img`
