@@ -34,7 +34,8 @@ interface Iprops {
 const Modal = (props: Iprops) => {
   const [data, setData] = useState<any[]>([]);
   const [count, setCount] = useState(0);
-  const [color, setColor] = useState<string>('pink');
+  const [heart, setHeart] = useState<string>('pink');
+  const [spoon, setSpoon] = useState<string>('gray');
   const onIncrease = () => setCount(count + 1);
   const onDecrease = () => setCount(count - 1);
 
@@ -59,12 +60,19 @@ const Modal = (props: Iprops) => {
   }, []);
 
   const clickHeart = () => {
-    if (color === 'pink') {
-      setColor('red');
+    if (heart === 'pink') {
+      setHeart('red');
       onIncrease();
     } else {
-      setColor('pink');
+      setHeart('pink');
       onDecrease();
+    }
+  };
+  const clickSpoon = () => {
+    if (spoon === 'gray') {
+      setSpoon('gray');
+    } else {
+      setSpoon('lightgray');
     }
   };
 
@@ -78,12 +86,16 @@ const Modal = (props: Iprops) => {
                 <Icons>
                   <AiFillHeart
                     className="logo"
-                    color={color}
+                    color={heart}
                     onClick={clickHeart}
                   />
                   &nbsp;
                   {content.like}
-                  <FaUtensilSpoon className="spoon" />
+                  <FaUtensilSpoon
+                    className="spoon"
+                    color={spoon}
+                    onClick={clickSpoon}
+                  />
                 </Icons>
                 <CloseIcon>
                   <IoClose onClick={props.closeModal} />

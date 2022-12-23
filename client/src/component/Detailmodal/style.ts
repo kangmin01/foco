@@ -47,13 +47,9 @@ export const Icons = styled.div`
   .heart {
     color: pink;
     cursor: pointer;
+    transition: transform 300ms ease;
     &:hover {
-      color: red;
-      scale: 1.5;
-    }
-    &:active {
-      color: red;
-      scale: 1.5;
+      transform: scale(1.2);
     }
   }
   .spoon {
