@@ -17,6 +17,8 @@ import {
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { HiHeart } from 'react-icons/hi';
 import { Icontent } from '../Icontent';
+import { MdZoomOutMap } from 'react-icons/md';
+import Modal from './../Detailmodal/Modal';
 
 interface Iprops {
   country: string;
@@ -51,8 +53,13 @@ const Ranking = (props: Iprops) => {
     setModalOpen(true);
   };
 
+  const closeContentModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <RankingWrapper>
+      {modalOpen && <Modal closeModal={closeContentModal} />}
       <Header>
         <Title>{country}</Title>
         <Button
@@ -86,6 +93,7 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
+            <MdZoomOutMap />
             <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
