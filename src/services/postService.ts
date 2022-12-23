@@ -1,9 +1,12 @@
 import { postModel, postModelType } from "../models";
 import { PostInterface } from "../models/schemas/post";
+import { whereCity, 
+    whereCountry, 
+    Diction, 
+    whereFoodType, 
+    whereMood } from "../function";
 
-interface Diction{
-    [key: string]: any;
-}
+
 class PostServie {
     private Post: postModelType;
 
@@ -22,7 +25,6 @@ class PostServie {
             city,
             country,
             address,
-            price,
             like,
             lat,
             lng,
@@ -36,49 +38,16 @@ class PostServie {
     async patchPost(postNum: any, postInfo: PostInterface) {
         return await this.Post.findOneAndUpdate({postNum}, { $set: postInfo}).exec();
     }
-    
-    //전체 게시글 가져옴, 도시별, 나라별로 가져옴
-    async readPost(country?: any, city?: any, mood?: any, foodType?: any) {
-        var query: Diction= {};
-        //나라별로 조회
-        if (country !== undefined && city === undefined) {
-            query = {
-                "country" : country
-        }
-    }   //나라 -> 도시별로 조회
-        else if(country !== undefined && city !== undefined){
-            query = {
-                "country" : country,
-                "city" : city
-            }
-            //나라 -> 도시별 -> mood & foodType으로 조회
-            if (mood !== undefined && foodType !==undefined) {
-                query = {
-                    "country" : country,
-                    "city" : city,
-                    "mood" : mood,
-                    "foodType" : foodType
-                }
-            }
-            //나라 -> 도시별 -> mood만 입력
-            else if(mood !== undefined && foodType === undefined) {
-                query = {
-                    "country" : country,
-                    "city" : city,
-                    "mood" : {$in : [mood]}
-                }
-            }
-            //나라 -> 도시별 -> foodType만 입력
-            else if(foodType !== undefined && mood === undefined) {
-                query = {
-                    "country" : country,
-                    "city" : city,
-                    "foodType" : {$in : [foodType]}
-                }
-            }
-        }
-        else return await this.Post.find().exec();
-        return await this.Post.find(query).exec();
+
+    //게시글 가져옴
+    async readPost(someObject: any) {
+        let query: Diction = {};
+        query = whereCity(someObject, query);
+        query = whereCountry(someObject, query);
+        query = whereMood(someObject, query);
+        query = whereFoodType(someObject, query);
+        
+        return await this.Post.find(query);
     }
 
     //한 게시글 가져옴

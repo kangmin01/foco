@@ -23,11 +23,8 @@ export const postController: postControllerInterface = {
         res.json(post);
     },
     async readPost(req, res) {
-        const country = req.body.country;
-        const city = req.body.city;
-        const mood = req.body.mood;
-        const foodType = req.body.foodType;
-        const posts = await postService.readPost(country, city, mood, foodType);
+        const someObject = req.body;
+        const posts = await postService.readPost(someObject);
         res.json(posts);
     },
     async readOnePost(req, res) {
