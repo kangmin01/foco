@@ -2,17 +2,30 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import Header from '../Header/Header';
+<<<<<<< HEAD
 import ReviewForm from '../PostForm/PostForm';
 // import AddImg from '../PostForm/func/AddImg';
+=======
+import PostFormModal from '../PostFormMoal/PostFormModal';
+>>>>>>> feature/FE/post
 
 import {
   ReviewButton,
   ReviewContainer,
   ReviewList,
+  ReviewItem,
+  ReviewImageBox,
+  ImageHover,
+  Image,
   Title,
   ReviewManagement,
   ReviewPage,
+  ManagementBox,
+  Likes,
 } from './style';
+
+import { MdOutlineModeEdit } from 'react-icons/md';
+import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -26,34 +39,53 @@ const Post = () => {
     getReviews();
   }, []);
 
-  const handleAddReview: any = () => {
+  const handleAddReview = (): void => {
     setModalOpen(true);
   };
 
-  const onSubmit: any = () => {
-    alert('submit??');
+  const onClose = (e: React.ChangeEvent<any>): void => {
+    setModalOpen(false);
   };
 
-  const onClose: any = (e: any) => {
-    // e.preventDefault();
-    setModalOpen(false);
+  const handleEdit = (): void => {
+    alert('edit');
+  };
+
+  const handleDelete = (): void => {
+    alert('delete');
   };
 
   return (
     <ReviewPage>
-      {modalOpen && <ReviewForm onSubmit={onSubmit} onClose={onClose} />}
+      {modalOpen && <PostFormModal onClose={onClose} />}
       <Header />
       <ReviewContainer>
         <Title>review management</Title>
+<<<<<<< HEAD
         {/* <AddImg></AddImg> */}
+=======
+>>>>>>> feature/FE/post
         <ReviewManagement>
           <ReviewButton onClick={handleAddReview}>+ review</ReviewButton>
           <ReviewList>
             {reviews.map(({ id, name, src }) => (
-              <div key={id} className="review">
-                <img src={src} alt="plz" />
+              <ReviewItem key={id}>
+                <ReviewImageBox>
+                  <ImageHover className="imageHover">
+                    <ManagementBox>
+                      <button onClick={handleEdit}>
+                        <MdOutlineModeEdit />
+                      </button>
+                      <button onClick={handleDelete}>
+                        <RiDeleteBin6Fill />
+                      </button>
+                    </ManagementBox>
+                    <Likes>컴포넌트 삽입</Likes>
+                  </ImageHover>
+                  <Image src={src} alt="thumbnail" />
+                </ReviewImageBox>
                 <div>{name}</div>
-              </div>
+              </ReviewItem>
             ))}
           </ReviewList>
         </ReviewManagement>
