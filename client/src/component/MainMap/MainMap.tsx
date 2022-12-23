@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -42,20 +42,28 @@ const MainMap = () => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:3000/Data/post.json',
+      url: `/post`,
     }).then((res) => {
-      setData(res.data.data);
+      console.log(res);
+      setData(res.data);
     });
   };
 
   const getCoordinates = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:3000/Data/coordinates.json',
+      url: 'http://localhost:4000/Data/coordinates.json',
     }).then((res) => {
       setPath(res.data);
     });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getCoordinates();
+    };
+    fetchData();
+  }, []);
 
   const zoomInMarkers = data.map((content: any) => {
     return {
@@ -66,7 +74,6 @@ const MainMap = () => {
     };
   });
 
-  getCoordinates();
   const mapMarker = zoomInMarkers.map(({ country, name, coordinates }: any) => {
     let color = '#2c4052';
     let width;

@@ -8,7 +8,7 @@ export const HeaderWrapper = styled.div`
   position: fixed;
   width: 100%;
   padding: 20px 50px;
-  background-color: white;
+  background-color: transparent;
   color: #000000;
   z-index: 100;
   & > a {
@@ -38,7 +38,7 @@ export const Icons = styled.div`
 
 export const UserBox = styled.div`
   position: relative;
-  &>svg: hover {
+  & > svg:hover {
     color: var(--primary-color);
   }
 `;
@@ -61,7 +61,7 @@ export const MenuBox = styled.div`
 
 export const Menu = styled.div`
   display: flex;
-  justify-content; space-around;
+  justify-content: space-around;
   align-items: center;
   cursor: pointer;
   & svg {

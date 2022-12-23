@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, ReactElement } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {
   ContentsWrapper,
@@ -11,38 +11,36 @@ import {
   TotalLike,
 } from './style';
 import ImgShawdow from './imgshawdow.png';
-import Detailmodal from '../Detailmodal/Modal';
-import { Icontent } from '../Detailmodal/Icontent';
+import Modal from './../Detailmodal/Modal';
 import { HiHeart } from 'react-icons/hi';
 import { ImSpoonKnife } from 'react-icons/im';
 import { MdLocationOn } from 'react-icons/md';
 
-// interface Icontent {
-//   country: string;
-//   like: number;
-//   city: string;
-//   storeName: string;
-//   img: string;
-//   foodType: string[];
-//   mood: string[];
-// }
+interface Icontent {
+  country: string;
+  like: number;
+  city: string;
+  storeName: string;
+  img: string;
+  foodType: string[];
+  mood: string[];
+}
 
 interface Iprops {
   country: string;
 }
 
-const Content = (props: Iprops): ReactElement => {
+const Content = (props: Iprops) => {
   const [data, setData] = useState<Icontent[]>([]);
-  const [OpenModal, setOpenModal] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { country } = props;
 
   const getPostData = () => {
     return axios({
       method: 'get',
-      // 임시 mock data 연결
-      url: 'http://localhost:3000/Data/post.json',
+      url: `/post?country=${country}`,
     }).then((res) => {
-      setData(res.data.data);
+      setData(res.data);
     });
   };
   useEffect(() => {
@@ -52,56 +50,40 @@ const Content = (props: Iprops): ReactElement => {
     fetchData();
   }, []);
 
-  // const handleClick = useCallback(() => {
-  //   setOpenModal(!OpenModal);
-  //   openModal();
-  // }, [OpenModal]);
   const openModal = () => {
-    // 배경 안움직이게 하는 함수
-    setOpenModal(true);
-    document.body.style.overflow = 'hidden';
+    setModalOpen(true);
   };
+
   const closeModal = () => {
-    setOpenModal(false);
-    document.body.style.overflow = 'unset';
+    setModalOpen(false);
   };
-  // function openModal() {
-  //   setOpenModal(true);
-  // }
-  // function closeModal() {
-  //   setOpenModal(false);
-  // }
   return (
     <ContentsWrapper>
-      {OpenModal && <Detailmodal />}
-      {data
-        .filter((content: Icontent) => {
-          return content.country === country;
-        })
-        .map((content: Icontent, index: number) => {
-          return (
-            <ContentWrapper key={index}>
-              <HoverContent onClick={openModal}>
-                <img src={ImgShawdow} />
-                <HoverBottom>
-                  <City>
-                    <MdLocationOn />
-                    {content.city}
-                  </City>
-                  <Icons>
-                    <HiHeart />
-                    <ImSpoonKnife />
-                  </Icons>
-                </HoverBottom>
-              </HoverContent>
-              <img src={content.img} alt={content.storeName}></img>
-              <LikeWrapper>
-                <HiHeart />
-                <TotalLike>{content.like}</TotalLike>
-              </LikeWrapper>
-            </ContentWrapper>
-          );
-        })}
+      {modalOpen && <Modal closeModal={closeModal} />}
+      {data.map((content: Icontent, index: number) => {
+        return (
+          <ContentWrapper key={index}>
+            <HoverContent onClick={openModal}>
+              <img src={ImgShawdow} />
+              <HoverBottom>
+                <City>
+                  <MdLocationOn />
+                  {content.city}
+                </City>
+                <Icons>
+                  <HiHeart />
+                  <ImSpoonKnife />
+                </Icons>
+              </HoverBottom>
+            </HoverContent>
+            <img src={content.img} alt={content.storeName}></img>
+            <LikeWrapper>
+              <HiHeart />
+              <TotalLike>{content.like}</TotalLike>
+            </LikeWrapper>
+          </ContentWrapper>
+        );
+      })}
     </ContentsWrapper>
   );
 };

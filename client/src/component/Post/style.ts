@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import '../../GlobalStyle';
 
 export const ReviewPage = styled.div`
   display: flex;
@@ -14,8 +15,9 @@ export const ReviewContainer = styled.div`
 
 export const Title = styled.div`
   padding-top: 150px;
-  font-size: 40px;
-  font-weight: bold;
+  font-size: 50px;
+  font-weight: 100;
+  font-family: 'Rubik Spray Paint', cursive;
 `;
 
 export const ReviewManagement = styled.div`
@@ -47,24 +49,80 @@ export const ReviewList = styled.div`
   font-size: 25px;
   width: 100%;
   padding: 0 60px;
+`;
 
-  & img {
-    width: 300px;
+export const ReviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+  // justufy-content: center;
+`;
+
+export const ReviewImageBox = styled.div`
+  width: 300px;
+  height: 300px;
+  margin-bottom: 15px;
+
+  &:hover .imageHover {
+    z-index: 100;
   }
+`;
 
-  & .review {
-    width: 300px;
-    height: 300px;
-    margin: 30px;
+export const ImageHover = styled.div`
+  // z-index: 10;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  // width: auto;
+  // height: auto;
+  // max-width: 300px;
+  // max-height: 300px;
+`;
+
+export const ManagementBox = styled.div`
+  display: flex;
+
+  & button {
+    display: flex;
+    font-size: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+    background-color: transparent;
 
     &:hover {
       cursor: pointer;
-      filter: brightness(0.6);
+      color: #bdbdbd;
+      border-color: #bdbdbd;
     }
 
-    & div {
-      text-align: center;
-      margin-top: 10px;
+    &:first-child {
+      margin-right: 30px;
     }
   }
+`;
+
+export const Likes = styled.div`
+  color: white;
+  align-self: start;
+  position: absolute;
+  bottom: 14px;
+  left: 12px;
 `;

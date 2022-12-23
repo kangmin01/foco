@@ -31,7 +31,7 @@ const DropDown = (props: any) => {
   const getCountriesName = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:3001/Data/worldmap.json',
+      url: 'http://localhost:3000/Data/worldmap.json',
     }).then((res) => {
       setCountries(res.data.objects.world.geometries);
     });
@@ -40,7 +40,7 @@ const DropDown = (props: any) => {
   const getCoordinates = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:3001/Data/coordinates.json',
+      url: 'http://localhost:3000/Data/coordinates.json',
     }).then((res) => {
       setPath(res.data);
     });

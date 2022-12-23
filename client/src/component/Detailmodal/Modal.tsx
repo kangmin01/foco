@@ -3,33 +3,53 @@ import {
   ModalWrapper,
   TitleWrapper,
   Box,
+  TitleBox,
+  TitleBlock,
+  Info,
+  StoreName,
+  Title,
+  IconsWrapper,
+  Icons,
+  ImgBox,
+  Content,
+  TagBox,
+  TextBox,
+  Profile,
+  StoreInfo,
   CloseIcon,
 } from './style';
 import axios from 'axios';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useOpenModal from './useOpenModal';
-import { Icontent } from './Icontent';
-import IconComp from './IconComp';
-import TitleComp from './TitleComp';
-import ContentComp from './ContentComp';
-import ItemComp from './ItemComp';
+import { AiFillHeart } from 'react-icons/ai';
+import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-interface props {
-  open: boolean;
-  close: (v: boolean) => void;
+import ScrollHorizontal from 'react-scroll-horizontal';
+import { Icontent } from './Icontent';
+
+interface Iprops {
+  postNum: number;
+  closeModal: () => void;
 }
-const Detailmodal = () => {
-  // const { open, close } = props;
-  const [val, setVal] = useState<any[]>([]);
-  // const outside = useRef<boolean>(true);
+
+const Modal = (props: Iprops) => {
+  const [data, setData] = useState<any[]>([]);
+  const [count, setCount] = useState(0);
+  const [heart, setHeart] = useState<string>('curr');
+  const onIncrease = () => setCount(count + 1);
+  const onDecrease = () => setCount(count - 1);
+
+  // mock data 연결
   const getData = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:3000/Data/detailPost.json',
+      url: `http://localhost:4000/Data/detailPost.json`,
+      // url: `/post/${props.postNum}`,
+      //url: `/post/12`,
+      //
     }).then((res) => {
-      setVal(res.data.data);
-      // const itemList = res.data;
-      console.log(val);
+      console.log(res);
+      setData(res.data.data);
     });
   };
   useEffect(() => {
@@ -38,18 +58,62 @@ const Detailmodal = () => {
     };
     fetchData();
   }, []);
+
+  const clickHeart = () => {
+    setHeart('curr');
+    onIncrease();
+  };
+
   return (
     <ModalBackground>
-      {val.map((index: number) => {
+      {data.map((content: Icontent, index: number) => {
         return (
           <ModalWrapper key={index}>
             <TitleWrapper>
-              <IconComp />
-              <TitleComp />
+              <IconsWrapper>
+                <Icons>
+                  <AiFillHeart
+                    className={`heart ${heart === 'curr' ? 'active' : ''}`}
+                    onClick={() => setHeart('curr')}
+                  />
+                  &nbsp;
+                  {content.like}
+                  <FaUtensilSpoon className="spoon" />
+                </Icons>
+                <CloseIcon>
+                  <IoClose onClick={props.closeModal} />
+                </CloseIcon>
+              </IconsWrapper>
+              <TitleBox>
+                <StoreInfo>
+                  <TitleBlock>l</TitleBlock>
+                  <Title>
+                    <StoreName>{content.storeName}</StoreName>
+                    <Info>{content.address}</Info>
+                    <Info>{content.grade}</Info>
+                  </Title>
+                </StoreInfo>
+                <Profile
+                  src={content.profile}
+                  alt={content.storeName}
+                ></Profile>
+              </TitleBox>
             </TitleWrapper>
             <Box>
-              <ItemComp />
-              <ContentComp />
+              <ImgBox>
+                <ScrollHorizontal>
+                  {content.img.map((img: any) => {
+                    return <img src={img} alt={content.storeName}></img>;
+                  })}
+                </ScrollHorizontal>
+              </ImgBox>
+              <Content>
+                <TagBox>
+                  {content.mood}&nbsp;
+                  {content.food}&nbsp;
+                </TagBox>
+                <TextBox>{content.review}</TextBox>
+              </Content>
             </Box>
           </ModalWrapper>
         );
@@ -58,4 +122,4 @@ const Detailmodal = () => {
   );
 };
 
-export default Detailmodal;
+export default Modal;

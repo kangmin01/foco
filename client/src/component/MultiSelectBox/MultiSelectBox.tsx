@@ -20,7 +20,7 @@ const MultiSelectBox = () => {
     return axios({
       method: 'get',
       // 임시 mock data 연결
-      url: 'http://localhost:3001/Data/post.json',
+      url: 'http://localhost:3000/Data/post.json',
     }).then((res) => {
       setData(res.data.data);
     });
