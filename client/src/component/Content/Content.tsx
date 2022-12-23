@@ -59,7 +59,7 @@ const Content = (props: Iprops) => {
   };
   return (
     <ContentsWrapper>
-      {/* {modalOpen && <Modal closeModal={closeModal} />} */}
+      {modalOpen && <Modal closeModal={closeModal} postNum={0} />}
       {data.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={index}>

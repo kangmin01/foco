@@ -35,7 +35,7 @@ interface Iprops {
 const Modal = (props: Iprops) => {
   const [data, setData] = useState<any[]>([]);
   const [count, setCount] = useState(0);
-  const [heart, setHeart] = useState<string>('curr');
+  const [color, setColor] = useState<string>('pink');
   const onIncrease = () => setCount(count + 1);
   const onDecrease = () => setCount(count - 1);
 
@@ -60,8 +60,13 @@ const Modal = (props: Iprops) => {
   }, []);
 
   const clickHeart = () => {
-    setHeart('curr');
-    onIncrease();
+    if (color === 'pink') {
+      setColor('red');
+      onIncrease();
+    } else {
+      setColor('pink');
+      onDecrease();
+    }
   };
 
   return (
@@ -73,8 +78,9 @@ const Modal = (props: Iprops) => {
               <IconsWrapper>
                 <Icons>
                   <AiFillHeart
-                    className={`heart ${heart === 'curr' ? 'active' : ''}`}
-                    onClick={() => setHeart('curr')}
+                    className="logo"
+                    color={color}
+                    onClick={clickHeart}
                   />
                   &nbsp;
                   {content.like}

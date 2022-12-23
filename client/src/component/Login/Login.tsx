@@ -85,7 +85,7 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('http://localhost:3000/auth/login', info)
+        .post('http://localhost:4000/auth/login', info)
         .then((res) => {
           console.log(res);
         })

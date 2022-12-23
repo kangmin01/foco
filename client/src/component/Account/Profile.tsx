@@ -43,12 +43,12 @@ const Profile = () => {
   const [error, setError] = useState<string>('');
 
   const getUserData = async () => {
-    const res = await axios.get('http://localhost:3000/Data/user.json');
+    const res = await axios.get('http://localhost:4000/Data/user.json');
     setInfo(res.data[0]);
   };
 
   const getCountriesName = async () => {
-    const res = await axios.get('http://localhost:3000/Data/worldmap.json');
+    const res = await axios.get('http://localhost:4000/Data/worldmap.json');
     setCountries(res.data.objects.world.geometries);
   };
 
