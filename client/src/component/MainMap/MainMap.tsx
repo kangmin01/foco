@@ -44,7 +44,7 @@ const MainMap = () => {
       method: 'get',
       url: `/post`,
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       setData(res.data);
     });
   };

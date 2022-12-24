@@ -16,14 +16,14 @@ import { RiCloseFill } from 'react-icons/ri';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<any>([]);
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFiles(e.target.files);
     if (e.target.files) {
       const fileArray: string[] = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
-
-      console.log(e.target.files);
 
       const newArr = [...fileArray];
 
@@ -44,8 +44,11 @@ const AddImages = (props: any) => {
   };
 
   useEffect(() => {
-    props.setImageList(selectedImages);
-  }, [selectedImages]);
+    props.setImageList(files);
+    props.setPreview(selectedImages);
+    // console.log('files', files);
+    // console.log('selected', selectedImages);
+  }, [selectedImages, files]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
@@ -61,8 +64,8 @@ const AddImages = (props: any) => {
               </button>
             </ImageItemButton>
             <ImageInfo>
-              <input placeholder="ex) steak" />
-              <input placeholder="ex) 15,000" />
+              {/* <input placeholder="ex) steak" />
+              <input placeholder="ex) 15,000" /> */}
             </ImageInfo>
           </ImageOver>
         </ImageItem>

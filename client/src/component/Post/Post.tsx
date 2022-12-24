@@ -29,7 +29,7 @@ const Post = () => {
 
   useEffect(() => {
     const getReviews = async () => {
-      const res = await axios.get('http://localhost:3000/Data/postList.json');
+      const res = await axios.get('http://localhost:4000/Data/postList.json');
       setReviews(res.data);
     };
     getReviews();

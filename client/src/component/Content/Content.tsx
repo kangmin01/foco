@@ -25,6 +25,7 @@ const Content = (props: Iprops) => {
   const [data, setData] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { country } = props;
+  const [postNum, setPostNum] = useState<number>(0);
 
   const getPostData = () => {
     return axios({
@@ -41,8 +42,9 @@ const Content = (props: Iprops) => {
     fetchData();
   }, []);
 
-  const openModal = () => {
+  const openModal = (postNum: number) => {
     setModalOpen(true);
+    setPostNum(postNum);
   };
 
   const closeModal = () => {
@@ -50,11 +52,15 @@ const Content = (props: Iprops) => {
   };
   return (
     <ContentsWrapper>
-      {modalOpen && <Modal closeModal={closeModal} />}
+      {modalOpen && <Modal postNum={postNum} closeModal={closeModal} />}
       {data.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={index}>
-            <HoverContent onClick={openModal}>
+            <HoverContent
+              onClick={() => {
+                openModal(content.postNum);
+              }}
+            >
               <img src={ImgShawdow} />
               <HoverBottom>
                 <City>

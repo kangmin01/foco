@@ -30,7 +30,7 @@ const Menu = () => {
   });
 
   const getUserData = async () => {
-    const res = await axios.get('http://localhost:3000/Data/user.json');
+    const res = await axios.get('http://localhost:4000/Data/user.json');
     setInfo(res.data[0]);
   };
 

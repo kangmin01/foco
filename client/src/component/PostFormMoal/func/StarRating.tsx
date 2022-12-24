@@ -6,7 +6,7 @@ const StarRating: any = (props: any) => {
 
   const handleRating = (rate: number): void => {
     setRating(rate);
-    props.setStars(rate);
+    props.setGrade(rate);
   };
 
   return (
