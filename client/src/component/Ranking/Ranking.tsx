@@ -31,13 +31,13 @@ const Ranking = (props: Iprops) => {
   const { country, closeModal, showWholeMap, changeFill } = props;
   const [data, setData] = useState<any[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [postNum, setPostNum] = useState<number>(0);
 
   const getPostData = () => {
     return axios({
       method: 'get',
       url: `/post?country=${country}`,
     }).then((res) => {
-      // console.log(res);
       setData(res.data);
     });
   };
@@ -49,8 +49,9 @@ const Ranking = (props: Iprops) => {
     fetchData();
   }, [country]);
 
-  const openModal = () => {
+  const openModal = (postNum: number) => {
     setModalOpen(true);
+    setPostNum(postNum);
   };
 
   const closeContentModal = () => {
@@ -59,7 +60,7 @@ const Ranking = (props: Iprops) => {
 
   return (
     <RankingWrapper>
-      {modalOpen && <Modal closeModal={closeContentModal} />}
+      {modalOpen && <Modal postNum={postNum} closeModal={closeContentModal} />}
       <Header>
         <Title>{country}</Title>
         <Button
@@ -93,7 +94,11 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
-            <MdZoomOutMap onClick={openModal} />
+            <MdZoomOutMap
+              onClick={() => {
+                openModal(content.postNum);
+              }}
+            />
             <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
