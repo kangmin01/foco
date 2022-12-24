@@ -16,6 +16,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 const s3AccessKey = process.env.***REMOVED***;
 const s3SecretKey = process.env.***REMOVED***;
 const bucketName = process.env.BUCKET_NAME;
+const secretKey = process.env.JWT_SECRET_KEY as string;
 
 const storage: AWS.S3 = new AWS.S3({
     credentials: {
@@ -32,4 +33,5 @@ export {
     s3SecretKey,
     bucketName,
     storage,
+    secretKey
 }
