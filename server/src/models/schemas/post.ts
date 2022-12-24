@@ -34,7 +34,7 @@ export const PostSchema = new Schema<PostInterface>({
     },
     img: {
         type: [String],
-        required: true
+        required: false
     },
     review: {
         type: String,

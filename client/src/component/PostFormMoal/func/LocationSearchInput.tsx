@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -6,6 +6,7 @@ import PlacesAutocomplete, {
 
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
+  const [detail, setDetail] = useState<any>({});
 
   const handleChange: any = (address: any): void => {
     setAddress(address);
@@ -15,10 +16,18 @@ const LocationSearchInput: any = (props: any) => {
   const handleSelect: any = (address: any): void => {
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log('Success', console.log(latLng), latLng))
+      .then((latLng) => {
+        // console.log('Success', console.log(latLng), latLng);
+        setDetail(latLng);
+      })
       .catch((error) => console.error('Error', error));
   };
 
+  useEffect(() => {
+    // console.log('plz', detail['lat']);
+    props.setLat(detail.lat);
+    props.setLng(detail.lng);
+  }, [detail]);
   return (
     <PlacesAutocomplete
       value={address}

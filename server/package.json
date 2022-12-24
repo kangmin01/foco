@@ -6,6 +6,8 @@
   "author": "hddhdd96 <ciko111@naver.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/date-fns": "^2.6.0",
     "@types/express": "^4.17.15",
     "@types/mongoose": "^5.11.97",
     "@types/mongoose-auto-increment": "^5.0.35",
@@ -32,8 +34,11 @@
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/sharp": "^0.31.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
     "sharp": "^0.31.2"
   }
 }

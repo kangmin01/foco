@@ -23,7 +23,7 @@ export const postController: postControllerInterface = {
         res.json(post);
     },
     async readPost(req, res) {
-        const someObject = req.body;
+        const someObject = req.query;
         const posts = await postService.readPost(someObject);
         res.json(posts);
     },

@@ -27,31 +27,33 @@ import ScrollHorizontal from 'react-scroll-horizontal';
 import { Icontent } from '../Icontent';
 
 interface Iprops {
-  // postNum: number;
+  postNum: number;
   closeModal: () => void;
 }
 
+// TODO : 데이터 받아오기 에러 해결해야함 //
 const Modal = (props: Iprops) => {
-  const [data, setData] = useState<any[]>([]);
+  // 임의로 any 값 넣어두었음
+  const [data, setData] = useState<any>();
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('pink');
   const [spoon, setSpoon] = useState<string>('gray');
   const onIncrease = () => setCount(count + 1);
   const onDecrease = () => setCount(count - 1);
+  console.log(props.postNum);
 
   // mock data 연결
   const getData = () => {
     return axios({
       method: 'get',
-      url: `http://localhost:4000/Data/detailPost.json`,
-      // url: `/post/${props.postNum}`,
-      //url: `/post/12`,
-      //
+      url: `/post/${props.postNum}`,
     }).then((res) => {
       console.log(res);
-      setData(res.data.data);
+      setData(res.data);
     });
   };
+  console.log(data); //undefined
+
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -78,63 +80,57 @@ const Modal = (props: Iprops) => {
 
   return (
     <ModalBackground>
-      {data.map((content: Icontent, index: number) => {
-        return (
-          <ModalWrapper key={index}>
-            <TitleWrapper>
-              <IconsWrapper>
-                <Icons>
-                  <AiFillHeart
-                    className="logo"
-                    color={heart}
-                    onClick={clickHeart}
-                  />
-                  &nbsp;
-                  {content.like}
-                  <FaUtensilSpoon
-                    className="spoon"
-                    color={spoon}
-                    onClick={clickSpoon}
-                  />
-                </Icons>
-                <CloseIcon>
-                  <IoClose onClick={props.closeModal} />
-                </CloseIcon>
-              </IconsWrapper>
-              <TitleBox>
-                <StoreInfo>
-                  <TitleBlock>l</TitleBlock>
-                  <Title>
-                    <StoreName>{content.storeName}</StoreName>
-                    <Info>{content.address}</Info>
-                    <Info>{content.grade}</Info>
-                  </Title>
-                </StoreInfo>
-                <Profile
-                  src={content.profile}
-                  alt={content.storeName}
-                ></Profile>
-              </TitleBox>
-            </TitleWrapper>
-            <Box>
-              <ImgBox>
-                <ScrollHorizontal>
-                  {content.img.map((img: any) => {
-                    return <img src={img} alt={content.storeName}></img>;
-                  })}
-                </ScrollHorizontal>
-              </ImgBox>
-              <Content>
-                <TagBox>
-                  {content.mood}&nbsp;
-                  {content.food}&nbsp;
-                </TagBox>
-                <TextBox>{content.review}</TextBox>
-              </Content>
-            </Box>
-          </ModalWrapper>
-        );
-      })}
+      <ModalWrapper>
+        <TitleWrapper>
+          <IconsWrapper>
+            <Icons>
+              <AiFillHeart
+                className="logo"
+                color={heart}
+                onClick={clickHeart}
+              />
+              <FaUtensilSpoon
+                className="logo"
+                color={spoon}
+                onClick={clickSpoon}
+              />
+            </Icons>
+            <CloseIcon>
+              <IoClose onClick={props.closeModal} />
+            </CloseIcon>
+          </IconsWrapper>
+          <TitleBox>
+            <StoreInfo>
+              <TitleBlock>l</TitleBlock>
+              <Title>
+                <StoreName>{data.storeName}</StoreName>
+                <Info>{data.address}</Info>
+                <Info>{data.grade}</Info>
+              </Title>
+            </StoreInfo>
+          </TitleBox>
+        </TitleWrapper>
+        <Box>
+          <ImgBox>
+            <ScrollHorizontal>
+              {data.img.map((img: string) => {
+                return <img src={img} alt={data.storeName}></img>;
+              })}
+            </ScrollHorizontal>
+          </ImgBox>
+          <Content>
+            <TagBox>
+              {data.mood.map((mood: string) => {
+                return <span>#{mood} </span>;
+              })}
+              {data.foodType.map((foodType: string) => {
+                return <span>#{foodType} </span>;
+              })}
+            </TagBox>
+            <TextBox>{data.review}</TextBox>
+          </Content>
+        </Box>
+      </ModalWrapper>
     </ModalBackground>
   );
 };
