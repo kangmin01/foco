@@ -19,18 +19,31 @@ import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
-  postSelect: string;
+  citySelect: string | undefined;
+  moodSelect: string | undefined;
+  foodTypeSelect: string | undefined;
 }
 
 const Content = (props: Iprops) => {
   const [data, setData] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
+  let postSelect = '';
+
+  if (props.citySelect || props.moodSelect || props.foodTypeSelect) {
+    postSelect += props.citySelect;
+    postSelect += props.moodSelect;
+    postSelect += props.foodTypeSelect;
+  }
+
+  let url = String(postSelect)
+    .replace('undefined', '')
+    .replace('undefined', '');
 
   const getSelectContent = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}${props.postSelect}`,
+      url: `/post?country=${props.country}${url}`,
     }).then((res) => {
       setData(res.data);
     });
@@ -41,7 +54,7 @@ const Content = (props: Iprops) => {
       await getSelectContent();
     };
     fetchData();
-  }, [props.postSelect]);
+  }, [postSelect]);
 
   const getPostData = () => {
     return axios({
