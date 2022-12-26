@@ -1,18 +1,18 @@
 import { Schema } from 'mongoose';
 
 export interface BookmarkInterface {
-    postNum: string;
-    uid: string;
+    postNum: Number;
+    email: Schema.Types.String;
 }
 
 export const BookmarkSchema = new Schema<BookmarkInterface>(
 {
     postNum: {
-    type: Schema.Types.String,
+    type: Number,
     ref: 'post',
     required: true,
     },
-    uid: { 
+    email: { 
     type: Schema.Types.String, 
     ref: 'user',
     required: true },

@@ -22,7 +22,10 @@ export interface LoginInterface {
 export const UserSchema = new Schema<UserInterface>({
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
     },
     name: {
         type: String,
@@ -56,6 +59,7 @@ export const UserSchema = new Schema<UserInterface>({
 },
 {
     timestamps: true,
+    collection: 'user'
 }
 )
 UserSchema.plugin(autoIncrement.plugin, {

@@ -2,7 +2,8 @@ import express from 'express';
 import mongoose from "mongoose";
 import { PORT, MONGODB_URI } from './config';
 import { postRouter,
-        userRouter
+        userRouter,
+        bookmarkRouter
 } from './routers';
 import { endPoint } from './constants';
 
@@ -15,6 +16,7 @@ mongoose.connection.on('connected', ()=> {
 app.use(express.json());
 app.use(endPoint.post, postRouter);
 app.use(endPoint.user, userRouter);
+app.use(endPoint.bookmark, bookmarkRouter);
 
 app.listen(PORT, () => {
     console.log(`

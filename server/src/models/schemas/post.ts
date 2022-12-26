@@ -11,7 +11,8 @@ export interface PostInterface {
     city: string;
     country: string;
     address: string;
-    like: string[];
+    likeCount: number;
+    likeUsers: number[];
     lat: number;
     lng: number;
     foodType: string[];
@@ -52,9 +53,11 @@ export const PostSchema = new Schema<PostInterface>({
         type: String,
         required: true
     },
-    like: {
-        type: [String],
-        required: true
+    likeCount: {
+        type: Number,        
+    },
+    likeUsers: {
+        type: [Number]
     },
     lat: {
         type: Number,
@@ -79,6 +82,7 @@ export const PostSchema = new Schema<PostInterface>({
 },
 {
     timestamps: true,
+    collection: 'post'
 }
 )
 PostSchema.plugin(autoIncrement.plugin, {
