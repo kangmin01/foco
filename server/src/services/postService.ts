@@ -48,7 +48,7 @@ class PostServie {
         query = whereMood(someObject, query);
         query = whereFoodType(someObject, query);
         
-        return await this.Post.find(query);
+        return await this.Post.find(query).sort({likeCount: -1});
     }
 
     //한 게시글 가져옴
