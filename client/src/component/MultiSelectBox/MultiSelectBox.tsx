@@ -20,7 +20,6 @@ const MultiSelectBox = (props: Iprops) => {
   const [citySelect, setCitySelect] = useState<string | undefined>();
   const [moodSelect, setMoodSelect] = useState<string | undefined>();
   const [foodSelect, setFoodSelect] = useState<string | undefined>();
-  const [postSelect, setPostSelect] = useState<string[]>([]);
 
   const getData = () => {
     return axios({
@@ -98,25 +97,29 @@ const MultiSelectBox = (props: Iprops) => {
       };
     });
   };
-  const getTypeContent = (selected: any, type: string, setType: any) => {
+  const getTypeContent = (
+    selected: any,
+    type: string,
+    setType: any,
+    i: any
+  ) => {
     const allSelect = selected.map((x: any) => {
       return `&${type}=${x.value}`;
     });
     setType(allSelect.join(''));
-    setPostSelect([...postSelect, allSelect.join('')]);
   };
 
   // TODO : 함수 합치기
   const handleMoodChange = (newSelections: MultiValue<SelectValue>) => {
-    getTypeContent(newSelections, 'mood', setMoodSelect);
+    getTypeContent(newSelections, 'mood', setMoodSelect, moodSelect);
   };
 
   const handleFoodChange = (newSelections: MultiValue<SelectValue>) => {
-    getTypeContent(newSelections, 'foodType', setFoodSelect);
+    getTypeContent(newSelections, 'foodType', setFoodSelect, foodSelect);
   };
 
   const handleCityChange = (newSelections: MultiValue<SelectValue>) => {
-    getTypeContent(newSelections, 'city', setCitySelect);
+    getTypeContent(newSelections, 'city', setCitySelect, citySelect);
   };
 
   return (
@@ -146,7 +149,10 @@ const MultiSelectBox = (props: Iprops) => {
       </MultiSelectBoxWrapper>
       <Content
         country={props.country}
-        postSelect={postSelect.join('')}
+        // postSelect={postSelect.join('')}
+        citySelect={citySelect}
+        moodSelect={moodSelect}
+        foodTypeSelect={foodSelect}
       ></Content>
     </ContentWrapper>
   );
