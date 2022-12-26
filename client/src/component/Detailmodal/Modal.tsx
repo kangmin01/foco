@@ -17,6 +17,7 @@ import {
   Profile,
   StoreInfo,
   CloseIcon,
+  ItemB,
 } from './style';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
@@ -36,9 +37,10 @@ const Modal = (props: Iprops) => {
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('pink');
   const [spoon, setSpoon] = useState<string>('lightgray');
-  console.log('start');
+  console.log('start'); // 데이터 확인
   console.log(props.postNum);
 
+  // 데이터 불러오기
   const getData = () => {
     return axios({
       method: 'get',
@@ -48,22 +50,6 @@ const Modal = (props: Iprops) => {
       setData(res.data);
     });
   };
-  const onIncrease = () => {
-    setCount(count + 1);
-  };
-  const onDecrease = () => setCount(count - 1);
-  // const patchLike = () => {
-  //   return axios
-  //     .post(`/post/like/${props.userNum}`)
-  //     .then((response) => console.log('res', response))
-  //     .catch((error) => console.log('err', error));
-  // };
-  // const deleteLike = () => {
-  //   return axios
-  //     .delete(`/post/like/${props.postNum}`)
-  //     .then((response) => console.log('res', response))
-  //     .catch((error) => console.log('err', error));
-  // };
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -71,6 +57,27 @@ const Modal = (props: Iprops) => {
     fetchData();
   }, []);
 
+  // 모달 창 떴을 시 배경 스크롤 막기
+  useEffect(() => {
+    document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
+
+  // icon 클릭 시 이벤트
+  const onIncrease = () => {
+    setCount(count + 1);
+  };
+  const onDecrease = () => {
+    setCount(count - 1);
+  };
   const clickHeart = () => {
     if (heart === 'pink') {
       setHeart('red');
@@ -102,7 +109,7 @@ const Modal = (props: Iprops) => {
                 color={heart}
                 onClick={clickHeart}
               />
-              <div>{data?.likeCount}</div>
+              <div className="likeCount">{data?.like}100</div>
               <FaUtensilSpoon
                 className="spoon"
                 color={spoon}
@@ -129,7 +136,7 @@ const Modal = (props: Iprops) => {
           <ImgBox id="scroll-horizontal">
             <ScrollHorizontal>
               {data?.img.map((img: string) => {
-                return <img src={img} alt={data.storeName} />;
+                return <ItemB src={img} alt={data.storeName} />;
               })}
             </ScrollHorizontal>
           </ImgBox>

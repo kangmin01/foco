@@ -22,24 +22,24 @@ interface Iprops {
 }
 
 const Content = (props: Iprops) => {
-  const [data, setData] = useState<Icontent[]>([]);
+  const [contents, setContents] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { country } = props;
   const [postNum, setPostNum] = useState<number>(0);
 
-  const getPostData = () => {
+  const getPostContents = () => {
     return axios({
       method: 'get',
       url: `/post?country=${country}`,
     }).then((res) => {
-      setData(res.data);
+      setContents(res.data);
     });
   };
   useEffect(() => {
-    const fetchData = async () => {
-      await getPostData();
+    const fetchContents = async () => {
+      await getPostContents();
     };
-    fetchData();
+    fetchContents();
   }, []);
 
   const openModal = (postNum: number) => {
@@ -53,7 +53,7 @@ const Content = (props: Iprops) => {
   return (
     <ContentsWrapper>
       {modalOpen && <Modal postNum={postNum} closeModal={closeModal} />}
-      {data.map((content: Icontent, index: number) => {
+      {contents.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={index}>
             <HoverContent
