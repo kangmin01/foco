@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios, { AxiosHeaders } from 'axios';
+import axios from 'axios';
+import { CookiesProvider, Cookies } from 'react-cookie';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
 import {
@@ -86,8 +87,11 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('/auth/login', info)
+        .post('/user/login', info)
         .then((res) => {
+          const cookies = new Cookies();
+          const token = res.data.user.refreshToken;
+          cookies.set('token', token);
           console.log(res);
         })
         .catch((error) => {
