@@ -84,7 +84,7 @@ const Content = (props: Iprops) => {
       {modalOpen && <Modal postNum={postNum} closeModal={closeModal} />}
       {contents.map((content: Icontent, index: number) => {
         return (
-          <ContentWrapper key={index}>
+          <ContentWrapper key={content.postNum}>
             <HoverContent
               onClick={() => {
                 openModal(content.postNum);
