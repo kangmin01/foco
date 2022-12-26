@@ -33,9 +33,9 @@ class BookmarkService {
         })
     }
     //북마크 가져오기
-    async findBookmark(email: any) {
+    async findBookmark(userNum: any) {
 
-    const bookmark = await this.Bookmark.find({email},  { postNum: 1, _id: 0 });
+    const bookmark = await this.Bookmark.find({userNum},  { postNum: 1, _id: 0 });
     return await Promise.all(
         bookmark.map((list) => {
             return this.getCase(list.postNum);

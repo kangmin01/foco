@@ -1,5 +1,5 @@
 import { BookmarkInterface } from './../models/schemas/bookmark';
-import { bookmarkService } from '../services';
+import { bookmarkService } from '../services/bookmarkService';
 import { AsyncRequestHandler } from '../types';
 
 interface bookmarkControllerInterface {
@@ -10,10 +10,10 @@ interface bookmarkControllerInterface {
 
 export const bookmarkController: bookmarkControllerInterface = {
     async postBookmark(req, res) {
-        const { email } = req.body;
+        const { userNum } = req.body;
         const { postNum } = req.body;
         const bookmarkInfo: BookmarkInterface = {
-            email,
+            userNum,
             postNum,
         };
         const bookmark = await bookmarkService.createBookmark(bookmarkInfo);
@@ -21,16 +21,16 @@ export const bookmarkController: bookmarkControllerInterface = {
 },
 
     async getBookmark(req, res) {
-        const { email } = req.params;
-        const bookmarks = await bookmarkService.findBookmark(email);
+        const { userNum } = req.params;
+        const bookmarks = await bookmarkService.findBookmark(userNum);
         res.json(bookmarks);
     },
 
     async deleteOneBookmark(req, res) {
-        const { email } = req.body;
+        const { userNum } = req.body;
         const { postNum } = req.body;
         const bookmarkInfo: BookmarkInterface = {
-            email,
+            userNum,
             postNum,
         };
         const deleteOne = await bookmarkService.deleteBookmark(bookmarkInfo);
