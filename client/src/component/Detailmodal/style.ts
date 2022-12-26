@@ -34,7 +34,7 @@ export const ModalWrapper = styled.div`
 export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 20vh;
+  height: 18vh;
   width: 100%;
 `;
 // 상단(좋아요~닫기)
@@ -66,16 +66,17 @@ export const Icons = styled.div`
     color: lightgray;
     cursor: pointer;
     margin-left: 10px;
+    transition: transform 300ms ease;
     &:hover {
-      color: gold;
-      scale: 1.2;
+      transform: scale(1.2);
     }
   }
 `;
 export const CloseIcon = styled.div`
   cursor: pointer;
+  transition: transform 300ms ease;
   &:hover {
-    scale: 1.5;
+    transform: scale(1.5);
   }
 `;
 // 상단(가게 이름 + 주소 + 평점)
@@ -123,7 +124,7 @@ export const Info = styled.div`
 export const Profile = styled.img`
   height: 40px;
   width: 40px;
-  margin-top: 6vh;
+  margin-top: 3vh;
   border-radius: 100%;
 `;
 // 본문 내용()
@@ -136,10 +137,8 @@ export const Box = styled.div`
 export const ImgBox = styled.div`
   display: flex;
   flex-direction: row;
-  // flex-direction: column;
-  width: 100%;
-  //   padding: 10px;
-  margin: 1rem;
+  width: 30vw;
+  margin-left: 18%;
   padding: 0.5rem;
   height: 25vh;
   /* 
@@ -164,12 +163,10 @@ export const ImgBox = styled.div`
 // 본문- 아이템 이미지
 export const ItemB = styled.img`
   // width: 15vw;
-  height: 20vh;
+  height: 23vh;
   flex-direction: row;
   border-radius: 10%;
   object-fit: scale-down;
-  // transform: rotate(90deg) translateX(100px);
-  // transform-origin: right top;
   + img {
     margin-left: 1rem;
   }
@@ -189,7 +186,7 @@ export const TagBox = styled.div`
 
 // 본문 - 하단- 텍스트
 export const TextBox = styled.div`
-  margin-top: 3.5rem;
+  margin-top: 1rem;
   font-size: 1.5vh;
   width: 90%;
   line-height: 1.8vh;

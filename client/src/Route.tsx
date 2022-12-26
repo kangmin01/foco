@@ -18,7 +18,7 @@ export const ROUTE = {
   },
   COUNTRY: {
     path: '/:country',
-    link: '/:country',
+    link: '/country',
     element: Country,
   },
   REGISTER: {
@@ -52,12 +52,12 @@ export const ROUTE = {
     element: Deactivate,
   },
   REVIEW: {
-    path: '/review',
+    path: '/review/:userNum',
     link: '/review',
     element: Review,
   },
   BOOKMARK: {
-    path: '/bookmark',
+    path: '/bookmark', // userNum 확인바람
     link: '/bookmark',
     element: BookMark,
   },

@@ -54,7 +54,7 @@ const Header = () => {
 
     return (
       <MenuBox>
-        <Link to={ROUTE.REVIEW.link}>
+        <Link to={`${ROUTE.REVIEW.link}/${userNum}`}>
           <Menu>
             <FaPen />
             <span>My Review</span>
@@ -94,6 +94,7 @@ const Header = () => {
             {show ? isLogin ? <UserMenu /> : <LoginMenu /> : null}
           </UserBox>
           <Link to={ROUTE.BOOKMARK.link}>
+            {/* 얘도 userNum해야하지 않는지 물어보기 */}
             <ImSpoonKnife />
           </Link>
         </Icons>
