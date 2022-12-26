@@ -90,7 +90,7 @@ const Login = () => {
         .post('/user/login', info)
         .then((res) => {
           const cookies = new Cookies();
-          const token = res.data;
+          const token = res.data.user.refreshToken;
           cookies.set('token', token);
           console.log(res);
         })
