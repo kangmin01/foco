@@ -169,7 +169,7 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('/auth/join', info)
+        .post('/user/register', info)
         .then((res) => {
           console.log(res);
         })

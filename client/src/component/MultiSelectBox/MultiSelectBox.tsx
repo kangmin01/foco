@@ -1,39 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { MultiSelectBoxWrapper } from './style';
-import Select from 'react-select';
+import { ContentWrapper, MultiSelectBoxWrapper } from './style';
+import Select, { MultiValue } from 'react-select';
 import axios from 'axios';
+import { Icontent } from '../Icontent';
+import Content from '../Content/Content';
 
-interface Icontent {
+interface Iprops {
   country: string;
-  like: number;
-  city: string;
-  storeName: string;
-  img: string;
-  foodType: string[];
-  mood: string[];
 }
 
-const MultiSelectBox = () => {
-  const [data, setData] = useState<Icontent[]>([]);
+type SelectValue = {
+  label: string;
+  value: string;
+};
 
-  const getPostData = () => {
+const MultiSelectBox = (props: Iprops) => {
+  const [data, setData] = useState<Icontent[]>([]);
+  const [selectData, setSelectData] = useState<Icontent[]>([]);
+  const [citySelect, setCitySelect] = useState<string | undefined>();
+  const [moodSelect, setMoodSelect] = useState<string | undefined>();
+  const [foodSelect, setFoodSelect] = useState<string | undefined>();
+  const [postSelect, setPostSelect] = useState<string[]>([]);
+
+  const getData = () => {
     return axios({
       method: 'get',
-      // 임시 mock data 연결
-      url: 'http://localhost:4000/Data/post.json',
+      url: `/post?country=${props.country}`,
     }).then((res) => {
-      setData(res.data.data);
+      setData(res.data);
     });
   };
+
   useEffect(() => {
     const fetchData = async () => {
-      await getPostData();
+      await getData();
     };
     fetchData();
   }, []);
 
-  // 서버 기능 연결하기 전 임시로 mock 데이터를 불러오기 위한 함수
-  // TODO : 서버 기능 완료시, 각 데이터마다 요청 url을 작성해야함
+  const getSelectData = () => {
+    let url = '';
+    if (citySelect) {
+      url = `/post?country=${props.country}&city=${citySelect}`;
+    } else {
+      url = `/post?country=${props.country}`;
+    }
+    return axios({
+      method: 'get',
+      url: url,
+    }).then((res) => {
+      setSelectData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getSelectData();
+    };
+    fetchData();
+  }, [citySelect]);
+
+  ////////////////////////
+
   const cityType = () => {
     const allCityTypes = data.map((content: Icontent) => {
       return content.city;
@@ -46,8 +74,9 @@ const MultiSelectBox = () => {
     });
   };
 
+  // TODO : 함수 합치기
   const foodType = () => {
-    const allFoodTypes = data.map((content: Icontent) => {
+    const allFoodTypes = selectData.map((content: Icontent) => {
       return content.foodType;
     });
     return Array.from(new Set(allFoodTypes.flat())).map((type: string) => {
@@ -58,8 +87,8 @@ const MultiSelectBox = () => {
     });
   };
 
-  const moodType = () => {
-    const allMoodTypes = data.map((content: Icontent) => {
+  const MoodType = () => {
+    const allMoodTypes = selectData.map((content: Icontent) => {
       return content.mood;
     });
     return Array.from(new Set(allMoodTypes.flat())).map((type: string) => {
@@ -69,28 +98,57 @@ const MultiSelectBox = () => {
       };
     });
   };
+  const getTypeContent = (selected: any, type: string, setType: any) => {
+    const allSelect = selected.map((x: any) => {
+      return `&${type}=${x.value}`;
+    });
+    setType(allSelect.join(''));
+    setPostSelect([...postSelect, allSelect.join('')]);
+  };
+
+  // TODO : 함수 합치기
+  const handleMoodChange = (newSelections: MultiValue<SelectValue>) => {
+    getTypeContent(newSelections, 'mood', setMoodSelect);
+  };
+
+  const handleFoodChange = (newSelections: MultiValue<SelectValue>) => {
+    getTypeContent(newSelections, 'foodType', setFoodSelect);
+  };
+
+  const handleCityChange = (newSelections: MultiValue<SelectValue>) => {
+    getTypeContent(newSelections, 'city', setCitySelect);
+  };
 
   return (
-    <MultiSelectBoxWrapper>
-      <Select
-        isMulti={true}
-        placeholder="City"
-        options={cityType()}
-        className="selectBox"
-      />
-      <Select
-        isMulti={true}
-        placeholder="FoodType"
-        options={foodType()}
-        className="selectBox"
-      />
-      <Select
-        isMulti={true}
-        placeholder="Mood"
-        options={moodType()}
-        className="selectBox"
-      />
-    </MultiSelectBoxWrapper>
+    <ContentWrapper>
+      <MultiSelectBoxWrapper>
+        <Select
+          isMulti={true}
+          placeholder="City"
+          options={cityType()}
+          className="selectBox"
+          onChange={handleCityChange}
+        />
+        <Select
+          isMulti={true}
+          placeholder="Food"
+          options={foodType()}
+          className="selectBox"
+          onChange={handleFoodChange}
+        />
+        <Select
+          isMulti={true}
+          placeholder="Mood"
+          options={MoodType()}
+          className="selectBox"
+          onChange={handleMoodChange}
+        />
+      </MultiSelectBoxWrapper>
+      <Content
+        country={props.country}
+        postSelect={postSelect.join('')}
+      ></Content>
+    </ContentWrapper>
   );
 };
 
