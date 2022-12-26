@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
+import { Link, useParams } from 'react-router-dom';
 import { HiUserCircle, HiShieldCheck, HiCog6Tooth } from 'react-icons/hi2';
 import {
   MenuContainer,
@@ -15,23 +16,35 @@ import {
 } from './account-style';
 
 interface inputData {
-  email: string;
   name: string;
-  country: string;
   img: string;
 }
 
 const Menu = () => {
   const [info, setInfo] = useState<inputData>({
-    email: '',
     name: '',
-    country: '',
     img: '',
   });
+  const cookies = new Cookies();
+  const userNum = sessionStorage.getItem('userNum');
 
   const getUserData = async () => {
-    const res = await axios.get('http://localhost:4000/Data/user.json');
-    setInfo(res.data[0]);
+    const { params }: any = useParams;
+
+    axios
+      .get(`/user/profile/${userNum}`, { params })
+      .then((res) => {
+        const data = res.data.user;
+        setInfo({
+          name: data.name,
+          img: data.name,
+        });
+
+        console.log(res.data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -47,7 +60,7 @@ const Menu = () => {
         <ImgBox>
           <Img src={info.img} />
         </ImgBox>
-        <Username>kailey</Username>
+        <Username>{info.name}</Username>
       </UserBox>
       <ItemBox>
         <Item>
@@ -55,7 +68,7 @@ const Menu = () => {
             <HiUserCircle />
           </Icon>
           <MenuBtn>
-            <Link to={'/account/profile'}>Profile</Link>
+            <Link to={`/user/profile/${userNum}`}>Profile</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -63,7 +76,7 @@ const Menu = () => {
             <HiShieldCheck />
           </Icon>
           <MenuBtn>
-            <Link to={'/account/security'}>Security</Link>
+            <Link to={`/user/security/${userNum}`}>Security</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -71,7 +84,7 @@ const Menu = () => {
             <HiCog6Tooth />
           </Icon>
           <MenuBtn>
-            <Link to={'/account/deactivate'}>Deactivate</Link>
+            <Link to={`/user/deactivate/${userNum}`}>Deactivate</Link>
           </MenuBtn>
         </Item>
       </ItemBox>

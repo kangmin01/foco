@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { validateNickname } from '../util/usefulFunctions';
 import Menu from './Menu';
@@ -43,15 +44,25 @@ const Profile = () => {
   const [error, setError] = useState<string>('');
 
   const getUserData = async () => {
+    const { params }: any = useParams;
+    const userNum = sessionStorage.getItem('useNum');
+
     axios
-      .get('http://localhost:3000/auth/myAccount')
+      .get(`/user/profile/${userNum}`, { params })
       .then((res) => {
-        console.log(res);
+        const data = res.data.user;
+        setInfo({
+          email: data.email,
+          name: data.name,
+          country: data.country,
+          img: data.name,
+        });
+
+        console.log(res.data.user);
       })
       .catch((error) => {
         console.log(error);
       });
-    // setInfo(res.data[0]);
   };
 
   const getCountriesName = async () => {
