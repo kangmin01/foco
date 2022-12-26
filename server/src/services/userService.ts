@@ -44,8 +44,6 @@ class UserService {
                 password,
                 country,
                 img,
-                role,
-                refreshToken
                 } = userInfo;
     const userEmailValidation = await this.User.findOne({ email: email });
     if (userEmailValidation) {

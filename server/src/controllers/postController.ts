@@ -9,6 +9,9 @@ interface postControllerInterface {
     readOnePost: AsyncRequestHandler;
     deleteOnePost: AsyncRequestHandler;
     uploadFileToS3: AsyncRequestHandler;
+    likePlusPost: AsyncRequestHandler;
+    likeMinusPost: AsyncRequestHandler;
+    getlikeCount: AsyncRequestHandler;
 }
 
 export const postController: postControllerInterface = {
@@ -46,5 +49,23 @@ export const postController: postControllerInterface = {
         } catch (error){
             console.log(error);
         }
+    },
+
+    async likePlusPost(req, res) {
+        const {postNum} = req.params;
+        const {userNum} = req.params;
+        const post = await postService.likePlusPost(postNum, userNum);
+        res.json(post);
+    },
+    async likeMinusPost(req, res) {
+        const {postNum} = req.params;
+        const {userNum} = req.params;
+        const post = await postService.likeMinusPost(postNum, userNum);
+        res.json(post);
+    },
+    async getlikeCount(req, res) {
+        const {postNum} = req.params;
+        const likeCount = await postService.getlikeCount(postNum);
+        res.json(likeCount)
     }
 }

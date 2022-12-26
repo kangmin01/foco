@@ -25,7 +25,8 @@ class PostServie {
             city,
             country,
             address,
-            like,
+            likeCount,
+            likeUsers,
             lat,
             lng,
             foodType,
@@ -58,6 +59,29 @@ class PostServie {
     //한 게시물 삭제
     async deleteOnePost(postNum: any) {
         return await this.Post.deleteOne({postNum}).exec();
+    }
+
+    //좋아요 +1
+    async likePlusPost(postNum: any, userNum: any) {
+        return await this.Post.findOneAndUpdate(
+            {postNum}, 
+            {$inc: {likeCount: 1},
+            $push: {likeUsers: userNum}}
+            ,{new: true,
+            select: 'likeCount'}).exec();
+    }
+    //좋아요 -1
+    async likeMinusPost(postNum: any, userNum: any) {
+        return await this.Post.findOneAndUpdate(
+            {postNum}, 
+            {$inc: {likeCount: -1},
+            $pull: {likeUsers: userNum}}
+            ,{new: true,
+            select: 'likeCount'}).exec();
+    }
+    //글 좋아요 수
+    async getlikeCount(postNum: any) {
+        return await this.Post.findOne({postNum}, {likeCount: 1});
     }
 }
 
