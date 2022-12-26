@@ -45,7 +45,7 @@ const Profile = () => {
 
   const getUserData = async () => {
     const { params }: any = useParams;
-    const userNum = sessionStorage.getItem('useNum');
+    const userNum = sessionStorage.getItem('userNum');
 
     axios
       .get(`/user/profile/${userNum}`, { params })

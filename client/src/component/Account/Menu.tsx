@@ -25,7 +25,6 @@ const Menu = () => {
     name: '',
     img: '',
   });
-  const cookies = new Cookies();
   const userNum = sessionStorage.getItem('userNum');
 
   const getUserData = async () => {

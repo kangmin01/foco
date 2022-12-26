@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import { validatePassword } from '../util/usefulFunctions';
 import Menu from './Menu';
 import {
@@ -71,6 +73,31 @@ const Security = () => {
     }
   };
 
+  const [email, setEmail] = useState<String>();
+
+  const getUserData = async () => {
+    const { params }: any = useParams;
+    const userNum = sessionStorage.getItem('userNum');
+
+    axios
+      .get(`/user/security/${userNum}`, { params })
+      .then((res) => {
+        const data = res.data.user;
+        setEmail(data.email);
+        console.log(res.data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserData();
+    };
+    fetchData();
+  }, [email]);
+
   const handleSubmit = () => {
     if (error.passwordError === '' && error.confirmPasswordError === '') {
       alert('비밀번호 변경 성공');
@@ -90,7 +117,7 @@ const Security = () => {
             <InfoItem>
               <Label htmlFor="nickname">
                 <p>Email</p>
-                <FixedValue>kailey224@gmail.com</FixedValue>
+                <FixedValue>{email}</FixedValue>
               </Label>
             </InfoItem>
             <InfoItem>

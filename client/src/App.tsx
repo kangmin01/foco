@@ -23,9 +23,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/account/profile" element={<Profile />} />
-        <Route path="/account/security" element={<Security />} />
-        <Route path="account/deactivate" element={<Deactivate />} />
+        <Route path="/user/profile/:userNum" element={<Profile />} />
+        <Route path="/user/security/:userNum" element={<Security />} />
+        <Route path="/user/deactivate/:userNum" element={<Deactivate />} />
         <Route path="/review" element={<Review />} />
         <Route path="/bookmark" element={<BookMark />} />
         <Route path="/postform" element={<PostFormModal />} />
