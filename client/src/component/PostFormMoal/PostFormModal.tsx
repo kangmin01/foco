@@ -22,7 +22,7 @@ import { IoIosClose } from 'react-icons/io';
 
 import AddImages from './func/AddImages';
 import LocationSearchInput from './func/LocationSearchInput';
-import CreatableSelectBox from '../CreateableSelectBox/CreatableSelecBox';
+import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 const PostFormModal = (props: any) => {
