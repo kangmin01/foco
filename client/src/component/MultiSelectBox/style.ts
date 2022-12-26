@@ -1,10 +1,19 @@
 import styled from 'styled-components';
 
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+
 export const MultiSelectBoxWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  max-width: 1300px;
   margin-bottom: 70px;
+
   & .autocomplete-dropdown-container {
     position: absolute;
     z-index: 3;
