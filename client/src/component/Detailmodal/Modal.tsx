@@ -31,10 +31,8 @@ interface Iprops {
   closeModal: () => void;
 }
 
-// TODO : 데이터 받아오기 에러 해결해야함 //
 const Modal = (props: Iprops) => {
-  // 임의로 any 값 넣어두었음
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<Icontent>();
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('pink');
   const [spoon, setSpoon] = useState<string>('gray');
@@ -42,7 +40,6 @@ const Modal = (props: Iprops) => {
   const onDecrease = () => setCount(count - 1);
   console.log(props.postNum);
 
-  // mock data 연결
   const getData = () => {
     return axios({
       method: 'get',
@@ -52,7 +49,6 @@ const Modal = (props: Iprops) => {
       setData(res.data);
     });
   };
-  console.log(data); //undefined
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,9 +99,9 @@ const Modal = (props: Iprops) => {
             <StoreInfo>
               <TitleBlock>l</TitleBlock>
               <Title>
-                <StoreName>{data.storeName}</StoreName>
-                <Info>{data.address}</Info>
-                <Info>{data.grade}</Info>
+                <StoreName>{data?.storeName}</StoreName>
+                <Info>{data?.address}</Info>
+                <Info>{data?.grade}</Info>
               </Title>
             </StoreInfo>
           </TitleBox>
@@ -113,21 +109,21 @@ const Modal = (props: Iprops) => {
         <Box>
           <ImgBox>
             <ScrollHorizontal>
-              {data.img.map((img: string) => {
+              {data?.img.map((img: string) => {
                 return <img src={img} alt={data.storeName}></img>;
               })}
             </ScrollHorizontal>
           </ImgBox>
           <Content>
             <TagBox>
-              {data.mood.map((mood: string) => {
+              {data?.mood.map((mood: string) => {
                 return <span>#{mood} </span>;
               })}
-              {data.foodType.map((foodType: string) => {
+              {data?.foodType.map((foodType: string) => {
                 return <span>#{foodType} </span>;
               })}
             </TagBox>
-            <TextBox>{data.review}</TextBox>
+            <TextBox>{data?.review}</TextBox>
           </Content>
         </Box>
       </ModalWrapper>
