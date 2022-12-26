@@ -6,6 +6,7 @@ import { MdOutlineLanguage } from 'react-icons/md';
 import { ImSpoonKnife } from 'react-icons/im';
 import { FaPen, FaCog, FaSignInAlt, FaPowerOff, FaKey } from 'react-icons/fa';
 import { HeaderWrapper, Title, Icons, UserBox, MenuBox, Menu } from './style';
+import { ROUTE } from '../../Route';
 
 const Header = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -28,13 +29,13 @@ const Header = () => {
   const LoginMenu = () => {
     return (
       <MenuBox>
-        <Link to={'/login'}>
+        <Link to={ROUTE.LOGIN.link}>
           <Menu>
             <FaPowerOff />
             <span>Log in</span>
           </Menu>
         </Link>
-        <Link to={'/register'}>
+        <Link to={ROUTE.REGISTER.link}>
           <Menu>
             <FaKey />
             <span>Register</span>
@@ -56,19 +57,20 @@ const Header = () => {
 
     return (
       <MenuBox>
-        <Link to={'/review'}>
+        <Link to={ROUTE.REVIEW.link}>
           <Menu>
             <FaPen />
             <span>My Review</span>
           </Menu>
         </Link>
+        {/* <Link to={ROUTE.PROFILE.link}> */}
         <Link to={`user/profile/${userNum}`}>
           <Menu>
             <FaCog />
             <span>Account</span>
           </Menu>
         </Link>
-        <Link to={'/login'}>
+        <Link to={ROUTE.LOGIN.link}>
           <Menu onClick={handleLogout}>
             <FaSignInAlt />
             <span>Log out</span>
@@ -81,11 +83,11 @@ const Header = () => {
   return (
     <CookiesProvider>
       <HeaderWrapper>
-        <Link to={'/'}>
+        <Link to={ROUTE.HOME.link}>
           <Title>FoCo</Title>
         </Link>
         <Icons>
-          <Link to={'/'}>
+          <Link to={ROUTE.HOME.link}>
             <MdOutlineLanguage />
           </Link>
           <UserBox
@@ -95,7 +97,7 @@ const Header = () => {
             <HiUser />
             {show ? isLogin ? <UserMenu /> : <LoginMenu /> : null}
           </UserBox>
-          <Link to={'/bookmark'}>
+          <Link to={ROUTE.BOOKMARK.link}>
             <ImSpoonKnife />
           </Link>
         </Icons>
