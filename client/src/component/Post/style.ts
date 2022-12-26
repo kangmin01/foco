@@ -74,6 +74,7 @@ export const ImageHover = styled.div`
   width: 300px;
   height: 300px;
   position: absolute;
+  border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
 
   display: flex;
@@ -89,6 +90,7 @@ export const Image = styled.img`
   height: 100%;
   object-fit: cover;
   position: relative;
+  border-radius: 10px;
   // width: auto;
   // height: auto;
   // max-width: 300px;
