@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   ContentsWrapper,
@@ -19,18 +19,47 @@ import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
+  citySelect: string | undefined;
+  moodSelect: string | undefined;
+  foodTypeSelect: string | undefined;
 }
 
 const Content = (props: Iprops) => {
   const [contents, setContents] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const { country } = props;
   const [postNum, setPostNum] = useState<number>(0);
+  let postSelect = '';
+
+  if (props.citySelect || props.moodSelect || props.foodTypeSelect) {
+    postSelect += props.citySelect;
+    postSelect += props.moodSelect;
+    postSelect += props.foodTypeSelect;
+  }
+
+  let url = String(postSelect)
+    .replace('undefined', '')
+    .replace('undefined', '');
+
+  const getSelectContent = () => {
+    return axios({
+      method: 'get',
+      url: `/post?country=${props.country}${url}`,
+    }).then((res) => {
+      setData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getSelectContent();
+    };
+    fetchData();
+  }, [postSelect]);
 
   const getPostContents = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${country}`,
+      url: `/post?country=${props.country}`,
     }).then((res) => {
       setContents(res.data);
     });

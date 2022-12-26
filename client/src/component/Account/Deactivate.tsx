@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import Menu from './Menu';
 import {
   AccountContainer,
@@ -13,6 +16,31 @@ import {
 } from './account-style';
 
 const Deactivate = () => {
+  const [email, setEmail] = useState<String>();
+
+  const getUserData = async () => {
+    const { params }: any = useParams;
+    const userNum = sessionStorage.getItem('userNum');
+
+    axios
+      .get(`/user/security/${userNum}`, { params })
+      .then((res) => {
+        const data = res.data.user;
+        setEmail(data.email);
+        console.log(res.data.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUserData();
+    };
+    fetchData();
+  }, [email]);
+
   return (
     <AccountContainer>
       <Title>My Account</Title>
@@ -23,7 +51,7 @@ const Deactivate = () => {
             <InfoItem>
               <Label htmlFor="nickname">
                 <p>Email</p>
-                <FixedValue>kailey224@gmail.com</FixedValue>
+                <FixedValue>{email}</FixedValue>
               </Label>
             </InfoItem>
             <InfoItem>

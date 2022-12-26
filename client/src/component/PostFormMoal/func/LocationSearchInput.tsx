@@ -6,7 +6,7 @@ import PlacesAutocomplete, {
 
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
-  const [detail, setDetail] = useState<any>({});
+  const [loading, setLoading] = React.useState(false);
 
   const handleChange: any = (address: any): void => {
     setAddress(address);
@@ -14,20 +14,22 @@ const LocationSearchInput: any = (props: any) => {
   };
 
   const handleSelect: any = (address: any): void => {
+    setLoading(true);
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
-        // console.log('Success', console.log(latLng), latLng);
-        setDetail(latLng);
+        console.log('Success', console.log(latLng), latLng);
+        props.setLat(latLng.lat);
+        props.setLng(latLng.lng);
+        setLoading(false);
       })
-      .catch((error) => console.error('Error', error));
+      .catch((error) => {
+        console.error('Error', error);
+        setLoading(false);
+      });
   };
 
-  useEffect(() => {
-    // console.log('plz', detail['lat']);
-    props.setLat(detail.lat);
-    props.setLng(detail.lng);
-  }, [detail]);
+  useEffect(() => {}, []);
   return (
     <PlacesAutocomplete
       value={address}

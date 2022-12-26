@@ -16,19 +16,25 @@ import { RiCloseFill } from 'react-icons/ri';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [files, setFiles] = useState<any>([]);
 
   const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setFiles(e.target.files);
+    props.setFiles(e.target.files);
+
     if (e.target.files) {
+      if (
+        e.target.files.length >= 6 ||
+        selectedImages.length + e.target.files.length >= 6
+      ) {
+        alert('You can only choose up to 5 photos');
+        return;
+      }
+
       const fileArray: string[] = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
 
       const newArr = [...fileArray];
-
       setSelectedImages((prevImages) => prevImages.concat(newArr));
-      // Array.from(e.target.files).map((file: any) => URL.revokeObjectURL(file));
     }
   };
 
@@ -44,18 +50,15 @@ const AddImages = (props: any) => {
   };
 
   useEffect(() => {
-    props.setImageList(files);
     props.setPreview(selectedImages);
-    // console.log('files', files);
-    // console.log('selected', selectedImages);
-  }, [selectedImages, files]);
+  }, [selectedImages]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
       return (
         <ImageItem className="imgItem" key={src}>
           <Image>
-            <img src={src} alt="이미지 로드 실패" />
+            <img src={src} alt="Failed to load image" />
           </Image>
           <ImageOver>
             <ImageItemButton>
@@ -63,10 +66,10 @@ const AddImages = (props: any) => {
                 <RiCloseFill />
               </button>
             </ImageItemButton>
-            <ImageInfo>
-              {/* <input placeholder="ex) steak" />
-              <input placeholder="ex) 15,000" /> */}
-            </ImageInfo>
+            {/* <ImageInfo>
+              <input placeholder="ex) steak" />
+              <input placeholder="ex) 15,000" />
+            </ImageInfo> */}
           </ImageOver>
         </ImageItem>
       );

@@ -4,7 +4,6 @@ import { AsyncRequestHandler } from '../types';
 
 interface userControllerInterface {
     getUser: AsyncRequestHandler;
-    postUser: AsyncRequestHandler;
     deleteUser: AsyncRequestHandler;
     updateUser: AsyncRequestHandler;
     tokenRefresh: AsyncRequestHandler;
@@ -29,11 +28,6 @@ export const userController: userControllerInterface = {
     async getUser(req, res) {
         const { userNum } = req.params;
     const user = await userService.findUser(userNum);
-    res.json({ user });
-},
-    //회원가입
-    async postUser(req, res) {
-        const user = await userService.createUser(req.body);
     res.json({ user });
 },
     //회원정보 수정

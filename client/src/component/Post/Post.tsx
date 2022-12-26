@@ -25,14 +25,22 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [reviews, setReviews] = useState<never[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
 
   useEffect(() => {
     const getReviews = async () => {
       const res = await axios.get('http://localhost:4000/Data/postList.json');
-      setReviews(res.data);
+      //서버에서 오는 데이터는 무조건 type check
+      if (Array.isArray(res.data)) setReviews(res.data);
     };
     getReviews();
+    // const getReviews = async () => {
+    //   axios
+    //     .get('/post/:postNum')
+    //     .then((res) => console.log('res', res))
+    //     .catch((error) => console.log('err', error));
+    // };
+    // getReviews();
   }, []);
 
   const handleAddReview = (): void => {

@@ -1,24 +1,26 @@
 import styled from 'styled-components';
 import { Title } from '../Country/style';
+import { DropDownWrapper } from '../DropDown/style';
 
 export const BookMarkWrapper = styled.div`
-  display: flex;
-  padding: 0 50px;
+  /* display: flex;
+  flex-direction: column; */
+  /* flex-wrap: wrap; */
   padding-top: 150px;
+  /* align-items: center; */
 `;
 
-export const Left = styled.div`
-  position: fixed;
+export const BookMarkTitle = styled(Title)`
+  padding-bottom: 30px;
 `;
-
-export const BookMarkTitle = styled(Title)``;
 
 export const SelectBoxWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 300px;
-`;
+  /* width: 1400px; */
 
-export const Right = styled.div`
-  margin-left: 300px;
+  &:nth-child(2) {
+    display: flex;
+    align-items: center;
+  }
 `;
