@@ -103,6 +103,7 @@ const Modal = (props: Iprops) => {
                 <Info>{data?.address}</Info>
                 <Info>{data?.grade}</Info>
               </Title>
+              <Profile src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
             </StoreInfo>
           </TitleBox>
         </TitleWrapper>

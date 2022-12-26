@@ -107,8 +107,10 @@ export const Info = styled.div`
 `;
 
 export const Profile = styled.img`
-  height: 35px;
-  width: 35px;
+  height: 50px;
+  width: 50px;
+  margin-left: 40vh;
+  margin-top: 3.5vh;
   border-radius: 100%;
 `;
 // 본문 내용()
