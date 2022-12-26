@@ -91,7 +91,7 @@ class UserService {
 
       //DB에 refresh token 저장
         const loginUser = await this.User.findOneAndUpdate(
-        { uid: user.email },
+        { email: user.email },
         {
             refreshToken: refreshToken,
             recentLogin: Date.now(),
