@@ -45,15 +45,15 @@ const Content = (props: Iprops) => {
       method: 'get',
       url: `/post?country=${props.country}${url}`,
     }).then((res) => {
-      setData(res.data);
+      setContents(res.data);
     });
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchContents = async () => {
       await getSelectContent();
     };
-    fetchData();
+    fetchContents();
   }, [postSelect]);
 
   const getPostContents = () => {
