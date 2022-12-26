@@ -35,9 +35,8 @@ const Modal = (props: Iprops) => {
   const [data, setData] = useState<Icontent>();
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('pink');
-  const [spoon, setSpoon] = useState<string>('gray');
-  const onIncrease = () => setCount(count + 1);
-  const onDecrease = () => setCount(count - 1);
+  const [spoon, setSpoon] = useState<string>('lightgray');
+  console.log('start');
   console.log(props.postNum);
 
   const getData = () => {
@@ -49,7 +48,22 @@ const Modal = (props: Iprops) => {
       setData(res.data);
     });
   };
-
+  const onIncrease = () => {
+    setCount(count + 1);
+  };
+  const onDecrease = () => setCount(count - 1);
+  // const patchLike = () => {
+  //   return axios
+  //     .post(`/post/like/${props.userNum}`)
+  //     .then((response) => console.log('res', response))
+  //     .catch((error) => console.log('err', error));
+  // };
+  // const deleteLike = () => {
+  //   return axios
+  //     .delete(`/post/like/${props.postNum}`)
+  //     .then((response) => console.log('res', response))
+  //     .catch((error) => console.log('err', error));
+  // };
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -61,19 +75,22 @@ const Modal = (props: Iprops) => {
     if (heart === 'pink') {
       setHeart('red');
       onIncrease();
+      // patchLike();
     } else {
       setHeart('pink');
       onDecrease();
+      // deleteLike();
     }
   };
   const clickSpoon = () => {
-    if (spoon === 'gray') {
-      setSpoon('gray');
+    if (spoon === 'lightgray') {
+      setSpoon('gold');
     } else {
       setSpoon('lightgray');
     }
   };
-
+  console.log('end');
+  console.log(data);
   return (
     <ModalBackground>
       <ModalWrapper>
@@ -81,12 +98,13 @@ const Modal = (props: Iprops) => {
           <IconsWrapper>
             <Icons>
               <AiFillHeart
-                className="logo"
+                className="heart"
                 color={heart}
                 onClick={clickHeart}
               />
+              <div>{data?.likeCount}</div>
               <FaUtensilSpoon
-                className="logo"
+                className="spoon"
                 color={spoon}
                 onClick={clickSpoon}
               />
@@ -108,10 +126,10 @@ const Modal = (props: Iprops) => {
           </TitleBox>
         </TitleWrapper>
         <Box>
-          <ImgBox>
+          <ImgBox id="scroll-horizontal">
             <ScrollHorizontal>
               {data?.img.map((img: string) => {
-                return <img src={img} alt={data.storeName}></img>;
+                return <img src={img} alt={data.storeName} />;
               })}
             </ScrollHorizontal>
           </ImgBox>

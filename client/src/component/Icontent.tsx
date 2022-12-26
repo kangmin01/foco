@@ -12,4 +12,5 @@ export interface Icontent {
   profile: string;
   foodType: string[];
   mood: string[];
+  likeCount: number;
 }

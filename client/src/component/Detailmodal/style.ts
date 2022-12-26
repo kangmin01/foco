@@ -20,7 +20,6 @@ export const ModalWrapper = styled.div`
   padding: 20px;
   border-radius: 20px;
   background-color: #fff;
-  overflow-x: scroll;
   &::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -44,7 +43,11 @@ export const IconsWrapper = styled.div`
 `;
 
 export const Icons = styled.div`
+  display: flex;
+  align-items: center;
   .heart {
+    width: 25px;
+    height: 25px;
     color: pink;
     cursor: pointer;
     transition: transform 300ms ease;
@@ -53,9 +56,11 @@ export const Icons = styled.div`
     }
   }
   .spoon {
+    width: 25px;
+    height: 25px;
     color: lightgray;
     cursor: pointer;
-    margin-left: 15px;
+    margin-left: 10px;
     &:hover {
       color: gold;
       scale: 1.5;
@@ -107,10 +112,10 @@ export const Info = styled.div`
 `;
 
 export const Profile = styled.img`
-  height: 50px;
-  width: 50px;
-  margin-left: 40vh;
-  margin-top: 3.5vh;
+  height: 40px;
+  width: 40px;
+  margin-top: 4vh;
+  margin-left: 200%;
   border-radius: 100%;
 `;
 // 본문 내용()
