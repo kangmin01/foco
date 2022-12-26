@@ -73,7 +73,6 @@ const MultiSelectBox = (props: Iprops) => {
     });
   };
 
-  // TODO : 함수 합치기
   const foodType = () => {
     const allFoodTypes = selectData.map((content: Icontent) => {
       return content.foodType;
@@ -97,6 +96,7 @@ const MultiSelectBox = (props: Iprops) => {
       };
     });
   };
+
   const getTypeContent = (
     selected: any,
     type: string,
