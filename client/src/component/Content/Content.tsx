@@ -19,43 +19,56 @@ import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
-  postSelect: string;
+  citySelect: string | undefined;
+  moodSelect: string | undefined;
+  foodTypeSelect: string | undefined;
 }
 
 const Content = (props: Iprops) => {
-  const [data, setData] = useState<Icontent[]>([]);
+  const [contents, setContents] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
+  let postSelect = '';
+
+  if (props.citySelect || props.moodSelect || props.foodTypeSelect) {
+    postSelect += props.citySelect;
+    postSelect += props.moodSelect;
+    postSelect += props.foodTypeSelect;
+  }
+
+  let url = String(postSelect)
+    .replace('undefined', '')
+    .replace('undefined', '');
 
   const getSelectContent = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}${props.postSelect}`,
+      url: `/post?country=${props.country}${url}`,
     }).then((res) => {
-      setData(res.data);
+      setContents(res.data);
     });
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchContents = async () => {
       await getSelectContent();
     };
-    fetchData();
-  }, [props.postSelect]);
+    fetchContents();
+  }, [postSelect]);
 
-  const getPostData = () => {
+  const getPostContents = () => {
     return axios({
       method: 'get',
       url: `/post?country=${props.country}`,
     }).then((res) => {
-      setData(res.data);
+      setContents(res.data);
     });
   };
   useEffect(() => {
-    const fetchData = async () => {
-      await getPostData();
+    const fetchContents = async () => {
+      await getPostContents();
     };
-    fetchData();
+    fetchContents();
   }, []);
 
   const openModal = (postNum: number) => {
@@ -69,9 +82,9 @@ const Content = (props: Iprops) => {
   return (
     <ContentsWrapper>
       {modalOpen && <Modal postNum={postNum} closeModal={closeModal} />}
-      {data.map((content: Icontent, index: number) => {
+      {contents.map((content: Icontent, index: number) => {
         return (
-          <ContentWrapper key={index}>
+          <ContentWrapper key={content.postNum}>
             <HoverContent
               onClick={() => {
                 openModal(content.postNum);

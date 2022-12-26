@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { CookiesProvider, Cookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
 import {
@@ -91,7 +91,9 @@ const Login = () => {
         .then((res) => {
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;
+          const userNum = res.data.user.user.userNum;
           cookies.set('token', token);
+          sessionStorage.setItem('userNum', userNum);
           console.log(res);
         })
         .catch((error) => {

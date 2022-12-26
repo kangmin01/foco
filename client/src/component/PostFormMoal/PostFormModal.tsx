@@ -22,6 +22,7 @@ import { IoIosClose } from 'react-icons/io';
 
 import AddImages from './func/AddImages';
 import LocationSearchInput from './func/LocationSearchInput';
+import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 const PostFormModal = (props: any) => {
@@ -31,10 +32,9 @@ const PostFormModal = (props: any) => {
   const [grade, setGrade] = useState<number | undefined>();
   const [address, setAddress] = useState<string | undefined>('');
   const [city, setCity] = useState<string | Blob>('');
-  const [mood, setMood] = useState<string[] | string | undefined>([]);
-  const [foodType, setFoodType] = useState<string[] | undefined>([]);
-  const [imageList, setImageList] = useState<any>(); // 변환 전
-  // const [img, setImg] = useState<string[] | undefined>(); // 변환 후
+  const [mood, setMood] = useState<string[]>([]);
+  const [foodType, setFoodType] = useState<string[]>([]);
+  const [files, setFiles] = useState<string[]>(); // 변환 전
   const [preview, setPreview] = useState<string[] | undefined>();
   const [like, setLike] = useState<number | undefined>(0);
   const [lat, setLat] = useState<number | undefined>();
@@ -42,9 +42,8 @@ const PostFormModal = (props: any) => {
 
   const [strLength, setStrLength] = useState<number | undefined>(0);
 
-  const user: string = 'mini';
+  const userName: string = 'mini';
   const country: string = 'Korea';
-  const price: number = 24000;
 
   // interface FormDataType {
   //   user: string | undefined;
@@ -72,44 +71,43 @@ const PostFormModal = (props: any) => {
     SetReview(e.target.value);
   };
 
-  const handleMood = (e: any): void => {
-    setMood(e.target.value.split(' '));
-  };
-
-  const handleFood = (e: any): void => {
-    setFoodType(e.target.value.split(' '));
-  };
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setLike(1);
 
-    const body: any = {
-      user,
-      country,
-      storeName,
-      review,
-      grade,
-      address,
-      city,
-      img: preview,
-      like,
-      mood,
-      foodType,
-      lat,
-      lng,
-      price,
-    };
-    console.log(body);
+    const formData = new FormData();
 
-    // const formData = new FormData();
-    // formData.append('file', JSON.stringify(preview));
+    if (files?.length === undefined) {
+      alert('이미지를 추가해라');
+      return;
+    } else {
+      for (let i = 0; i < files?.length; i++) {
+        formData.append('images', files[i]);
+      }
+    }
 
-    // axios.post('/post/upload', formData).then((res) => console.log(res));
-    axios
-      .post('/post', body)
-      .then((response) => console.log('res', response))
-      .catch((error) => console.log('err', error));
+    axios.post('/post/upload', formData).then(async (res) => {
+      const imgList = [...res.data];
+      const postData = {
+        user: userName,
+        country,
+        storeName,
+        review,
+        grade,
+        address,
+        city,
+        img: imgList,
+        like,
+        mood,
+        foodType,
+        lat,
+        lng,
+      };
+
+      return await axios
+        .post('/post', postData)
+        .then((response) => console.log('제발 res는!!!!', response))
+        .catch((error) => console.log('err', error));
+    });
   };
 
   const checkString = (): void => {
@@ -119,9 +117,17 @@ const PostFormModal = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    // console.log(imageList);
-  }, [storeName, review, grade, address, city, imageList, strLength]);
+  useEffect(() => {}, [
+    storeName,
+    review,
+    grade,
+    address,
+    city,
+    files,
+    strLength,
+    mood,
+    foodType,
+  ]);
 
   return (
     <Modal>
@@ -160,23 +166,18 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages
-              setPreview={setPreview}
-              setImageList={setImageList}
-            ></AddImages>
+            <AddImages setPreview={setPreview} setFiles={setFiles}></AddImages>
           </ImageBox>
-          <Tag>
-            <input
-              onChange={handleMood}
-              name="mood"
-              type="text"
-              placeholder="#special"
+          <Tag className="sival">
+            <CreatableSelectBox
+              setState={setMood}
+              type="mood"
+              placeholder="Mood"
             />
-            <input
-              onChange={handleFood}
-              name="food"
-              type="text"
-              placeholder="#pasta"
+            <CreatableSelectBox
+              setState={setFoodType}
+              type="food"
+              placeholder="Food"
             />
           </Tag>
           <Review>

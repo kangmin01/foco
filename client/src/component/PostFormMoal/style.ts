@@ -91,8 +91,6 @@ export const ImageBox = styled.div`
   display: flex;
 `;
 
-//  260vw //
-
 export const ImageButton = styled.div`
   padding: 10px;
 
@@ -186,14 +184,14 @@ export const ImageOver = styled.div`
   height: 220px;
   position: absolute;
 
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 20, 0) 10%,
-    rgba(20, 20, 20, 0.1) 25%,
-    rgba(20, 20, 20, 0.2) 50%,
-    rgba(20, 20, 20, 0.4) 75%,
-    rgba(20, 20, 20, 1) 100%
-  );
+  // background: linear-gradient(
+  //   to bottom,
+  //   rgba(20, 20, 20, 0) 10%,
+  //   rgba(20, 20, 20, 0.1) 25%,
+  //   rgba(20, 20, 20, 0.2) 50%,
+  //   rgba(20, 20, 20, 0.4) 75%,
+  //   rgba(20, 20, 20, 1) 100%
+  // );
 `;
 
 export const ImageItemButton = styled.div`
@@ -249,6 +247,11 @@ export const Tag = styled.div`
 
   & input {
     font-size: 1.3vh;
+  }
+
+  & .selectBox {
+    width: 300px;
+    margin: 20px;
   }
 `;
 
