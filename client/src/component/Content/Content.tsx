@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   ContentsWrapper,
@@ -19,18 +19,34 @@ import { Icontent } from '../Icontent';
 
 interface Iprops {
   country: string;
+  postSelect: string;
 }
 
 const Content = (props: Iprops) => {
   const [data, setData] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const { country } = props;
   const [postNum, setPostNum] = useState<number>(0);
+
+  const getSelectContent = () => {
+    return axios({
+      method: 'get',
+      url: `/post?country=${props.country}${props.postSelect}`,
+    }).then((res) => {
+      setData(res.data);
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getSelectContent();
+    };
+    fetchData();
+  }, [props.postSelect]);
 
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${country}`,
+      url: `/post?country=${props.country}`,
     }).then((res) => {
       setData(res.data);
     });
