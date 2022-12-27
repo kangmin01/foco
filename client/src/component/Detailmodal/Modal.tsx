@@ -39,12 +39,7 @@ const Modal = (props: Iprops) => {
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('lightgray');
-
-  console.log(heart);
-  console.log('start'); // 데이터 확인
-  console.log(props.postNum); //23
   const userNum = localStorage.getItem('userNum');
-  console.log(userNum); //14
 
   // 데이터 불러오기
   const getData = () => {
@@ -52,17 +47,20 @@ const Modal = (props: Iprops) => {
       method: 'get',
       url: `/post/${props.postNum}`,
     }).then((res) => {
-      console.log(res.data.likeUsers);
       setData(res.data);
+
       // 좋아요 유저 확인
-      res.data.likeUsers.filter((x: any) => {
-        console.log(x);
-        if (x == userNum) {
-          setHeart('red');
-        } else {
-          setHeart('pink');
-        }
-      });
+      checkLikeUser(res);
+    });
+  };
+
+  const checkLikeUser = (res: any) => {
+    res.data.likeUsers.filter((x: any) => {
+      if (x == userNum) {
+        setHeart('red');
+      } else {
+        setHeart('pink');
+      }
     });
   };
 
@@ -73,7 +71,7 @@ const Modal = (props: Iprops) => {
     fetchData();
   }, []);
 
-  // 좋아요 업데이트시, 적용하기 위한 useEffect
+  // 좋아요 업데이트시, page reload
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -109,11 +107,40 @@ const Modal = (props: Iprops) => {
     }
   };
 
+  const addBookmark = () => {
+    return axios({
+      method: 'post',
+      url: `/bookmark`,
+      data: {
+        userNum,
+        postNum: props.postNum,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const deleteBookmark = () => {
+    return axios({
+      method: 'delete',
+      url: `/bookmark`,
+      data: {
+        userNum,
+        postNum: props.postNum,
+      },
+    }).then((res) => {
+      console.log(res);
+      // props.setLike(res.data.likeCount);
+    });
+  };
+
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
+      addBookmark();
     } else {
       setSpoon('lightgray');
+      deleteBookmark();
     }
   };
 
