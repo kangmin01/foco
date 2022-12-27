@@ -10,6 +10,7 @@ interface userControllerInterface {
     uploadFileToS3: AsyncRequestHandler;
     loginUser: AsyncRequestHandler;
     registerUser: AsyncRequestHandler;
+    addUserPost: AsyncRequestHandler;
 }
 
 export const userController: userControllerInterface = {
@@ -57,5 +58,11 @@ export const userController: userControllerInterface = {
     } catch (error){
         console.log(error);
     }
-}
+},
+    async addUserPost(req, res) {
+        const { id } = req.params;
+        const { userNum } = req.params;
+        const user = await userService.addUserPost(id, userNum);
+        res.json(user)
+    }
 };

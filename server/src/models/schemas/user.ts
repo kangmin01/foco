@@ -1,3 +1,4 @@
+import { ObjectId } from "aws-sdk/clients/codecommit";
 import mongoose, {Schema} from "mongoose";
 import autoIncrement from "mongoose-auto-increment";
 autoIncrement.initialize(mongoose.connection);
@@ -11,7 +12,7 @@ export interface UserInterface {
     refreshToken?: string;
     role: string;
     userNum: number;
-    
+    post: [ObjectId];
 }
 
 export interface LoginInterface {
@@ -54,7 +55,11 @@ export const UserSchema = new Schema<UserInterface>({
     userNum: {
         type: Number,
         default: 0
-    }
+    },
+    post: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'post'
+    }]
     
 },
 {

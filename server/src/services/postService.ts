@@ -17,7 +17,7 @@ class PostServie {
     //게시글 등록
     async createPost(postInfo: PostInterface) {
         const {
-            user,
+            email,
             storeName,
             grade,
             img,
