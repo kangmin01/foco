@@ -89,20 +89,25 @@ const Login = () => {
       axios
         .post('/user/login', info)
         .then((res) => {
+          console.log(res);
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;
           const userNum = res.data.user.user.userNum;
+          const userName = res.data.user.user.name;
+          const userCountry = res.data.user.user.country;
           cookies.set('token', token);
-          sessionStorage.setItem('userNum', userNum);
+          localStorage.setItem('userNum', userNum);
+          localStorage.setItem('userName', userName);
+          localStorage.setItem('userCountry', userCountry);
           console.log(res);
         })
         .catch((error) => {
           console.log(error);
         });
-      alert('로그인 성공');
+      alert('Success Login!');
       navigate('/');
     } else {
-      alert('내용확인!');
+      alert('Please Check Your Info!');
     }
   };
 
@@ -137,7 +142,7 @@ const Login = () => {
           Log in
         </SubmitBtn>
         <Register>
-          Don't have an account?{' '}
+          Don't have an account?
           <span>
             <Link to={'/register'}>Register</Link>
           </span>
