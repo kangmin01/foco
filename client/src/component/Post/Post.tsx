@@ -24,35 +24,34 @@ const Post = () => {
 
   const [reviews, setReviews] = useState<any[]>([]);
 
+  const userNum = localStorage.getItem('userNum');
+
   useEffect(() => {
     const getReviews = async () => {
-      const res = await axios.get('http://localhost:4000/Data/postList.json');
+      axios
+        .get(`/user/${userNum}`)
+        .then((res) => {
+          setReviews(res.data.user['post']);
+        })
+        .catch((err) => console.log(err));
       //서버에서 오는 데이터는 무조건 type check
-      if (Array.isArray(res.data)) setReviews(res.data);
+      // if (Array.isArray(res.data)) setReviews(res.data);
     };
     getReviews();
   }, []);
 
-  const handleAddReview = (): void => {
-    setModalOpen(true);
-  };
-
   const handleEdit = (): void => {
     alert('edit');
-    const postNum = 30;
-    axios
-      .patch(`/post/${postNum}`, {
-        user: '제발',
-        grade: 2.5,
-        storeName: '바껴라 제목',
-      })
-      .then((res) => console.log(res));
   };
 
   const handleDelete = (): void => {
     alert('Are you sure you want to delete?');
-    // const postNum = 31;
-    // axios.delete(`/post/${postNum}`).then((res) => console.log(res));
+  };
+
+  const handleClick = (e: any) => {
+    console.log(e.target.id);
+    if (!e.target.id) {
+    }
   };
 
   return (
@@ -66,10 +65,10 @@ const Post = () => {
             + review
           </ReviewButton>
           <ReviewList>
-            {reviews.map(({ id, name, src }) => (
-              <ReviewItem key={id}>
-                <ReviewImageBox>
-                  <ImageHover className="imageHover">
+            {reviews.map(({ _id, img, postNum }) => (
+              <ReviewItem key={_id}>
+                <ReviewImageBox onClick={handleClick}>
+                  <ImageHover className="imageHover" id={postNum}>
                     <ManagementBox>
                       <button onClick={handleEdit}>
                         <MdOutlineModeEdit />
@@ -79,7 +78,7 @@ const Post = () => {
                       </button>
                     </ManagementBox>
                   </ImageHover>
-                  <Image src={src} alt="thumbnail" />
+                  <Image src={img[0]} alt="thumbnail" />
                 </ReviewImageBox>
                 <Likes>
                   <span>❤️</span>
