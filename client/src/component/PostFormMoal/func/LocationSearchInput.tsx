@@ -3,17 +3,29 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import FindCity from './FindCity';
 
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
   const [loading, setLoading] = React.useState(false);
 
-  const handleChange: any = (address: any): void => {
+  const handleChange = async (address: string) => {
     setAddress(address);
     props.setAddress(address);
+    console.log(address);
+    const city = await FindCity(address);
+    city.filter((x: any) => {
+      if (x.types[0] == 'administrative_area_level_1') {
+        props.setCity(x.long_name);
+      }
+    });
+    city.filter((x: any) => {
+      if (x.types[0] == 'country') {
+        props.setCountry(x.long_name);
+      }
+    });
   };
-
-  const handleSelect: any = (address: any): void => {
+  const handleSelect: any = async (address: any) => {
     setLoading(true);
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
