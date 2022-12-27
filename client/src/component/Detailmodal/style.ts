@@ -141,8 +141,24 @@ export const ImgBox = styled.div`
   margin-left: 18%;
   padding: 0.5rem;
   height: 25vh;
-  overflow-y: hidden;
-  overflow-x: scroll;
+  /* 
+  & :scroll {
+    width: 70%;
+  } */
+
+  // 스크롤 오류가 변하지 않을 경우를 대비한 예비 코드
+  // overflow-x: hidden;
+  // overflow-y: scroll;
+  // transform: rotate(-90deg) translateY(-100px);
+  // transform-origin: right top;
+  // :: -webkit-scrollbar {
+  //   width: 1px;
+  //   height: 1px;
+  // }
+  // :: -webkit-scrollbar-button {
+  //   width: 1px;
+  //   height: 1px;
+  // }
 `;
 // 본문- 아이템 이미지
 export const ItemB = styled.img`

@@ -1,6 +1,6 @@
 export interface Icontent {
   country: string;
-  like: number;
+  // like: number;
   city: string;
   storeName: string;
   address: string;
@@ -12,5 +12,5 @@ export interface Icontent {
   profile: string;
   foodType: string[];
   mood: string[];
-  likeCount: number;
+  likeUsers: number[];
 }

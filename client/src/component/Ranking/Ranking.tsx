@@ -30,8 +30,9 @@ interface Iprops {
 const Ranking = (props: Iprops) => {
   const { country, closeModal, showWholeMap, changeFill } = props;
   const [data, setData] = useState<any[]>([]);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [contentModalOpen, setContentModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
+  const [like, setLike] = useState<number>(0);
 
   const getPostData = () => {
     return axios({
@@ -47,20 +48,34 @@ const Ranking = (props: Iprops) => {
       await getPostData();
     };
     fetchData();
+  }, [like]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getPostData();
+    };
+    fetchData();
   }, [country]);
 
-  const openModal = (postNum: number) => {
-    setModalOpen(true);
+  const openCotentModal = (postNum: number) => {
+    setContentModalOpen(true);
     setPostNum(postNum);
   };
 
   const closeContentModal = () => {
-    setModalOpen(false);
+    setContentModalOpen(false);
   };
 
   return (
     <RankingWrapper>
-      {modalOpen && <Modal postNum={postNum} closeModal={closeContentModal} />}
+      {contentModalOpen && (
+        <Modal
+          postNum={postNum}
+          closeModal={closeContentModal}
+          like={like}
+          setLike={setLike}
+        />
+      )}
       <Header>
         <Title>{country}</Title>
         <Button
@@ -89,14 +104,14 @@ const Ranking = (props: Iprops) => {
                 <Number>{index + 1}</Number>
                 <Like>
                   <HiHeart />
-                  <TotalLike>{content.like}</TotalLike>
+                  <TotalLike>{content.likeUsers.length}</TotalLike>
                 </Like>
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
             <MdZoomOutMap
               onClick={() => {
-                openModal(content.postNum);
+                openCotentModal(content.postNum);
               }}
             />
             <img src={content.img[0]} alt={content.storeName}></img>
