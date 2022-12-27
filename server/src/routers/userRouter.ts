@@ -12,7 +12,7 @@ userRouter.get('/security/:userNum', asynHandler(userController.getUser));
 userRouter.get('/deactivate/:userNum', asynHandler(userController.getUser));
 userRouter.delete('/:userNum', asynHandler(userController.deleteUser));
 
-userRouter.patch('/:userNum', asynHandler(userController.updateUser));
+userRouter.patch('/:userNum', asynHandler(userController.updateUser)); //lR
 userRouter.post('/upload', uploads.single('image'), asynHandler(userController.uploadFileToS3));
 userRouter.get('/remember', asynHandler(async (req, res, next) => {
     await userController.tokenRefresh(req, res, next, true);})
