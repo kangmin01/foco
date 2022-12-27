@@ -26,8 +26,8 @@ export const userController: userControllerInterface = {
     },
     //회원정보
     async getUser(req, res) {
-        const { userNum } = req.params;
-    const user = await userService.findUser(userNum);
+        const { email } = req.params;
+    const user = await userService.findUser(email);
     res.json({ user });
 },
     //회원정보 수정

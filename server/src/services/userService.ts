@@ -66,7 +66,7 @@ class UserService {
     //계정 로그인
     async loginUser(loginInfo: LoginInterface) {
         const { email, password } = loginInfo;
-        const user = await this.User.findOne({ email });
+        const user = await this.User.findOne({ email: email });
       // 계정 가입 내역 확인
         if (!user) {
         throw new Error(
@@ -139,8 +139,8 @@ class UserService {
         return { user, accessToken, refreshToken };
     }
     //유저 하나 조회(유저의 게시물도)
-    async findUser(userNum: any) {
-        return await this.User.findOne({ userNum }).populate("post");
+    async findUser(email: any) {
+        return await this.User.findOne({ email: email }).populate("post");
     }
 
     async updateUser(userNum: any, userInfo: UserInterface) {
@@ -160,7 +160,7 @@ class UserService {
     }
 
     async deleteUser(userNum: any) {
-        return await this.User.findOneAndDelete({ userNum });
+        return await this.User.findOneAndDelete({ userNum: userNum });
     }
 }
 
