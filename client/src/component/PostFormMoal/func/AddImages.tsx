@@ -5,7 +5,6 @@ import {
   Image,
   ImageOver,
   ImageItemButton,
-  ImageInfo,
 } from '../style';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from './Arrows';
@@ -66,10 +65,6 @@ const AddImages = (props: any) => {
                 <RiCloseFill />
               </button>
             </ImageItemButton>
-            {/* <ImageInfo>
-              <input placeholder="ex) steak" />
-              <input placeholder="ex) 15,000" />
-            </ImageInfo> */}
           </ImageOver>
         </ImageItem>
       );

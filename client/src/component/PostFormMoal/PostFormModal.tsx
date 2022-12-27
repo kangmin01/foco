@@ -26,53 +26,53 @@ import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 const PostFormModal = (props: any) => {
-  // interface formDataType
-  const [storeName, setStoreName] = useState<string | undefined>('');
-  const [review, SetReview] = useState<string | undefined>('');
-  const [grade, setGrade] = useState<number | undefined>();
+  const [grade, setGrade] = useState<number>(0);
   const [address, setAddress] = useState<string | undefined>('');
   const [city, setCity] = useState<string | Blob>('');
   const [mood, setMood] = useState<string[]>([]);
   const [foodType, setFoodType] = useState<string[]>([]);
-  const [files, setFiles] = useState<string[]>(); // 변환 전
-  const [preview, setPreview] = useState<string[] | undefined>();
-  const [like, setLike] = useState<number | undefined>(0);
+
+  const [likeUsers, setLikeUsers] = useState<string[] | undefined>([]);
   const [lat, setLat] = useState<number | undefined>();
   const [lng, setLng] = useState<number | undefined>();
 
   const [strLength, setStrLength] = useState<number | undefined>(0);
 
-  const userName: string = 'mini';
-  const country: string = 'Korea';
+  const [files, setFiles] = useState<string[]>(); // 변환 전
+  const [preview, setPreview] = useState<string[] | undefined>();
 
-  // interface FormDataType {
-  //   user: string | undefined;
-  //   storeName: string | undefined;
-  //   grade: number | undefined;
-  //   img: string[] | undefined;
-  //   review: string | undefined;
-  //   city: string | undefined;
-  //   country: string | undefined;
-  //   address: string | undefined;
-  //   like: string | undefined;
-  //   lat: number | undefined;
-  //   lng: number | undefined;
-  //   mood: string | undefined;
-  //   foodType: string | undefined;
-  // }
+  interface postFormDataType {
+    storeName: string;
+    review: string;
+  }
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setStoreName(e.target.value);
+  const [postFormData, setPostFormData] = useState<postFormDataType>({
+    storeName: '',
+    review: '',
+  });
+
+  // | React.ChangeEvent<HTMLInputElement>
+  // | React.ChangeEvent<HTMLTextAreaElement>
+  const handleChange = (e: any): void => {
+    setPostFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleReviewChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ): void => {
-    SetReview(e.target.value);
-  };
+  // const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  //   setStoreName(e.target.value);
+  // };
+
+  // const handleReviewChange = (
+  //   e: React.ChangeEvent<HTMLTextAreaElement>
+  // ): void => {
+  //   SetReview(e.target.value);
+  // };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    alert('submit');
 
     const formData = new FormData();
 
@@ -86,48 +86,45 @@ const PostFormModal = (props: any) => {
     }
 
     axios.post('/post/upload', formData).then(async (res) => {
+      console.log(res);
       const imgList = [...res.data];
-      const postData = {
-        user: userName,
-        country,
-        storeName,
-        review,
-        grade,
-        address,
-        city,
-        img: imgList,
-        like,
-        mood,
-        foodType,
-        lat,
-        lng,
-      };
+      // const postData = {
+      //   user,
+      //   country,
+      //   storeName,
+      //   review,
+      //   grade,
+      //   address,
+      //   city,
+      //   img: preview,
+      //   likeUsers,
+      //   mood,
+      //   foodType,
+      //   lat,
+      //   lng,
+      // };
 
-      return await axios
-        .post('/post', postData)
-        .then((response) => console.log('제발 res는!!!!', response))
-        .catch((error) => console.log('err', error));
+      // return await axios
+      //   .post('/post', postData)
+      //   .then((response) => console.log('res is', response))
+      //   .catch((error) => console.log('err', error));
     });
+    setSubmitForm(false);
+    props.onClose();
   };
 
   const checkString = (): void => {
-    setStrLength(review?.length);
+    setStrLength(postFormData.review?.length);
     if (strLength !== undefined && strLength > 500) {
       setStrLength(500);
     }
   };
 
-  useEffect(() => {}, [
-    storeName,
-    review,
-    grade,
-    address,
-    city,
-    files,
-    strLength,
-    mood,
-    foodType,
-  ]);
+  useEffect(() => {
+    console.log(postFormData);
+  }, [postFormData]);
+
+  const [submitForm, setSubmitForm] = useState<boolean>(true);
 
   return (
     <Modal>
@@ -135,7 +132,7 @@ const PostFormModal = (props: any) => {
         <Header>
           <Likes>
             <span>❤️</span>
-            <span>{like}</span>
+            <span>{likeUsers?.length}</span>
           </Likes>
           <Close onClick={props.onClose}>
             <IoIosClose />
@@ -145,7 +142,8 @@ const PostFormModal = (props: any) => {
           <Intro>
             <Title>
               <input
-                onChange={handleTitleChange}
+                name="storeName"
+                onChange={handleChange}
                 className="store"
                 placeholder="write store name..."
               ></input>
@@ -168,7 +166,7 @@ const PostFormModal = (props: any) => {
           <ImageBox>
             <AddImages setPreview={setPreview} setFiles={setFiles}></AddImages>
           </ImageBox>
-          <Tag className="sival">
+          <Tag>
             <CreatableSelectBox
               setState={setMood}
               type="mood"
@@ -183,7 +181,7 @@ const PostFormModal = (props: any) => {
           <Review>
             <textarea
               onKeyUp={checkString}
-              onChange={handleReviewChange}
+              onChange={handleChange}
               maxLength={500}
               rows={5}
               placeholder={
@@ -193,9 +191,21 @@ const PostFormModal = (props: any) => {
             <span>( {strLength} / 500 )</span>
           </Review>
           <Button>
-            <button type="submit" onClick={handleSubmit}>
+            {submitForm === true ? (
+              <button type="submit" onClick={handleSubmit}>
+                submit
+              </button>
+            ) : (
+              <>
+                <button>edit</button>
+                <button>delete</button>
+              </>
+            )}
+            {/* <button type="submit" onClick={handleSubmit}>
               submit
             </button>
+            <button>edit</button>
+            <button>delete</button> */}
           </Button>
         </Main>
       </ModalBody>

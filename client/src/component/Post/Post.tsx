@@ -53,10 +53,20 @@ const Post = () => {
 
   const handleEdit = (): void => {
     alert('edit');
+    const postNum = 30;
+    axios
+      .patch(`/post/${postNum}`, {
+        user: '제발',
+        grade: 2.5,
+        storeName: '바껴라 제목',
+      })
+      .then((res) => console.log(res));
   };
 
   const handleDelete = (): void => {
-    alert('delete');
+    alert('Are you sure you want to delete?');
+    // const postNum = 31;
+    // axios.delete(`/post/${postNum}`).then((res) => console.log(res));
   };
 
   return (
