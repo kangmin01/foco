@@ -142,6 +142,10 @@ export const ImgBox = styled.div`
   margin: 1rem;
   padding: 0.5rem;
   height: 25vh;
+  /* 
+  & :scroll {
+    width: 70%;
+  } */
 
   // 스크롤 오류가 변하지 않을 경우를 대비한 예비 코드
   // overflow-x: hidden;

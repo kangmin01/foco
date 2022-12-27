@@ -30,15 +30,21 @@ import { Icontent } from '../Icontent';
 interface Iprops {
   postNum: number;
   closeModal: () => void;
+  like: number;
+  setLike: any;
 }
 
 const Modal = (props: Iprops) => {
   const [data, setData] = useState<Icontent>();
   const [count, setCount] = useState(0);
-  const [heart, setHeart] = useState<string>('pink');
+  const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('lightgray');
+
+  console.log(heart);
   console.log('start'); // 데이터 확인
-  console.log(props.postNum);
+  console.log(props.postNum); //23
+  const userNum = localStorage.getItem('userNum');
+  console.log(userNum); //14
 
   // 데이터 불러오기
   const getData = () => {
@@ -46,10 +52,20 @@ const Modal = (props: Iprops) => {
       method: 'get',
       url: `/post/${props.postNum}`,
     }).then((res) => {
-      console.log(res);
+      console.log(res.data.likeUsers);
       setData(res.data);
+      // 좋아요 유저 확인
+      res.data.likeUsers.filter((x: any) => {
+        console.log(x);
+        if (x == userNum) {
+          setHeart('red');
+        } else {
+          setHeart('pink');
+        }
+      });
     });
   };
+
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -57,38 +73,42 @@ const Modal = (props: Iprops) => {
     fetchData();
   }, []);
 
-  // 모달 창 떴을 시 배경 스크롤 막기
+  // 좋아요 업데이트시, 적용하기 위한 useEffect
   useEffect(() => {
-    document.body.style.cssText = `
-    position: fixed; 
-    top: -${window.scrollY}px;
-    overflow-y: scroll;
-    width: 100%;`;
-    return () => {
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = '';
-      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    const fetchData = async () => {
+      await getData();
     };
-  }, []);
+    fetchData();
+  }, [props.like]);
 
-  // icon 클릭 시 이벤트
-  const onIncrease = () => {
-    setCount(count + 1);
+  const increaseHeart = () => {
+    return axios({
+      method: 'post',
+      url: `/post/like/${userNum}/${props.postNum}`,
+    }).then((res) => {
+      props.setLike(res.data.likeCount);
+    });
   };
-  const onDecrease = () => {
-    setCount(count - 1);
+
+  const decreaseHeart = () => {
+    return axios({
+      method: 'delete',
+      url: `/post/like/${userNum}/${props.postNum}`,
+    }).then((res) => {
+      props.setLike(res.data.likeCount);
+    });
   };
+
   const clickHeart = () => {
     if (heart === 'pink') {
       setHeart('red');
-      onIncrease();
-      // patchLike();
+      increaseHeart();
     } else {
       setHeart('pink');
-      onDecrease();
-      // deleteLike();
+      decreaseHeart();
     }
   };
+
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
@@ -96,8 +116,21 @@ const Modal = (props: Iprops) => {
       setSpoon('lightgray');
     }
   };
-  console.log('end');
-  console.log(data);
+
+  // 모달 창 떴을 시 배경 스크롤 막기
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
+
   return (
     <ModalBackground>
       <ModalWrapper>
@@ -109,7 +142,7 @@ const Modal = (props: Iprops) => {
                 color={heart}
                 onClick={clickHeart}
               />
-              <div className="likeCount">{data?.like}100</div>
+              <div className="likeCount">{data?.likeUsers.length}</div>
               <FaUtensilSpoon
                 className="spoon"
                 color={spoon}
