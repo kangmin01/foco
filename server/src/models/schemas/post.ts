@@ -4,7 +4,6 @@ import autoIncrement from "mongoose-auto-increment";
 autoIncrement.initialize(mongoose.connection);
 
 export interface PostInterface {
-    user: [ObjectId];
     storeName: string;
     grade: number;
     img: string[];
@@ -22,10 +21,6 @@ export interface PostInterface {
 }   
 
 export const PostSchema = new Schema<PostInterface>({
-    user: [{
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-    }],
     storeName: {
         type: String,
         required: true
