@@ -21,6 +21,7 @@ import { RiDeleteBin6Fill } from 'react-icons/ri';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
   const [reviews, setReviews] = useState<any[]>([]);
 
   useEffect(() => {
@@ -36,28 +37,34 @@ const Post = () => {
     setModalOpen(true);
   };
 
-  const onClose = (e: React.ChangeEvent<any>): void => {
-    setModalOpen(false);
-  };
-
   const handleEdit = (): void => {
     alert('edit');
+    const postNum = 30;
+    axios
+      .patch(`/post/${postNum}`, {
+        user: '제발',
+        grade: 2.5,
+        storeName: '바껴라 제목',
+      })
+      .then((res) => console.log(res));
   };
 
   const handleDelete = (): void => {
-    alert('delete');
+    alert('Are you sure you want to delete?');
+    // const postNum = 31;
+    // axios.delete(`/post/${postNum}`).then((res) => console.log(res));
   };
 
   return (
     <ReviewPage>
-      {modalOpen && (
-        <PostFormModal onClose={onClose} setModalOpen={setModalOpen} />
-      )}
+      {modalOpen && <PostFormModal setModalOpen={setModalOpen} />}
       <Header />
       <ReviewContainer>
         <Title>review management</Title>
         <ReviewManagement>
-          <ReviewButton onClick={handleAddReview}>+ review</ReviewButton>
+          <ReviewButton onClick={() => setModalOpen(true)}>
+            + review
+          </ReviewButton>
           <ReviewList>
             {reviews.map(({ id, name, src }) => (
               <ReviewItem key={id}>
@@ -71,11 +78,13 @@ const Post = () => {
                         <RiDeleteBin6Fill />
                       </button>
                     </ManagementBox>
-                    <Likes>컴포넌트 삽입</Likes>
                   </ImageHover>
                   <Image src={src} alt="thumbnail" />
                 </ReviewImageBox>
-                <div>{name}</div>
+                <Likes>
+                  <span>❤️</span>
+                  <span>좋아요 개수</span>
+                </Likes>
               </ReviewItem>
             ))}
           </ReviewList>

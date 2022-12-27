@@ -56,7 +56,6 @@ export const ReviewItem = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 30px;
-  // justufy-content: center;
 `;
 
 export const ReviewImageBox = styled.div`
@@ -122,9 +121,7 @@ export const ManagementBox = styled.div`
 `;
 
 export const Likes = styled.div`
-  color: white;
-  align-self: start;
-  position: absolute;
-  bottom: 14px;
-  left: 12px;
+  align-self: end;
+  font-size: 14px;
+  padding-right: 5px;
 `;
