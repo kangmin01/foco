@@ -32,11 +32,6 @@ const Post = () => {
     setReviews(res.data.user.post);
   };
   useEffect(() => {
-    const getReviews = async () => {
-      const res = await axios.get('http://localhost:4000/Data/postList.json');
-      //서버에서 오는 데이터는 무조건 type check
-      if (Array.isArray(res.data)) setReviews(res.data);
-    };
     getReviews();
   }, []);
 
