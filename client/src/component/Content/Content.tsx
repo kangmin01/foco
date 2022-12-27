@@ -28,6 +28,8 @@ const Content = (props: Iprops) => {
   const [contents, setContents] = useState<Icontent[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
+  const [like, setLike] = useState<number>(0);
+
   let postSelect = '';
 
   if (props.citySelect || props.moodSelect || props.foodTypeSelect) {
@@ -71,6 +73,13 @@ const Content = (props: Iprops) => {
     fetchContents();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      await getPostContents();
+    };
+    fetchData();
+  }, [like]);
+
   const openModal = (postNum: number) => {
     setModalOpen(true);
     setPostNum(postNum);
@@ -81,7 +90,14 @@ const Content = (props: Iprops) => {
   };
   return (
     <ContentsWrapper>
-      {modalOpen && <Modal postNum={postNum} closeModal={closeModal} />}
+      {modalOpen && (
+        <Modal
+          postNum={postNum}
+          closeModal={closeModal}
+          like={like}
+          setLike={setLike}
+        />
+      )}
       {contents.map((content: Icontent, index: number) => {
         return (
           <ContentWrapper key={content.postNum}>
@@ -105,7 +121,7 @@ const Content = (props: Iprops) => {
             <img src={content.img[0]} alt={content.storeName}></img>
             <LikeWrapper>
               <HiHeart />
-              <TotalLike>{content.like}</TotalLike>
+              <TotalLike>{content.likeUsers.length}</TotalLike>
             </LikeWrapper>
           </ContentWrapper>
         );

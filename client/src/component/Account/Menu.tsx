@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Cookies } from 'react-cookie';
 import { Link, useParams } from 'react-router-dom';
+import { ROUTE } from '../../Route';
 import { HiUserCircle, HiShieldCheck, HiCog6Tooth } from 'react-icons/hi2';
 import {
   MenuContainer,
@@ -31,14 +31,13 @@ const Menu = () => {
     const { params }: any = useParams;
 
     axios
-      .get(`/user/profile/${userNum}`, { params })
+      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setInfo({
           name: data.name,
-          img: data.name,
+          img: '',
         });
-
         console.log(res.data.user);
       })
       .catch((error) => {
@@ -67,7 +66,7 @@ const Menu = () => {
             <HiUserCircle />
           </Icon>
           <MenuBtn>
-            <Link to={`/user/profile/${userNum}`}>Profile</Link>
+            <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>Profile</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -75,7 +74,7 @@ const Menu = () => {
             <HiShieldCheck />
           </Icon>
           <MenuBtn>
-            <Link to={`/user/security/${userNum}`}>Security</Link>
+            <Link to={`${ROUTE.SECURITY.link}/${userNum}`}>Security</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -83,7 +82,7 @@ const Menu = () => {
             <HiCog6Tooth />
           </Icon>
           <MenuBtn>
-            <Link to={`/user/deactivate/${userNum}`}>Deactivate</Link>
+            <Link to={`${ROUTE.DEACTIVATE.link}/${userNum}`}>Deactivate</Link>
           </MenuBtn>
         </Item>
       </ItemBox>

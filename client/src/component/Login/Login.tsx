@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ROUTE } from '../../Route';
 import { Cookies } from 'react-cookie';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
@@ -89,20 +90,25 @@ const Login = () => {
       axios
         .post('/user/login', info)
         .then((res) => {
+          console.log(res);
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;
           const userNum = res.data.user.user.userNum;
+          const userName = res.data.user.user.name;
+          const userCountry = res.data.user.user.country;
           cookies.set('token', token);
-          sessionStorage.setItem('userNum', userNum);
+          localStorage.setItem('userNum', userNum);
+          localStorage.setItem('userName', userName);
+          localStorage.setItem('userCountry', userCountry);
           console.log(res);
         })
         .catch((error) => {
           console.log(error);
         });
-      alert('로그인 성공');
-      navigate('/');
+      alert('Success Login!');
+      navigate(`${ROUTE.HOME.link}`);
     } else {
-      alert('내용확인!');
+      alert('Please Check Your Info!');
     }
   };
 
@@ -137,7 +143,7 @@ const Login = () => {
           Log in
         </SubmitBtn>
         <Register>
-          Don't have an account?{' '}
+          Don't have an account?
           <span>
             <Link to={'/register'}>Register</Link>
           </span>

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { validatePassword } from '../util/usefulFunctions';
 import Menu from './Menu';
+import { ROUTE } from '../../Route';
 import {
   AccountContainer,
   ContentsBox,
@@ -80,7 +81,7 @@ const Security = () => {
     const userNum = sessionStorage.getItem('userNum');
 
     axios
-      .get(`/user/security/${userNum}`, { params })
+      .get(`${ROUTE.SECURITY.link}/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setEmail(data.email);

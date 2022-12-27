@@ -48,7 +48,7 @@ const Header = () => {
   const UserMenu = () => {
     const handleLogout = () => {
       cookies.remove('token');
-      sessionStorage.removeItem('userNum');
+      localStorage.clear();
       setIsLogin(false);
     };
 
@@ -63,8 +63,7 @@ const Header = () => {
             <span>My Review</span>
           </Menu>
         </Link>
-        {/* <Link to={ROUTE.PROFILE.link}> */}
-        <Link to={`user/profile/${userNum}`}>
+        <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>
           <Menu>
             <FaCog />
             <span>Account</span>
