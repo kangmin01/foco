@@ -159,8 +159,25 @@ class UserService {
         return await this.User.findOneAndUpdate({userNum}, { $set: userInfo}).exec();
     }
 
-    async deleteUser(userNum: any) {
-        return await this.User.findOneAndDelete({ userNum: userNum });
+    async deleteUser(loginInfo: LoginInterface) {
+        const { email, password } = loginInfo;
+        const user = await this.User.findOne({email});
+        if (!user) {
+            throw new Error (
+                '가입되지 않은 회원입니다.'
+            );}
+        const hashedPassword = user.password;
+        const isPassword = await bcrypt.compare(
+            password,
+            hashedPassword
+        )
+        if (!isPassword) {
+            throw new Error('비밀번호가 일치하지 않습니다.');
+        }
+        else {
+            return await this.User.findOneAndDelete({ email: email });
+        }
+        
     }
 
     async addUserPost(id: any, userNum: any) {

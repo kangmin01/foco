@@ -22,7 +22,8 @@ export const bookmarkController: bookmarkControllerInterface = {
 
     async getBookmark(req, res) {
         const { userNum } = req.params;
-        const bookmarks = await bookmarkService.findBookmark(userNum);
+        const someObject = req.query;
+        const bookmarks = await bookmarkService.findPostBookmarkedByUserNum(userNum, someObject);
         res.json(bookmarks);
     },
 

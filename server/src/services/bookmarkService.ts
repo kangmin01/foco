@@ -1,13 +1,19 @@
-import { bookmarkModel, bookmarkModelType } from '../models';
+import { bookmarkModel, bookmarkModelType, postModel, postModelType } from '../models';
 import { BookmarkInterface } from '../models/schemas/bookmark';
-import { postService } from './postService';
+import { whereCity, 
+    whereCountry, 
+    Diction, 
+    whereFoodType, 
+    whereMood } from "../function";
 
 class BookmarkService {
     private Bookmark: bookmarkModelType;
+    private Post: postModelType;
 
     // 의존성 주입
-    constructor(bookmarkModel: bookmarkModelType) {
+    constructor(bookmarkModel: bookmarkModelType, postModel: postModelType) {
     this.Bookmark = bookmarkModel;
+    this.Post =postModel;
     }
 
     private async isBookmarked(
@@ -25,24 +31,18 @@ class BookmarkService {
     return await this.Bookmark.create(bookmarkInfo);
 
 }
-    async getCase(key: any) {
-        const bookmark = await postService.readOnePost(key);
-        return new Promise((resolve, reject)=>{
-            resolve(bookmark);
-            reject('북마크 가져오기 실패');
-        })
-    }
-    //북마크 가져오기
-    async findBookmark(userNum: any) {
+    //유저 북마크에 저장된 글 가져오기(쿼리줄 수 있음)
+    async findPostBookmarkedByUserNum(userNum: any, someObject: any) {
+        let query: Diction = {};
+        query = whereCity(someObject, query);
+        query = whereCountry(someObject, query);
+        query = whereMood(someObject, query);
+        query = whereFoodType(someObject, query);
 
-    const bookmark = await this.Bookmark.find({userNum},  { postNum: 1, _id: 0 });
-    return await Promise.all(
-        bookmark.map((list) => {
-            return this.getCase(list.postNum);
-        })
-        
-    )
-}
+        const bookmarks = await this.Bookmark.find({userNum},  { postNum: 1, _id: 0 });
+        const postNums = bookmarks.map(bookmark => bookmark.postNum); 
+        return await this.Post.find({postNum: {$in: postNums}}).find(query);
+    }
 
     //북마크 하나 삭제
     async deleteBookmark(bookmarkInfo: BookmarkInterface) {
@@ -50,6 +50,6 @@ class BookmarkService {
 }
 }
 
-const bookmarkService = new BookmarkService(bookmarkModel);
+const bookmarkService = new BookmarkService(bookmarkModel, postModel);
 
 export { bookmarkService };

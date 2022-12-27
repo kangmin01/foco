@@ -1,4 +1,3 @@
-import { ObjectId } from "aws-sdk/clients/codecommit";
 import mongoose, {Schema} from "mongoose";
 import autoIncrement from "mongoose-auto-increment";
 autoIncrement.initialize(mongoose.connection);
