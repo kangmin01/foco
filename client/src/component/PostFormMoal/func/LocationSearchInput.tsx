@@ -67,6 +67,8 @@ const LocationSearchInput: any = (props: any) => {
           <input
             {...getInputProps({
               placeholder: 'Search Places ...',
+              // TODO : dafultValue 들어오지 않음..
+              defaultValue: props.address,
               className: 'location-search-input',
             })}
           />
