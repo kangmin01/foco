@@ -11,7 +11,7 @@ export interface UserInterface {
     refreshToken?: string;
     role: string;
     userNum: number;
-    
+    post: [string];
 }
 
 export interface LoginInterface {
@@ -54,7 +54,10 @@ export const UserSchema = new Schema<UserInterface>({
     userNum: {
         type: Number,
         default: 0
-    }
+    },
+    post: [{
+        type: Schema.Types.String, ref: 'post'
+    }]
     
 },
 {

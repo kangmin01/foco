@@ -23,7 +23,8 @@ export interface PostInterface {
 export const PostSchema = new Schema<PostInterface>({
     user: {
         type: String,
-        required: true
+        required: true,
+        ref: 'user'
     },
     storeName: {
         type: String,

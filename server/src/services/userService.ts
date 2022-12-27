@@ -138,9 +138,9 @@ class UserService {
 
         return { user, accessToken, refreshToken };
     }
-
+    //유저 하나 조회(유저의 게시물도)
     async findUser(userNum: any) {
-        return await this.User.findOne({ userNum });
+        return await this.User.findOne({ userNum }).populate("post");
     }
 
     async updateUser(userNum: any, userInfo: UserInterface) {
