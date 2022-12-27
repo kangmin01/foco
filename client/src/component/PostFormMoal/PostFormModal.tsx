@@ -26,10 +26,9 @@ import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 const PostFormModal = (props: any) => {
-  // const userName = localStorage.getItem('userName');
-  // const userCountry = localStorage.getItem('userCountry');
-  const userName = 'test-mini';
-  const userCountry = 'Japan';
+  const userName = localStorage.getItem('userName');
+  const userCountry = localStorage.getItem('userCountry');
+  const userNum = localStorage.getItem('userNum');
 
   const [files, setFiles] = useState<string[]>([]);
   const [preview, setPreview] = useState<string[]>([]);
@@ -77,9 +76,10 @@ const PostFormModal = (props: any) => {
       setStrLength(500);
     }
   };
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    alert('submit');
+    console.log(postFormData.country);
 
     if (userCountry !== postFormData.country) {
       alert('You can only write posts that correspond to your country!');
@@ -96,27 +96,42 @@ const PostFormModal = (props: any) => {
       }
 
       axios.post('/post/upload', formData).then(async (response) => {
-        console.log(response);
         const imgList = [...response.data];
         const postData = {
           ...postFormData,
           img: imgList,
-          user: userName,
+          name: userName,
           country: userCountry,
         };
-        return await axios
+        console.log(postData);
+
+        await axios
           .post('/post', postData)
-          .then((response) => {
+          .then(async (response) => {
             console.log(response);
             alert('success post!');
+
+            await axios
+              .post(`/user/${response.data.post._id}/${userNum}`)
+              .then((response) => console.log(response))
+              .catch((error) => console.log(error));
+
             props.setModalOpen(false);
           })
-          .catch((error) => console.log('err', error));
+          .catch((error) => console.log(error));
       });
     }
   };
 
-  useEffect(() => {}, [files, preview, postFormData]);
+  useEffect(() => {}, [
+    userName,
+    userCountry,
+    userNum,
+    files,
+    preview,
+    strLength,
+    postFormData,
+  ]);
 
   return (
     <Modal>
