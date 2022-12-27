@@ -18,6 +18,7 @@ export const ContentsBox = styled(Box)`
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 40px 0;
+  padding: 40px 0;
   height: 700px;
 `;
 

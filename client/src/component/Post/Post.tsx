@@ -1,10 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
 import Header from '../Header/Header';
-
 import PostFormModal from '../PostFormMoal/PostFormModal';
-
 import {
   ReviewButton,
   ReviewContainer,
@@ -19,7 +16,6 @@ import {
   ManagementBox,
   Likes,
 } from './style';
-
 import { MdOutlineModeEdit } from 'react-icons/md';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 
@@ -34,13 +30,6 @@ const Post = () => {
       if (Array.isArray(res.data)) setReviews(res.data);
     };
     getReviews();
-    // const getReviews = async () => {
-    //   axios
-    //     .get('/post/:postNum')
-    //     .then((res) => console.log('res', res))
-    //     .catch((error) => console.log('err', error));
-    // };
-    // getReviews();
   }, []);
 
   const handleAddReview = (): void => {
@@ -61,7 +50,9 @@ const Post = () => {
 
   return (
     <ReviewPage>
-      {modalOpen && <PostFormModal onClose={onClose} />}
+      {modalOpen && (
+        <PostFormModal onClose={onClose} setModalOpen={setModalOpen} />
+      )}
       <Header />
       <ReviewContainer>
         <Title>review management</Title>

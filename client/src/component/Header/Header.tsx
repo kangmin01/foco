@@ -48,7 +48,7 @@ const Header = () => {
   const UserMenu = () => {
     const handleLogout = () => {
       cookies.remove('token');
-      sessionStorage.removeItem('userNum');
+      localStorage.clear();
       setIsLogin(false);
     };
 

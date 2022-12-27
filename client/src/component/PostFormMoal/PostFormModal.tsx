@@ -31,7 +31,8 @@ const PostFormModal = (props: any) => {
   const [review, SetReview] = useState<string | undefined>('');
   const [grade, setGrade] = useState<number | undefined>();
   const [address, setAddress] = useState<string | undefined>('');
-  const [city, setCity] = useState<string | Blob>('');
+  const [country, setCountry] = useState<string>();
+  const [city, setCity] = useState<string>();
   const [mood, setMood] = useState<string[]>([]);
   const [foodType, setFoodType] = useState<string[]>([]);
   const [files, setFiles] = useState<string[]>(); // 변환 전
@@ -39,27 +40,11 @@ const PostFormModal = (props: any) => {
   const [like, setLike] = useState<number | undefined>(0);
   const [lat, setLat] = useState<number | undefined>();
   const [lng, setLng] = useState<number | undefined>();
-
   const [strLength, setStrLength] = useState<number | undefined>(0);
-
-  const userName: string = 'mini';
-  const country: string = 'Korea';
-
-  // interface FormDataType {
-  //   user: string | undefined;
-  //   storeName: string | undefined;
-  //   grade: number | undefined;
-  //   img: string[] | undefined;
-  //   review: string | undefined;
-  //   city: string | undefined;
-  //   country: string | undefined;
-  //   address: string | undefined;
-  //   like: string | undefined;
-  //   lat: number | undefined;
-  //   lng: number | undefined;
-  //   mood: string | undefined;
-  //   foodType: string | undefined;
-  // }
+  const userName = localStorage.getItem('userName');
+  const userCountry = localStorage.getItem('userCountry');
+  console.log(userCountry);
+  console.log(country);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setStoreName(e.target.value);
@@ -70,44 +55,51 @@ const PostFormModal = (props: any) => {
   ): void => {
     SetReview(e.target.value);
   };
-
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    const formData = new FormData();
-
-    if (files?.length === undefined) {
-      alert('이미지를 추가해라');
-      return;
+    // 유저가 사는 나라의 가게를 post하는지 검증
+    if (userCountry !== country) {
+      alert('You can only write posts that correspond to your country!');
+      props.setModalOpen(false);
     } else {
-      for (let i = 0; i < files?.length; i++) {
-        formData.append('images', files[i]);
+      const formData = new FormData();
+      if (files?.length === undefined) {
+        alert('Please Add Image!');
+        return;
+      } else {
+        for (let i = 0; i < files?.length; i++) {
+          formData.append('images', files[i]);
+        }
       }
+
+      axios.post('/post/upload', formData).then(async (res) => {
+        const imgList = [...res.data];
+        const postData = {
+          user: userName,
+          country: userCountry,
+          storeName,
+          review,
+          grade,
+          address,
+          city,
+          img: imgList,
+          like,
+          mood,
+          foodType,
+          lat,
+          lng,
+        };
+        return await axios
+          .post('/post', postData)
+          .then((response) => {
+            console.log('제발 res는!!!!', response);
+            alert('success post!');
+            // 작성한 뒤, 모달창 닫기
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log('err', error));
+      });
     }
-
-    axios.post('/post/upload', formData).then(async (res) => {
-      const imgList = [...res.data];
-      const postData = {
-        user: userName,
-        country,
-        storeName,
-        review,
-        grade,
-        address,
-        city,
-        img: imgList,
-        like,
-        mood,
-        foodType,
-        lat,
-        lng,
-      };
-
-      return await axios
-        .post('/post', postData)
-        .then((response) => console.log('제발 res는!!!!', response))
-        .catch((error) => console.log('err', error));
-    });
   };
 
   const checkString = (): void => {
@@ -151,14 +143,12 @@ const PostFormModal = (props: any) => {
               ></input>
             </Title>
             <Address>
-              <Input
-                placeholder="city"
-                onChange={(e): void => setCity(e.target.value)}
-              ></Input>
               <LocationSearchInput
                 setLat={setLat}
                 setLng={setLng}
+                setCity={setCity}
                 setAddress={setAddress}
+                setCountry={setCountry}
               />
             </Address>
             <Rate>

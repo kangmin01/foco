@@ -122,7 +122,7 @@ const Modal = (props: Iprops) => {
           </IconsWrapper>
           <TitleBox>
             <StoreInfo>
-              <TitleBlock>l</TitleBlock>
+              <TitleBlock>|</TitleBlock>
               <Title>
                 <StoreName>{data?.storeName}</StoreName>
                 <Info>{data?.address}</Info>
