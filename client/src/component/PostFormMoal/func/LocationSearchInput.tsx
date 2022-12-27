@@ -4,7 +4,6 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import FindCity from './FindCity';
-import FindCity from './FindCity';
 
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
