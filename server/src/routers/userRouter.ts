@@ -7,7 +7,8 @@ export const userRouter = Router();
 
 userRouter.post('/login', asynHandler(userController.loginUser));
 userRouter.post('/register', asynHandler(userController.registerUser));
-userRouter.get('/:email', asynHandler(userController.getUser));
+userRouter.get('/:userNum', asynHandler(userController.getUser));
+userRouter.post('/:id/:userNum', asynHandler(userController.addUserPost));
 userRouter.patch('/:userNum', asynHandler(userController.updateUser)); //lR
 userRouter.delete('/:userNum', asynHandler(userController.deleteUser));
 userRouter.post('/upload', uploads.single('image'), asynHandler(userController.uploadFileToS3));

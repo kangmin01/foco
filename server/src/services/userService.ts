@@ -139,8 +139,8 @@ class UserService {
         return { user, accessToken, refreshToken };
     }
     //유저 하나 조회(유저의 게시물도)
-    async findUser(email: any) {
-        return await this.User.findOne({ email: email }).populate("post");
+    async findUser(userNum: any) {
+        return await this.User.findOne({ userNum: userNum }).populate("post");
     }
 
     async updateUser(userNum: any, userInfo: UserInterface) {
@@ -161,6 +161,13 @@ class UserService {
 
     async deleteUser(userNum: any) {
         return await this.User.findOneAndDelete({ userNum: userNum });
+    }
+
+    async addUserPost(id: any, userNum: any) {
+        return await this.User.findOneAndUpdate(
+            {userNum}, 
+            {$push: {post: id}}
+            ,{new: true}).exec();
     }
 }
 

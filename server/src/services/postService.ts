@@ -32,7 +32,6 @@ class PostServie {
             foodType,
             mood
         } = postInfo;
-        await this.Post.findOneAndUpdate();
         return await this.Post.create(postInfo);
     }
 
