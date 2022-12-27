@@ -1,9 +1,8 @@
 import { Request } from "express"; 
 import multer from "multer";
-const multerS3 = require("multer-s3-transform");
+import multerS3 from "multer-s3";
 import { bucketName, s3AccessKey, s3SecretKey } from "../config";
 import { S3Client } from "@aws-sdk/client-s3";
-import sharp from "sharp";
 
 type FileNameCallback = (error: Error | null, filename: string) => void
 
@@ -17,20 +16,11 @@ export const uploads = multer({
             region: 'ap-northeast-2',
         }),
         bucket: bucketName as string,
-        acl: 'public-read-write',
+        acl: 'public-read',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        shouldTransform: true,
-        transforms: [
-            {
-                id: "resized",
-                key: function (req: Request, file: any, cb: FileNameCallback) {
-                    cb(null, `${Date.now()}_${file.originalname}`);
-                },
-                transform: function (req: Request, file: any, cb: FileNameCallback) {
-                    //cb(null, sharp().resize(100, 100));
-                },
-            },
-        ],
+        key: function (req: Request, file: any, cb: FileNameCallback) {
+            cb(null, `${Date.now()}_${file.originalname}`);
+        },
     }),
     limits: {fileSize: 5 * 1024 * 1024 },
 });
