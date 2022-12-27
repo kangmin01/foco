@@ -26,33 +26,42 @@ import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 const PostFormModal = (props: any) => {
-  const [grade, setGrade] = useState<number>(0);
-  const [address, setAddress] = useState<string | undefined>('');
-  const [city, setCity] = useState<string | Blob>('');
-  const [mood, setMood] = useState<string[]>([]);
-  const [foodType, setFoodType] = useState<string[]>([]);
+  // const userName = localStorage.getItem('userName');
+  // const userCountry = localStorage.getItem('userCountry');
+  const userName = 'test-mini';
+  const userCountry = 'Japan';
 
-  const [likeUsers, setLikeUsers] = useState<string[] | undefined>([]);
-  const [lat, setLat] = useState<number | undefined>();
-  const [lng, setLng] = useState<number | undefined>();
-
-  const [strLength, setStrLength] = useState<number | undefined>(0);
-
-  const [files, setFiles] = useState<string[]>(); // 변환 전
-  const [preview, setPreview] = useState<string[] | undefined>();
+  const [files, setFiles] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
 
   interface postFormDataType {
     storeName: string;
     review: string;
+    grade: number;
+    address: string;
+    likeUsers: string[];
+    lat: number;
+    lng: number;
+    mood: string[];
+    foodType: string[];
+    city: string;
+    country: string;
   }
 
   const [postFormData, setPostFormData] = useState<postFormDataType>({
     storeName: '',
     review: '',
+    grade: 0,
+    address: '',
+    likeUsers: [],
+    lat: 0,
+    lng: 0,
+    mood: [],
+    foodType: [],
+    city: '',
+    country: '',
   });
 
-  // | React.ChangeEvent<HTMLInputElement>
-  // | React.ChangeEvent<HTMLTextAreaElement>
   const handleChange = (e: any): void => {
     setPostFormData((prev) => ({
       ...prev,
@@ -60,58 +69,7 @@ const PostFormModal = (props: any) => {
     }));
   };
 
-  // const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   setStoreName(e.target.value);
-  // };
-
-  // const handleReviewChange = (
-  //   e: React.ChangeEvent<HTMLTextAreaElement>
-  // ): void => {
-  //   SetReview(e.target.value);
-  // };
-
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    alert('submit');
-
-    const formData = new FormData();
-
-    if (files?.length === undefined) {
-      alert('이미지를 추가해라');
-      return;
-    } else {
-      for (let i = 0; i < files?.length; i++) {
-        formData.append('images', files[i]);
-      }
-    }
-
-    axios.post('/post/upload', formData).then(async (res) => {
-      console.log(res);
-      const imgList = [...res.data];
-      // const postData = {
-      //   user,
-      //   country,
-      //   storeName,
-      //   review,
-      //   grade,
-      //   address,
-      //   city,
-      //   img: preview,
-      //   likeUsers,
-      //   mood,
-      //   foodType,
-      //   lat,
-      //   lng,
-      // };
-
-      // return await axios
-      //   .post('/post', postData)
-      //   .then((response) => console.log('res is', response))
-      //   .catch((error) => console.log('err', error));
-    });
-    setSubmitForm(false);
-    props.onClose();
-  };
+  const [strLength, setStrLength] = useState<number | undefined>(0);
 
   const checkString = (): void => {
     setStrLength(postFormData.review?.length);
@@ -120,11 +78,46 @@ const PostFormModal = (props: any) => {
     }
   };
 
-  useEffect(() => {
-    console.log(postFormData);
-  }, [postFormData]);
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    alert('submit');
 
-  const [submitForm, setSubmitForm] = useState<boolean>(true);
+    if (userCountry !== postFormData.country) {
+      alert('You can only write posts that correspond to your country!');
+    } else {
+      const formData = new FormData();
+
+      if (files?.length === undefined) {
+        alert('Please Add Image!');
+        return;
+      } else {
+        for (let i = 0; i < files?.length; i++) {
+          formData.append('images', files[i]);
+        }
+      }
+
+      axios.post('/post/upload', formData).then(async (response) => {
+        console.log(response);
+        const imgList = [...response.data];
+        const postData = {
+          ...postFormData,
+          img: imgList,
+          user: userName,
+          country: userCountry,
+        };
+        return await axios
+          .post('/post', postData)
+          .then((response) => {
+            console.log(response);
+            alert('success post!');
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log('err', error));
+      });
+    }
+  };
+
+  useEffect(() => {}, [files, preview, postFormData]);
 
   return (
     <Modal>
@@ -132,9 +125,9 @@ const PostFormModal = (props: any) => {
         <Header>
           <Likes>
             <span>❤️</span>
-            <span>{likeUsers?.length}</span>
+            <span>{postFormData.likeUsers?.length}</span>
           </Likes>
-          <Close onClick={props.onClose}>
+          <Close onClick={() => props.setModalOpen(false)}>
             <IoIosClose />
           </Close>
         </Header>
@@ -149,37 +142,33 @@ const PostFormModal = (props: any) => {
               ></input>
             </Title>
             <Address>
-              <Input
-                placeholder="city"
-                onChange={(e): void => setCity(e.target.value)}
-              ></Input>
-              <LocationSearchInput
-                setLat={setLat}
-                setLng={setLng}
-                setAddress={setAddress}
-              />
+              <LocationSearchInput setPostFormData={setPostFormData} />
             </Address>
             <Rate>
-              <StarRating name="rate" setGrade={setGrade}></StarRating>
+              <StarRating
+                name="rate"
+                setPostFormData={setPostFormData}
+              ></StarRating>
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages setPreview={setPreview} setFiles={setFiles}></AddImages>
+            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
           </ImageBox>
           <Tag>
             <CreatableSelectBox
-              setState={setMood}
-              type="mood"
+              setPostFormData={setPostFormData}
+              name="mood"
               placeholder="Mood"
             />
             <CreatableSelectBox
-              setState={setFoodType}
-              type="food"
+              setPostFormData={setPostFormData}
+              name="foodType"
               placeholder="Food"
             />
           </Tag>
           <Review>
             <textarea
+              name="review"
               onKeyUp={checkString}
               onChange={handleChange}
               maxLength={500}
@@ -191,20 +180,10 @@ const PostFormModal = (props: any) => {
             <span>( {strLength} / 500 )</span>
           </Review>
           <Button>
-            {submitForm === true ? (
-              <button type="submit" onClick={handleSubmit}>
-                submit
-              </button>
-            ) : (
-              <>
-                <button>edit</button>
-                <button>delete</button>
-              </>
-            )}
-            {/* <button type="submit" onClick={handleSubmit}>
+            <button type="submit" onClick={handleSubmit}>
               submit
             </button>
-            <button>edit</button>
+            {/* <button>edit</button>
             <button>delete</button> */}
           </Button>
         </Main>

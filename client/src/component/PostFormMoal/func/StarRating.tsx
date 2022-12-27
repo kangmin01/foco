@@ -6,7 +6,10 @@ const StarRating: any = (props: any) => {
 
   const handleRating = (rate: number): void => {
     setRating(rate);
-    props.setGrade(rate);
+    props.setPostFormData((prev: any) => ({
+      ...prev,
+      grade: rate,
+    }));
   };
 
   return (

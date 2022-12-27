@@ -49,7 +49,7 @@ const AddImages = (props: any) => {
   };
 
   useEffect(() => {
-    props.setPreview(selectedImages);
+    props.setPreview([...selectedImages]);
   }, [selectedImages]);
 
   const renderImages = (source: string[]) => {
@@ -57,7 +57,7 @@ const AddImages = (props: any) => {
       return (
         <ImageItem className="imgItem" key={src}>
           <Image>
-            <img src={src} alt="Failed to load image" />
+            <img src={src} alt="Failed to load" />
           </Image>
           <ImageOver>
             <ImageItemButton>
