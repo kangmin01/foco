@@ -141,6 +141,8 @@ export const ImgBox = styled.div`
   margin-left: 18%;
   padding: 0.5rem;
   height: 25vh;
+  overflow-y: hidden;
+  overflow-x: scroll;
 `;
 // 본문- 아이템 이미지
 export const ItemB = styled.img`

@@ -24,7 +24,8 @@ import React, { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import ScrollHorizontal from 'react-scroll-horizontal';
+// import ScrollHorizontal from 'react-scroll-horizontal';
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 import { Icontent } from '../Icontent';
 
 interface Iprops {
@@ -134,11 +135,11 @@ const Modal = (props: Iprops) => {
         </TitleWrapper>
         <Box>
           <ImgBox id="scroll-horizontal">
-            <ScrollHorizontal>
+            <ScrollMenu>
               {data?.img.map((img: string) => {
                 return <ItemB src={img} alt={data.storeName} />;
               })}
-            </ScrollHorizontal>
+            </ScrollMenu>
           </ImgBox>
           <Content>
             <TagBox>

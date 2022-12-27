@@ -11,7 +11,7 @@ import { ROUTE } from '../../Route';
 const Header = () => {
   const [show, setShow] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
-
+  const userNum = localStorage.getItem('userNum');
   const cookies = new Cookies();
   const getCookie = (name: any) => {
     return cookies.get(name);
@@ -51,9 +51,6 @@ const Header = () => {
       localStorage.clear();
       setIsLogin(false);
     };
-
-    const cookies = new Cookies();
-    const userNum = sessionStorage.getItem('userNum');
 
     return (
       <MenuBox>
