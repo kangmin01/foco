@@ -5,7 +5,6 @@ import {
   Image,
   ImageOver,
   ImageItemButton,
-  ImageInfo,
 } from '../style';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from './Arrows';
@@ -50,7 +49,7 @@ const AddImages = (props: any) => {
   };
 
   useEffect(() => {
-    props.setPreview(selectedImages);
+    props.setPreview([...selectedImages]);
   }, [selectedImages]);
 
   const renderImages = (source: string[]) => {
@@ -58,7 +57,7 @@ const AddImages = (props: any) => {
       return (
         <ImageItem className="imgItem" key={src}>
           <Image>
-            <img src={src} alt="Failed to load image" />
+            <img src={src} alt="Failed to load" />
           </Image>
           <ImageOver>
             <ImageItemButton>
@@ -66,10 +65,6 @@ const AddImages = (props: any) => {
                 <RiCloseFill />
               </button>
             </ImageItemButton>
-            {/* <ImageInfo>
-              <input placeholder="ex) steak" />
-              <input placeholder="ex) 15,000" />
-            </ImageInfo> */}
           </ImageOver>
         </ImageItem>
       );

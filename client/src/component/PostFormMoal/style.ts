@@ -51,13 +51,15 @@ export const Main = styled.div`
 `;
 export const Intro = styled.div`
   width: 100%;
-  height: 20%;
+  height: 23%;
   border-left: solid 4px black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding-left: 30px;
+  // padding: 10px 0 10px 30px;
+  // padding: 50px;
   margin-bottom: 20px;
 
   & input {
@@ -87,12 +89,14 @@ export const ImageBox = styled.div`
   flex-direction: column;
   width: 100%;
   height: 22vh;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   display: flex;
 `;
 
 export const ImageButton = styled.div`
   padding: 10px;
+  display: flex;
+  justify-content: flex-end;
 
   & label,
   button {
@@ -140,7 +144,7 @@ export const ImageList = styled.div`
       z-index: 99;
       border: none;
       background-color: white;
-      box-shadow: 0px 0px 25px 30px white;
+      // box-shadow: 0px 0px 25px 30px white;
       color: gray;
     }
   }
@@ -155,20 +159,19 @@ export const ImageItem = styled.div`
 `;
 
 export const Image = styled.div`
-  border: 1px solid gray;
+  // border: 1px solid gray;
   width: 300px;
-  height: 220px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  //   background-color: pink;
   position: relative;
 
   & img {
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
   }
 `;
 
@@ -219,39 +222,16 @@ export const ImageItemButton = styled.div`
   }
 `;
 
-export const ImageInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-
-  & input:first-child {
-    margin-bottom: 5px;
-  }
-`;
-
 export const Tag = styled.div`
   width: 100%;
   height: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 14px;
 
-  & input:first-child {
-    margin-right: 20px;
-  }
-
-  & input {
-    font-size: 1.3vh;
-  }
-
-  & .selectBox {
-    width: 300px;
-    margin: 20px;
+  & .css-b62m3t-container {
+    margin: 0 15px;
   }
 `;
 
@@ -268,7 +248,6 @@ export const Review = styled.div`
     height: 60%;
     padding: 7px;
     font-size: 1.5vh;
-    margin-bottom: 5px;
     resize: none;
     border-color: gray;
 
@@ -292,6 +271,7 @@ export const Review = styled.div`
   & span {
     color: gray;
     align-self: flex-end;
+    margin-top: 5px;
   }
 `;
 
@@ -303,8 +283,9 @@ export const Button = styled.div`
   & button {
     font-size: 18px;
     border: none;
-    border-radius: 12px;
-    padding: 8px 20px;
+    border-radius: 10px;
+    padding: 10px 22px;
+    margin: 0 12px;
 
     &:hover {
       cursor: pointer;
