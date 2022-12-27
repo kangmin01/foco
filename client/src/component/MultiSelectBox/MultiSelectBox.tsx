@@ -6,6 +6,7 @@ import { Icontent } from '../Icontent';
 import Content from '../Content/Content';
 
 interface Iprops {
+  title: string;
   country: string;
 }
 
@@ -20,6 +21,7 @@ const MultiSelectBox = (props: Iprops) => {
   const [citySelect, setCitySelect] = useState<string | undefined>();
   const [moodSelect, setMoodSelect] = useState<string | undefined>();
   const [foodSelect, setFoodSelect] = useState<string | undefined>();
+  console.log(props.country);
 
   const getData = () => {
     return axios({
@@ -149,7 +151,7 @@ const MultiSelectBox = (props: Iprops) => {
       </MultiSelectBoxWrapper>
       <Content
         country={props.country}
-        // postSelect={postSelect.join('')}
+        title={props.title}
         citySelect={citySelect}
         moodSelect={moodSelect}
         foodTypeSelect={foodSelect}

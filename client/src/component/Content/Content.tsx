@@ -18,6 +18,7 @@ import { MdLocationOn } from 'react-icons/md';
 import { Icontent } from '../Icontent';
 
 interface Iprops {
+  title: string;
   country: string;
   citySelect: string | undefined;
   moodSelect: string | undefined;
@@ -29,6 +30,7 @@ const Content = (props: Iprops) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
   const [like, setLike] = useState<number>(0);
+  const userNum = localStorage.getItem('userNum');
 
   let postSelect = '';
 
@@ -41,11 +43,16 @@ const Content = (props: Iprops) => {
   let url = String(postSelect)
     .replace('undefined', '')
     .replace('undefined', '');
+  console.log(url);
 
   const getSelectContent = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}${url}`,
+      // url: `/post?country=${props.country}${url}`,
+      url:
+        props.title != 'My BookMark'
+          ? `/post?country=${props.country}${url}`
+          : `/bookmark/${userNum}/post?country=${props.country}${url}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -66,16 +73,31 @@ const Content = (props: Iprops) => {
       setContents(res.data);
     });
   };
+
+  const getMyBookmark = () => {
+    return axios({
+      method: 'get',
+      url: `/bookmark/${userNum}`,
+    }).then((res) => {
+      setContents(res.data);
+    });
+  };
+
   useEffect(() => {
     const fetchContents = async () => {
-      await getPostContents();
+      // 만약 bookMark 페이지에서 불러오는 거라면 bookMark를 load
+      props.title != 'My BookMark'
+        ? await getPostContents()
+        : await getMyBookmark();
     };
     fetchContents();
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      await getPostContents();
+      props.title != 'My BookMark'
+        ? await getPostContents()
+        : await getMyBookmark();
     };
     fetchData();
   }, [like]);
