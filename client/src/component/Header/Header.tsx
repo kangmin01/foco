@@ -12,7 +12,7 @@ const Header = () => {
   const userNum = localStorage.getItem('userNum');
   const [show, setShow] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
-
+  const userNum = localStorage.getItem('userNum');
   const cookies = new Cookies();
   const getCookie = (name: any) => {
     return cookies.get(name);
