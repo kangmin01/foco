@@ -146,23 +146,17 @@ const PostFormModal = (props: any) => {
     }
   };
 
-  useEffect(() => {}, [
-    userName,
-    userCountry,
-    userNum,
-    files,
-    preview,
-    strLength,
-    postFormData,
-  ]);
+  useEffect(() => {
+    // console.log(postFormData);
+  }, [userName, userCountry, userNum, files, preview, strLength, postFormData]);
 
   return (
     <Modal>
       <ModalBody>
         <Header>
           <Likes>
-            <span>❤️</span>
-            <span>{postFormData.likeUsers?.length}</span>
+            {/* <span>❤️</span>
+            <span>{postFormData.likeUsers?.length}</span> */}
           </Likes>
           <Close
             onClick={() => {
