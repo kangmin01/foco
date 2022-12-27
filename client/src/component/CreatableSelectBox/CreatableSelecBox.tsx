@@ -41,13 +41,15 @@ const CreatableSelectBox = (props: any) => {
   const handleChange = (newValue: any) => {
     if (newValue.length > 3) return;
     setValue(newValue);
-    props.setPostFormData((prev: any) => ({
-      ...prev,
-      [props.name]: newValue.map((x: any) => x.value),
-    }));
   };
 
-  useEffect(() => {}, [value]);
+  useEffect(() => {
+    props.setPostFormData((prev: any) => ({
+      ...prev,
+      [props.name]: value.map((x: any) => x.value),
+    }));
+    console.log(value);
+  }, [inputValue, value]);
 
   return (
     <CreatableSelect
