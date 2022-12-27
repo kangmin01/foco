@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ROUTE } from '../../Route';
 import Select from 'react-select';
 import { FaGoogle } from 'react-icons/fa';
 import {
@@ -62,19 +63,13 @@ const Register = () => {
     return password === info.password;
   };
 
-  const getCountriesName = async () => {
-    const res = await axios({
-      method: 'get',
-      url: 'http://localhost:4000/Data/worldmap.json',
-    });
-    setCountries(res.data.objects.world.geometries);
-  };
-
   useEffect(() => {
-    const fetchData = async () => {
-      await getCountriesName();
+    const getCountriesName = async () => {
+      await axios
+        .get('http://localhost:4000/Data/worldmap.json')
+        .then((res) => setCountries(res.data.objects.world.geometries));
     };
-    fetchData();
+    getCountriesName();
   }, []);
 
   const options = countries.map((x) => {
@@ -176,10 +171,10 @@ const Register = () => {
         .catch((error) => {
           console.log(error);
         });
-      alert('회원가입 성공');
-      navigate('/login');
+      alert('WELCOME');
+      navigate(`${ROUTE.LOGIN.link}`);
     } else {
-      alert('가입실패');
+      alert('FAILED');
     }
   };
 

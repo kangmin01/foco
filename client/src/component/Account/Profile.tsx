@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { validateNickname } from '../util/usefulFunctions';
 import Menu from './Menu';
+import { ROUTE } from '../../Route';
 import { FaCamera } from 'react-icons/fa';
 import {
   AccountContainer,
@@ -48,20 +49,18 @@ const Profile = () => {
     const userNum = sessionStorage.getItem('userNum');
 
     axios
-      .get(`/user/profile/${userNum}`, { params })
+      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setInfo({
           email: data.email,
           name: data.name,
           country: data.country,
-          img: data.name,
+          img: data.img,
         });
-
-        console.log(res.data.user);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -105,7 +104,8 @@ const Profile = () => {
     }));
   };
 
-  const inserImg = (e: any) => {
+  const insertImg = (e: any) => {
+    const file = e.target.files[0];
     const reader = new FileReader();
 
     if (e.target.files[0]) {
@@ -121,13 +121,23 @@ const Profile = () => {
         }));
       }
     };
+
+    // const upload = new AWS.S3.ManagedUpload({
+    //   params: {
+    //     Bucket: [S3 버킷명],
+    //     Key: [파일명] + ".jpg",
+    //     Body: file,
+    //   },
+    // });
   };
+
+  console.log(info);
 
   const handleSubmit = () => {
     if (error === '') {
-      alert('정보 변경 성공');
+      alert('SUCCESS');
     } else {
-      alert('내용확인!');
+      alert('ERROR CHECK!');
     }
   };
 
@@ -151,7 +161,7 @@ const Profile = () => {
                       id="file"
                       name="avatar"
                       accept="image/*"
-                      onChange={inserImg}
+                      onChange={insertImg}
                     />
                     <UploadBtn htmlFor="file">
                       <FaCamera />

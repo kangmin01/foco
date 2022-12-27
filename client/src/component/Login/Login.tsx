@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ROUTE } from '../../Route';
 import { Cookies } from 'react-cookie';
 import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
@@ -105,7 +106,7 @@ const Login = () => {
           console.log(error);
         });
       alert('Success Login!');
-      navigate('/');
+      navigate(`${ROUTE.HOME.link}`);
     } else {
       alert('Please Check Your Info!');
     }

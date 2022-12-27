@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Menu from './Menu';
+import { ROUTE } from '../../Route';
 import {
   AccountContainer,
   ContentsBox,
@@ -23,7 +24,7 @@ const Deactivate = () => {
     const userNum = sessionStorage.getItem('userNum');
 
     axios
-      .get(`/user/security/${userNum}`, { params })
+      .get(`${ROUTE.DEACTIVATE.link}/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setEmail(data.email);
