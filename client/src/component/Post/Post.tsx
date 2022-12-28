@@ -25,12 +25,14 @@ const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [postNum, setPostNum] = useState<number>(0);
   const [reviews, setReviews] = useState<any[]>([]);
+
   const userNum = localStorage.getItem('userNum');
+
   const getReviews = async () => {
     const res = await axios.get(`/user/${userNum}`);
-    // console.log(res.data.user.post);
     setReviews(res.data.user.post);
   };
+
   useEffect(() => {
     getReviews();
   }, []);
@@ -40,10 +42,13 @@ const Post = () => {
     setPostNum(postNum);
   };
 
-  const handleDelete = (postNum: number): void => {
+  const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
     axios.delete(`/post/${postNum}`).then((res) => {
       console.log(res);
+      axios.get(`/user/${userNum}`).then((res) => {
+        setReviews(res.data.user.post);
+      });
     });
   };
 

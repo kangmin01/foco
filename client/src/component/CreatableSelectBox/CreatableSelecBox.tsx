@@ -48,7 +48,6 @@ const CreatableSelectBox = (props: any) => {
       ...prev,
       [props.name]: value.map((x: any) => x.value),
     }));
-    console.log(value);
   }, [inputValue, value]);
 
   return (
