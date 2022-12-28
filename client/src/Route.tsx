@@ -18,7 +18,7 @@ export const ROUTE = {
   },
   COUNTRY: {
     path: '/:country',
-    link: '/:country',
+    link: '/country',
     element: Country,
   },
   REGISTER: {
@@ -37,17 +37,17 @@ export const ROUTE = {
     element: ForgotPassword,
   },
   PROFILE: {
-    path: '/user/profile/:userNum',
+    path: '/user/profile',
     link: '/user/profile',
     element: Profile,
   },
   SECURITY: {
-    path: '/user/security/:userNum',
+    path: '/user/security',
     link: '/user/security',
     element: Security,
   },
   DEACTIVATE: {
-    path: '/user/deactivate/:userNum',
+    path: '/user/deactivate',
     link: '/user/deactivate',
     element: Deactivate,
   },
@@ -57,7 +57,7 @@ export const ROUTE = {
     element: Review,
   },
   BOOKMARK: {
-    path: '/bookmark',
+    path: '/bookmark', // userNum 확인바람
     link: '/bookmark',
     element: BookMark,
   },

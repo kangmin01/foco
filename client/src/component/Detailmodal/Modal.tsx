@@ -20,11 +20,11 @@ import {
   ItemB,
 } from './style';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import ScrollHorizontal from 'react-scroll-horizontal';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { Icontent } from '../Icontent';
 
 interface Iprops {
@@ -35,8 +35,7 @@ interface Iprops {
 }
 
 const Modal = (props: Iprops) => {
-  const [data, setData] = useState<Icontent>();
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState<any>();
   const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
@@ -179,7 +178,25 @@ const Modal = (props: Iprops) => {
       window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
   }, []);
+  type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
+  const onWheel = (
+    apiObj: scrollVisibilityApiType,
+    ev: React.WheelEvent
+  ): void => {
+    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+    if (isThouchpad) {
+      ev.stopPropagation();
+      return;
+    }
+
+    if (ev.deltaY < 0) {
+      apiObj.scrollNext();
+    } else if (ev.deltaY > 0) {
+      apiObj.scrollPrev();
+    }
+  };
   return (
     <ModalBackground>
       <ModalWrapper>
@@ -215,12 +232,12 @@ const Modal = (props: Iprops) => {
           </TitleBox>
         </TitleWrapper>
         <Box>
-          <ImgBox id="scroll-horizontal">
-            <ScrollHorizontal>
+          <ImgBox>
+            <ScrollMenu onWheel={onWheel}>
               {data?.img.map((img: string) => {
                 return <ItemB src={img} alt={data.storeName} />;
               })}
-            </ScrollHorizontal>
+            </ScrollMenu>
           </ImgBox>
           <Content>
             <TagBox>
