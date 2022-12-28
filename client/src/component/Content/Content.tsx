@@ -31,6 +31,7 @@ const Content = (props: Iprops) => {
   const [postNum, setPostNum] = useState<number>(0);
   const [like, setLike] = useState<number>(0);
   const userNum = localStorage.getItem('userNum');
+  console.log(props.country);
 
   let postSelect = '';
 
@@ -44,15 +45,15 @@ const Content = (props: Iprops) => {
     .replace('undefined', '')
     .replace('undefined', '');
   console.log(url);
+  console.log(props.country);
 
   const getSelectContent = () => {
     return axios({
       method: 'get',
-      // url: `/post?country=${props.country}${url}`,
       url:
         props.title != 'My BookMark'
           ? `/post?country=${props.country}${url}`
-          : `/bookmark/${userNum}/post?country=${props.country}${url}`,
+          : `/bookmark/${userNum}?country=${props.country}${url}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -63,7 +64,7 @@ const Content = (props: Iprops) => {
       await getSelectContent();
     };
     fetchContents();
-  }, [postSelect]);
+  }, [postSelect, props.country]);
 
   const getPostContents = () => {
     return axios({
