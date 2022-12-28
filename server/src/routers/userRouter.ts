@@ -8,9 +8,6 @@ export const userRouter = Router();
 userRouter.post('/login', asynHandler(userController.loginUser));
 userRouter.post('/register', asynHandler(userController.registerUser));
 userRouter.get('/:userNum', asynHandler(userController.getUser));
-userRouter.get('/profile/:userNum', asynHandler(userController.getUser));
-userRouter.get('/security/:userNum', asynHandler(userController.getUser));
-userRouter.get('/deactivate/:userNum', asynHandler(userController.getUser));
 userRouter.post('/:id/:userNum', asynHandler(userController.addUserPost));
 userRouter.patch('/password', asynHandler(userController.userPasswordUpdate)); //lR
 userRouter.patch('/:userNum', asynHandler(userController.updateUser)); //lR

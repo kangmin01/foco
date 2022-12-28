@@ -50,7 +50,7 @@ const Profile = () => {
     const { params }: any = useParams;
 
     await axios
-      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
+      .get(`user/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setInfo({

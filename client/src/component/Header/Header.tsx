@@ -9,7 +9,6 @@ import { HeaderWrapper, Title, Icons, UserBox, MenuBox, Menu } from './style';
 import { ROUTE } from '../../Route';
 
 const Header = () => {
-  const userNum = localStorage.getItem('userNum');
   const [show, setShow] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const cookies = new Cookies();

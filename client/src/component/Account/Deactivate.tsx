@@ -35,7 +35,7 @@ const Deactivate = () => {
     const { params }: any = useParams;
     const getUserData = async () => {
       await axios
-        .get(`${ROUTE.DEACTIVATE.link}/${userNum}`, { params })
+        .get(`user/${userNum}`, { params })
         .then((res) => {
           const data = res.data.user;
           setInfo((prev) => ({
