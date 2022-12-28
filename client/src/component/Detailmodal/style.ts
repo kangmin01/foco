@@ -84,7 +84,6 @@ export const TitleBox = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  // padding: 0 30px;
   margin-top: 2vh;
   align-items: center;
   justify-content: space-between;
@@ -97,7 +96,7 @@ export const StoreInfo = styled.div`
 `;
 
 export const TitleBlock = styled.div`
-  font-size: 8rem;
+  font-size: 10vh;
   font-weight: 1;
   margin-right: 1rem;
   padding-left: 1.5vw;
@@ -110,7 +109,7 @@ export const Title = styled.div`
   justify-content: center;
   font-family: 'Rubik Spray Paint', cursive;
   width: 100%;
-  margin: 0 10px;
+  margin: 1% 1vw;
 `;
 export const StoreName = styled.div`
   font-weight: 400;
@@ -138,22 +137,30 @@ export const Box = styled.div`
 export const ImgBox = styled.div`
   display: flex;
   flex-direction: row;
-  // flex-direction: column;
-  width: 38vw;
-  margin-left: 10%;
   padding: 0.5rem;
   height: 25vh;
   overflow-y: hidden;
   overflow-x: scroll;
+  :: -webkit-scrollbar {
+    display: none;
+  }
+  & .react-horizontal-scrolling-menu--wrapper {
+    width: 100%;
+    & img {
+      margin-right: 0.5rem;
+    }
+    & ::-webkit-scrollbar {
+      height: 14px;
+      display: none;
+    }
+  }
 `;
 // 본문- 아이템 이미지
 export const ItemB = styled.img`
-  // width: 15vw;
   height: 23vh;
   flex-direction: row;
   border-radius: 10%;
   object-fit: scale-down;
-  // transform: rotate(90deg);
   + img {
     margin-left: 1rem;
   }
