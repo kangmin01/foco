@@ -12,7 +12,6 @@ const Header = () => {
   const userNum = localStorage.getItem('userNum');
   const [show, setShow] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
-
   const cookies = new Cookies();
   const getCookie = (name: any) => {
     return cookies.get(name);
@@ -60,7 +59,7 @@ const Header = () => {
             <span>My Review</span>
           </Menu>
         </Link>
-        <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>
+        <Link to={ROUTE.PROFILE.link}>
           <Menu>
             <FaCog />
             <span>Account</span>
