@@ -25,7 +25,6 @@ import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
-import { Icontent } from '../Icontent';
 
 interface Iprops {
   postNum: number;
@@ -55,13 +54,13 @@ const Modal = (props: Iprops) => {
   };
 
   const checkLikeUser = (res: any) => {
-    res.data.likeUsers.filter((x: any) => {
+    for (const x of res.data.likeUsers) {
       if (x == userNum) {
         setHeart('red');
-      } else {
-        setHeart('pink');
+        return;
       }
-    });
+    }
+    setHeart('pink');
   };
 
   const checkBookMarkUser = () => {
@@ -69,13 +68,13 @@ const Modal = (props: Iprops) => {
       method: 'get',
       url: `/bookmark/${userNum}`,
     }).then((res) => {
-      res.data.filter((x: any) => {
+      for (const x of res.data) {
         if (x.postNum == props.postNum) {
           setSpoon('gold');
-        } else {
-          setSpoon('lightgray');
+          return;
         }
-      });
+      }
+      setSpoon('lightgray');
     });
   };
 
@@ -85,13 +84,6 @@ const Modal = (props: Iprops) => {
     };
     fetchData();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await checkBookMarkUser();
-  //   };
-  //   fetchData();
-  // }, [spoon]);
 
   // 좋아요 업데이트시, page reload
   useEffect(() => {
@@ -197,6 +189,11 @@ const Modal = (props: Iprops) => {
       apiObj.scrollPrev();
     }
   };
+
+  // 서버에서 불러오는 시간 차이 에러를 해결하기 위해
+  if (spoon === '' || heart === '') {
+    return <></>;
+  }
   return (
     <ModalBackground>
       <ModalWrapper>
