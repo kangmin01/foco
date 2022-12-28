@@ -10,7 +10,7 @@ userRouter.post('/register', asynHandler(userController.registerUser));
 userRouter.get('/:userNum', asynHandler(userController.getUser));
 userRouter.post('/:id/:userNum', asynHandler(userController.addUserPost));
 userRouter.patch('/:userNum', asynHandler(userController.updateUser)); //lR
-userRouter.delete('/:userNum', asynHandler(userController.deleteUser));
+userRouter.delete('/', asynHandler(userController.deleteUser)); //lR
 userRouter.post('/upload', uploads.single('image'), asynHandler(userController.uploadFileToS3));
 
 userRouter.get('/remember', asynHandler(async (req, res, next) => {

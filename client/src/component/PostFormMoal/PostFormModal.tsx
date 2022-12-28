@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import {
   Modal,
   ModalBody,
@@ -19,117 +18,168 @@ import {
 } from './style';
 import StarRating from './func/StarRating';
 import { IoIosClose } from 'react-icons/io';
-
 import AddImages from './func/AddImages';
 import LocationSearchInput from './func/LocationSearchInput';
 import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
+interface postFormDataType {
+  storeName: string;
+  review: string;
+  grade: number;
+  address: string;
+  likeUsers: string[];
+  lat: number;
+  lng: number;
+  mood: string[];
+  foodType: string[];
+  city: string;
+  country: string;
+}
+
 const PostFormModal = (props: any) => {
-  // interface formDataType
-  const [storeName, setStoreName] = useState<string | undefined>('');
-  const [review, SetReview] = useState<string | undefined>('');
-  const [grade, setGrade] = useState<number | undefined>();
-  const [address, setAddress] = useState<string | undefined>('');
-  const [country, setCountry] = useState<string>();
-  const [city, setCity] = useState<string>();
-  const [mood, setMood] = useState<string[]>([]);
-  const [foodType, setFoodType] = useState<string[]>([]);
-  const [files, setFiles] = useState<string[]>(); // 변환 전
-  const [preview, setPreview] = useState<string[] | undefined>();
-  const [like, setLike] = useState<number | undefined>(0);
-  const [lat, setLat] = useState<number | undefined>();
-  const [lng, setLng] = useState<number | undefined>();
-  const [strLength, setStrLength] = useState<number | undefined>(0);
+  const [files, setFiles] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
+  const [content, setContent] = useState<any>();
   const userName = localStorage.getItem('userName');
   const userCountry = localStorage.getItem('userCountry');
-  console.log(userCountry);
-  console.log(country);
+  const userNum = localStorage.getItem('userNum');
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setStoreName(e.target.value);
-  };
+  // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
-  const handleReviewChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ): void => {
-    SetReview(e.target.value);
-  };
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    // 유저가 사는 나라의 가게를 post하는지 검증
-    if (userCountry !== country) {
-      alert('You can only write posts that correspond to your country!');
-      props.setModalOpen(false);
-    } else {
-      const formData = new FormData();
-      if (files?.length === undefined) {
-        alert('Please Add Image!');
-        return;
-      } else {
-        for (let i = 0; i < files?.length; i++) {
-          formData.append('images', files[i]);
-        }
-      }
-
-      axios.post('/post/upload', formData).then(async (res) => {
-        const imgList = [...res.data];
-        const postData = {
-          user: userName,
-          country: userCountry,
-          storeName,
-          review,
-          grade,
-          address,
-          city,
-          img: imgList,
-          like,
-          mood,
-          foodType,
-          lat,
-          lng,
-        };
-        return await axios
-          .post('/post', postData)
-          .then((response) => {
-            console.log('제발 res는!!!!', response);
-            alert('success post!');
-            // 작성한 뒤, 모달창 닫기
-            props.setModalOpen(false);
-          })
-          .catch((error) => console.log('err', error));
+  useEffect(() => {
+    const getContents = () => {
+      return axios({
+        method: 'get',
+        url: `/post/${props.postNum}`,
+      }).then((res) => {
+        setContent(res.data);
       });
-    }
+    };
+    getContents();
+  }, []);
+
+  const [postFormData, setPostFormData] = useState<postFormDataType>({
+    storeName: '',
+    review: '',
+    grade: 0,
+    address: '',
+    likeUsers: [],
+    lat: 0,
+    lng: 0,
+    mood: [],
+    foodType: [],
+    city: '',
+    country: '',
+  });
+
+  const handleChange = (e: any): void => {
+    setPostFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
+
+  const [strLength, setStrLength] = useState<number | undefined>(0);
 
   const checkString = (): void => {
-    setStrLength(review?.length);
+    setStrLength(postFormData.review?.length);
     if (strLength !== undefined && strLength > 500) {
       setStrLength(500);
     }
   };
 
-  useEffect(() => {}, [
-    storeName,
-    review,
-    grade,
-    address,
-    city,
-    files,
-    strLength,
-    mood,
-    foodType,
-  ]);
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // console.log(postFormData.country);
+
+    if (!postFormData.storeName) {
+      alert('Write store name!');
+      return;
+    } else if (!postFormData.address) {
+      alert('Write address!');
+      return;
+    } else if (userCountry !== postFormData.country) {
+      alert('You can only write posts that correspond to your country!');
+      return;
+    } else if (!postFormData.grade) {
+      alert("You can't give 0 points!");
+      return;
+    } else if (!files.length) {
+      alert('Please Add Image!');
+      return;
+    } else if (!postFormData.mood.length) {
+      alert('Write mood!');
+      return;
+    } else if (!postFormData.foodType.length) {
+      alert('Write food!');
+      return;
+    } else if (!postFormData.review) {
+      alert('Write review!');
+      return;
+    }
+
+    const formData = new FormData();
+    for (let i = 0; i < files?.length; i++) {
+      formData.append('images', files[i]);
+    }
+
+    axios.post('/post/upload', formData).then(async (response) => {
+      const imgList = [...response.data];
+      const postData = {
+        ...postFormData,
+        img: imgList,
+        name: userName,
+        country: userCountry,
+      };
+
+      // 새로운 글을 작성한다면 post 요청
+      if (props.postNum == 0) {
+        await axios
+          .post('/post', postData)
+          .then(async (response) => {
+            console.log(response);
+            alert('success post!');
+            await axios
+              .post(`/user/${response.data.post._id}/${userNum}`)
+              .then((response) => console.log(response))
+              .catch((error) => console.log(error));
+
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        // 기존 글이라면 patch 요청
+        await axios
+          .patch(`/post/${props.postNum}`, postData)
+          .then(async (response) => {
+            console.log(response);
+            alert('success patch!');
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log(!postFormData.mood.length);
+  }, [userName, userCountry, userNum, files, preview, strLength, postFormData]);
 
   return (
     <Modal>
       <ModalBody>
         <Header>
           <Likes>
-            <span>❤️</span>
-            <span>{like}</span>
+            {/* <span>❤️</span>
+            <span>{postFormData.likeUsers?.length}</span> */}
           </Likes>
-          <Close onClick={props.onClose}>
+          <Close
+            onClick={() => {
+              props.setModalOpen(false);
+              props.setPostNum(null);
+            }}
+          >
             <IoIosClose />
           </Close>
         </Header>
@@ -137,48 +187,60 @@ const PostFormModal = (props: any) => {
           <Intro>
             <Title>
               <input
-                onChange={handleTitleChange}
+                required
+                name="storeName"
+                onChange={handleChange}
                 className="store"
+                defaultValue={props.postNum != 0 ? content?.storeName : ''}
                 placeholder="write store name..."
               ></input>
             </Title>
             <Address>
               <LocationSearchInput
-                setLat={setLat}
-                setLng={setLng}
-                setCity={setCity}
-                setAddress={setAddress}
-                setCountry={setCountry}
+                required
+                setPostFormData={setPostFormData}
+                address={content?.address}
               />
             </Address>
             <Rate>
-              <StarRating name="rate" setGrade={setGrade}></StarRating>
+              <StarRating
+                name="rate"
+                setPostFormData={setPostFormData}
+                grade={content?.grade}
+              ></StarRating>
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages setPreview={setPreview} setFiles={setFiles}></AddImages>
+            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
+            {/* TODO : 이미지 css 적용해서 넣어야함 */}
+            {/* {content?.img.map((img: string) => {
+              return <img src={img} alt={content?.storeName} />;
+            })} */}
           </ImageBox>
-          <Tag className="sival">
+          <Tag>
             <CreatableSelectBox
-              setState={setMood}
-              type="mood"
+              required
+              setPostFormData={setPostFormData}
+              name="mood"
               placeholder="Mood"
             />
             <CreatableSelectBox
-              setState={setFoodType}
-              type="food"
+              required
+              setPostFormData={setPostFormData}
+              name="foodType"
               placeholder="Food"
             />
           </Tag>
           <Review>
             <textarea
+              required
+              name="review"
               onKeyUp={checkString}
-              onChange={handleReviewChange}
+              onChange={handleChange}
               maxLength={500}
               rows={5}
-              placeholder={
-                'I’m pleasure to recommend this restaurant to you:) It’s very delicious! What a Nice Day!'
-              }
+              defaultValue={props.postNum != 0 ? content?.review : ''}
+              placeholder="I’m pleasure to recommend this restaurant to you:) It’s very delicious! What a Nice Day!"
             />
             <span>( {strLength} / 500 )</span>
           </Review>

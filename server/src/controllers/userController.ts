@@ -40,8 +40,9 @@ export const userController: userControllerInterface = {
 },
     //탈퇴
     async deleteUser(req, res) {
-        const { userNum } = req.params;
-    const user = await userService.deleteUser(userNum);
+        const email = req.body.email;
+        const password = req.body.password;
+    const user = await userService.deleteUser({email, password});
     res.json({ user });
 },
 

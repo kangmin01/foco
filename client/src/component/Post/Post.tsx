@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import PostFormModal from '../PostFormMoal/PostFormModal';
 import {
@@ -18,64 +19,85 @@ import {
 } from './style';
 import { MdOutlineModeEdit } from 'react-icons/md';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
+import { AiFillHeart } from 'react-icons/ai';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [postNum, setPostNum] = useState<number>(0);
   const [reviews, setReviews] = useState<any[]>([]);
 
+  const userNum = localStorage.getItem('userNum');
+
+  const getReviews = async () => {
+    const res = await axios.get(`/user/${userNum}`);
+    setReviews(res.data.user.post);
+  };
+
   useEffect(() => {
-    const getReviews = async () => {
-      const res = await axios.get('http://localhost:4000/Data/postList.json');
-      //서버에서 오는 데이터는 무조건 type check
-      if (Array.isArray(res.data)) setReviews(res.data);
-    };
     getReviews();
   }, []);
 
-  const handleAddReview = (): void => {
+  const handleEdit = (postNum: number): void => {
     setModalOpen(true);
+    setPostNum(postNum);
   };
 
-  const onClose = (e: React.ChangeEvent<any>): void => {
-    setModalOpen(false);
-  };
-
-  const handleEdit = (): void => {
-    alert('edit');
-  };
-
-  const handleDelete = (): void => {
-    alert('delete');
+  const handleDelete = (postNum: number) => {
+    alert('Are you sure you want to delete?');
+    axios.delete(`/post/${postNum}`).then((res) => {
+      console.log(res);
+      axios.get(`/user/${userNum}`).then((res) => {
+        setReviews(res.data.user.post);
+      });
+    });
   };
 
   return (
     <ReviewPage>
       {modalOpen && (
-        <PostFormModal onClose={onClose} setModalOpen={setModalOpen} />
+        <PostFormModal
+          setModalOpen={setModalOpen}
+          setPostNum={setPostNum}
+          postNum={postNum}
+        />
       )}
       <Header />
       <ReviewContainer>
         <Title>review management</Title>
         <ReviewManagement>
-          <ReviewButton onClick={handleAddReview}>+ review</ReviewButton>
+          <ReviewButton onClick={() => setModalOpen(true)}>
+            + review
+          </ReviewButton>
           <ReviewList>
-            {reviews.map(({ id, name, src }) => (
+            {reviews.map(({ storeName, id, img, postNum, likeUsers }) => (
               <ReviewItem key={id}>
                 <ReviewImageBox>
                   <ImageHover className="imageHover">
                     <ManagementBox>
-                      <button onClick={handleEdit}>
+                      <button
+                        onClick={() => {
+                          handleEdit(postNum);
+                        }}
+                      >
                         <MdOutlineModeEdit />
                       </button>
-                      <button onClick={handleDelete}>
+                      <button
+                        onClick={() => {
+                          handleDelete(postNum);
+                        }}
+                      >
                         <RiDeleteBin6Fill />
                       </button>
                     </ManagementBox>
-                    <Likes>컴포넌트 삽입</Likes>
                   </ImageHover>
-                  <Image src={src} alt="thumbnail" />
+                  <Image src={img[0]} alt={storeName}></Image>
                 </ReviewImageBox>
-                <div>{name}</div>
+                <Likes>
+                  <span>
+                    <AiFillHeart />
+                  </span>
+                  <span>{likeUsers.length}</span>
+                </Likes>
               </ReviewItem>
             ))}
           </ReviewList>

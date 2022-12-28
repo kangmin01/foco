@@ -38,22 +38,27 @@ const CreatableSelectBox = (props: any) => {
     }
   };
 
+  const handleChange = (newValue: any) => {
+    if (newValue.length > 3) return;
+    setValue(newValue);
+  };
+
   useEffect(() => {
-    props.setState(value.map((x: any) => x.value));
-  }, [value]);
+    props.setPostFormData((prev: any) => ({
+      ...prev,
+      [props.name]: value.map((x: any) => x.value),
+    }));
+  }, [inputValue, value]);
 
   return (
     <CreatableSelect
       inputValue={inputValue}
       isMulti={true}
-      onChange={(newValue: any) => {
-        if (newValue.length > 3) return;
-        setValue(newValue);
-      }}
+      onChange={handleChange}
       onInputChange={(newValue) => setInputValue(newValue)}
       onKeyDown={handleKeyDown}
       value={value}
-      options={props.type === 'mood' ? moodsOption : foodsOption}
+      options={props.name === 'mood' ? moodsOption : foodsOption}
       placeholder={props.placeholder}
     />
   );
