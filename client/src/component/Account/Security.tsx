@@ -54,7 +54,7 @@ const Security = () => {
       const userNum = localStorage.getItem('userNum');
 
       axios
-        .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
+        .get(`user/${userNum}`, { params })
         .then((res) => {
           const data = res.data.user;
           setUserData((prev) => ({

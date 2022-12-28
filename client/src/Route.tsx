@@ -37,18 +37,18 @@ export const ROUTE = {
     element: ForgotPassword,
   },
   PROFILE: {
-    path: '/user/profile',
-    link: '/user/profile',
+    path: '/profile',
+    link: '/profile',
     element: Profile,
   },
   SECURITY: {
-    path: '/user/security',
-    link: '/user/security',
+    path: '/security',
+    link: '/security',
     element: Security,
   },
   DEACTIVATE: {
-    path: '/user/deactivate',
-    link: '/user/deactivate',
+    path: '/deactivate',
+    link: '/deactivate',
     element: Deactivate,
   },
   REVIEW: {

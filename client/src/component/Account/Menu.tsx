@@ -31,7 +31,7 @@ const Menu = () => {
     const { params }: any = useParams;
     const getUserData = () => {
       axios
-        .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
+        .get(`user/${userNum}`, { params })
         .then((res) => {
           const data = res.data.user;
           setInfo({
@@ -60,7 +60,7 @@ const Menu = () => {
             <HiUserCircle />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>Profile</Link>
+            <Link to={ROUTE.PROFILE.link}>Profile</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -68,7 +68,7 @@ const Menu = () => {
             <HiShieldCheck />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.SECURITY.link}/${userNum}`}>Security</Link>
+            <Link to={ROUTE.SECURITY.link}>Security</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -76,7 +76,7 @@ const Menu = () => {
             <HiCog6Tooth />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.DEACTIVATE.link}/${userNum}`}>Deactivate</Link>
+            <Link to={ROUTE.DEACTIVATE.link}>Deactivate</Link>
           </MenuBtn>
         </Item>
       </ItemBox>
