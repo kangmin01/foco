@@ -22,6 +22,8 @@ import {
 interface userData {
   email: string;
   password: string;
+  newPassword: string;
+  newPassword2: string;
 }
 
 interface errorData {
@@ -33,9 +35,9 @@ const Security = () => {
   const [userData, setUserData] = useState<userData>({
     email: '',
     password: '',
+    newPassword: '',
+    newPassword2: '',
   });
-  const [newPwd, setNewPwd] = useState<String>();
-  const [confirmPwd, setConfirmPwd] = useState<String>();
 
   const [error, setError] = useState<errorData>({
     passwordError: '',
@@ -43,7 +45,7 @@ const Security = () => {
   });
 
   const validateConfirmPassword = (password: string) => {
-    return password === newPwd;
+    return password === userData.newPassword;
   };
 
   useEffect(() => {
@@ -55,7 +57,10 @@ const Security = () => {
         .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
         .then((res) => {
           const data = res.data.user;
-          setUserData({ email: data.email, password: data.password });
+          setUserData((prev) => ({
+            ...prev,
+            email: data.email,
+          }));
         })
         .catch((error) => {
           console.log(error);
@@ -63,6 +68,8 @@ const Security = () => {
     };
     getUserData();
   }, []);
+
+  console.log(userData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'password') {
@@ -76,7 +83,10 @@ const Security = () => {
           ...prev,
           passwordError: '',
         }));
-        setNewPwd(e.target.value);
+        setUserData((prev) => ({
+          ...prev,
+          newPassword: e.target.value,
+        }));
       }
     } else if (e.target.name === 'confirmPassword') {
       if (!validateConfirmPassword(e.target.value)) {
@@ -89,21 +99,27 @@ const Security = () => {
           ...prev,
           confirmPasswordError: '',
         }));
-        setConfirmPwd(e.target.value);
+        setUserData((prev) => ({
+          ...prev,
+          newPassword2: e.target.value,
+        }));
       }
+    } else if (e.target.name === 'currentPassword') {
+      setUserData((prev) => ({
+        ...prev,
+        password: e.target.value,
+      }));
     }
   };
 
   const handleSubmit = () => {
-    const data = { userData, newPwd, confirmPwd };
-    console.log(data);
     if (error.passwordError !== '') {
       alert(error.passwordError);
     } else if (error.confirmPasswordError !== '') {
       alert(error.confirmPasswordError);
     } else {
       axios
-        .patch('/user/password', data)
+        .patch('/user/password', userData)
         .then((res) => {
           alert('Password Changed!');
           console.log(res);
@@ -134,7 +150,7 @@ const Security = () => {
                 <InputBox>
                   <Input
                     type="password"
-                    name="current password"
+                    name="currentPassword"
                     onChange={handleChange}
                     placeholder="Current password"
                   />
