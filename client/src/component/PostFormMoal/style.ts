@@ -8,7 +8,7 @@ export const Modal = styled.form`
   align-items: center;
   justify-content: center;
   position: fixed;
-  z-index: 100;
+  z-index: 999;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
@@ -176,7 +176,7 @@ export const Image = styled.div`
 `;
 
 export const ImageOver = styled.div`
-  z-index: 999;
+  z-index: 900;
 
   display: flex;
   flex-direction: column;

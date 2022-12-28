@@ -67,9 +67,18 @@ const AddImages = (props: any) => {
     setSelectedImages([]);
   };
 
+  // useEffect(() => {
+  //   if (props.img !== undefined) {
+  //     setSelectedImages(props.img);
+  //   }
+  //   props.setPreview([...selectedImages]);
+  // }, []);
+
   useEffect(() => {
+    setSelectedImages(props.img);
+
     props.setPreview([...selectedImages]);
-  }, [selectedImages]);
+  }, [props.img]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
