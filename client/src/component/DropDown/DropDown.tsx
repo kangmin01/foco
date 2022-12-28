@@ -10,7 +10,7 @@ const DropDown = (props: any) => {
   const [country, setCountry] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
 
-  console.log(countries);
+  // console.log(countries);
   const options = countries.map((x) => {
     if (props.title != 'My BookMark') {
       return {
