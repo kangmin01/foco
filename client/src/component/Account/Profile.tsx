@@ -31,7 +31,7 @@ interface inputData {
   email: string;
   name: string;
   country: string;
-  img: string;
+  img: any;
 }
 
 const Profile = () => {
@@ -41,14 +41,15 @@ const Profile = () => {
     country: '',
     img: '',
   });
+  const [imgData, setImgData] = useState<any>([]);
   const [countries, setCountries] = useState<any[]>([]);
   const [error, setError] = useState<string>('');
+  const userNum = localStorage.getItem('userNum');
 
   const getUserData = async () => {
     const { params }: any = useParams;
-    const userNum = sessionStorage.getItem('userNum');
 
-    axios
+    await axios
       .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
@@ -105,13 +106,12 @@ const Profile = () => {
   };
 
   const insertImg = (e: any) => {
-    const file = e.target.files[0];
     const reader = new FileReader();
+    const file = e.target.files[0];
 
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
     }
-
     reader.onloadend = () => {
       const previewImgUrl = reader.result;
       if (previewImgUrl) {
@@ -122,22 +122,44 @@ const Profile = () => {
       }
     };
 
-    // const upload = new AWS.S3.ManagedUpload({
-    //   params: {
-    //     Bucket: [S3 버킷명],
-    //     Key: [파일명] + ".jpg",
-    //     Body: file,
-    //   },
-    // });
+    setImgData(file);
   };
-
-  console.log(info);
-
   const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append('image', imgData);
+    console.log(formData);
     if (error === '') {
-      alert('SUCCESS');
+      axios
+        .post('/user/upload', formData)
+        .then((res) => {
+          const newImg = res.data;
+          console.log(newImg);
+          const newInfo = {
+            name: info.name,
+            country: info.country,
+            img: newImg,
+          };
+          console.log(newInfo);
+          axios
+            .patch(`/user/${userNum}`, newInfo)
+            .then((res) => {
+              const userName = newInfo.name;
+              const userCountry = newInfo.country;
+              localStorage.setItem('userName', userName);
+              localStorage.setItem('userCountry', userCountry);
+              alert('SUCCESS');
+              console.log(res);
+            })
+            .catch((err) => {
+              alert('Please Check Your Info');
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      alert('ERROR CHECK!');
+      alert('Please Check Your Info');
     }
   };
 

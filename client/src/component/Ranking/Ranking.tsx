@@ -109,12 +109,13 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
+            <img src={content.img[0]} alt={content.storeName}></img>
             <MdZoomOutMap
               onClick={() => {
                 openCotentModal(content.postNum);
               }}
+              className="openButton"
             />
-            <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
       })}

@@ -25,32 +25,26 @@ const Menu = () => {
     name: '',
     img: '',
   });
-  const userNum = sessionStorage.getItem('userNum');
-
-  const getUserData = async () => {
-    const { params }: any = useParams;
-
-    axios
-      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
-      .then((res) => {
-        const data = res.data.user;
-        setInfo({
-          name: data.name,
-          img: '',
-        });
-        console.log(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const userNum = localStorage.getItem('userNum');
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getUserData();
+    const { params }: any = useParams;
+    const getUserData = () => {
+      axios
+        .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
+        .then((res) => {
+          const data = res.data.user;
+          setInfo({
+            name: data.name,
+            img: data.img,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-    fetchData();
-  }, []);
+    getUserData();
+  }, [userNum]);
 
   return (
     <MenuContainer>
