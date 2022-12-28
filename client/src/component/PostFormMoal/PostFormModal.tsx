@@ -91,63 +91,79 @@ const PostFormModal = (props: any) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(postFormData.country);
+    // console.log(postFormData.country);
 
-    if (userCountry !== postFormData.country) {
+    if (!postFormData.storeName) {
+      alert('Write store name!');
+      return;
+    } else if (!postFormData.address) {
+      alert('Write address!');
+      return;
+    } else if (userCountry !== postFormData.country) {
       alert('You can only write posts that correspond to your country!');
-    } else {
-      const formData = new FormData();
-
-      if (files?.length === undefined) {
-        alert('Please Add Image!');
-        return;
-      } else {
-        for (let i = 0; i < files?.length; i++) {
-          formData.append('images', files[i]);
-        }
-      }
-
-      axios.post('/post/upload', formData).then(async (response) => {
-        const imgList = [...response.data];
-        const postData = {
-          ...postFormData,
-          img: imgList,
-          name: userName,
-          country: userCountry,
-        };
-
-        // 새로운 글을 작성한다면 post 요청
-        if (props.postNum == 0) {
-          await axios
-            .post('/post', postData)
-            .then(async (response) => {
-              console.log(response);
-              alert('success post!');
-              await axios
-                .post(`/user/${response.data.post._id}/${userNum}`)
-                .then((response) => console.log(response))
-                .catch((error) => console.log(error));
-
-              props.setModalOpen(false);
-            })
-            .catch((error) => console.log(error));
-        } else {
-          // 기존 글이라면 patch 요청
-          await axios
-            .patch(`/post/${props.postNum}`, postData)
-            .then(async (response) => {
-              console.log(response);
-              alert('success patch!');
-              props.setModalOpen(false);
-            })
-            .catch((error) => console.log(error));
-        }
-      });
+      return;
+    } else if (!postFormData.grade) {
+      alert("You can't give 0 points!");
+      return;
+    } else if (!files.length) {
+      alert('Please Add Image!');
+      return;
+    } else if (!postFormData.mood.length) {
+      alert('Write mood!');
+      return;
+    } else if (!postFormData.foodType.length) {
+      alert('Write food!');
+      return;
+    } else if (!postFormData.review) {
+      alert('Write review!');
+      return;
     }
+
+    const formData = new FormData();
+    for (let i = 0; i < files?.length; i++) {
+      formData.append('images', files[i]);
+    }
+
+    axios.post('/post/upload', formData).then(async (response) => {
+      const imgList = [...response.data];
+      const postData = {
+        ...postFormData,
+        img: imgList,
+        name: userName,
+        country: userCountry,
+      };
+
+      // 새로운 글을 작성한다면 post 요청
+      if (props.postNum == 0) {
+        await axios
+          .post('/post', postData)
+          .then(async (response) => {
+            console.log(response);
+            alert('success post!');
+            await axios
+              .post(`/user/${response.data.post._id}/${userNum}`)
+              .then((response) => console.log(response))
+              .catch((error) => console.log(error));
+
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        // 기존 글이라면 patch 요청
+        await axios
+          .patch(`/post/${props.postNum}`, postData)
+          .then(async (response) => {
+            console.log(response);
+            alert('success patch!');
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      }
+    });
   };
 
   useEffect(() => {
-    // console.log(postFormData);
+    console.log(!postFormData.mood.length);
   }, [userName, userCountry, userNum, files, preview, strLength, postFormData]);
 
   return (
@@ -171,6 +187,7 @@ const PostFormModal = (props: any) => {
           <Intro>
             <Title>
               <input
+                required
                 name="storeName"
                 onChange={handleChange}
                 className="store"
@@ -180,6 +197,7 @@ const PostFormModal = (props: any) => {
             </Title>
             <Address>
               <LocationSearchInput
+                required
                 setPostFormData={setPostFormData}
                 address={content?.address}
               />
@@ -201,11 +219,13 @@ const PostFormModal = (props: any) => {
           </ImageBox>
           <Tag>
             <CreatableSelectBox
+              required
               setPostFormData={setPostFormData}
               name="mood"
               placeholder="Mood"
             />
             <CreatableSelectBox
+              required
               setPostFormData={setPostFormData}
               name="foodType"
               placeholder="Food"
@@ -213,6 +233,7 @@ const PostFormModal = (props: any) => {
           </Tag>
           <Review>
             <textarea
+              required
               name="review"
               onKeyUp={checkString}
               onChange={handleChange}

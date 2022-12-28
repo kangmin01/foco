@@ -61,7 +61,7 @@ const AddImages = (props: any) => {
           </Image>
           <ImageOver>
             <ImageItemButton>
-              <button onClick={() => handleRemoveImage(idx)}>
+              <button type="button" onClick={() => handleRemoveImage(idx)}>
                 <RiCloseFill />
               </button>
             </ImageItemButton>
@@ -104,7 +104,9 @@ const AddImages = (props: any) => {
             multiple
           />
         </label>
-        <button onClick={handleRemoveAllImages}>전체 삭제</button>
+        <button type="button" onClick={handleRemoveAllImages}>
+          전체 삭제
+        </button>
       </ImageButton>
       <ImageList>
         {selectedImages.length !== 0 && (

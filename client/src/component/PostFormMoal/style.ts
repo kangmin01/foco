@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { GlobalStyle } from '../../GlobalStyle';
 
-export const Modal = styled.div`
+export const Modal = styled.form`
   width: 100vw;
   height: 100vh;
   display: flex;
