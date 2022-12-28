@@ -22,5 +22,6 @@ export const SelectBoxWrapper = styled.div`
   &:nth-child(2) {
     display: flex;
     align-items: center;
+    margin-bottom: 150px !important;
   }
 `;
