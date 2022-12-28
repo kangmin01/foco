@@ -2,9 +2,12 @@ import { userModel, userModelType } from "../models";
 import { UserInterface, LoginInterface } from "../models/schemas/user";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { secretKey } from "../config";
+import { secretKey,
+    SMTPPW,
+    SMTPID} from "../config";
 import dotenv from "dotenv";
 import differenceInDays from "date-fns/differenceInDays";
+import nodemailer from "nodemailer";
 
 dotenv.config;
 
@@ -152,7 +155,7 @@ class UserService {
         const user = await this.User.findOne({email});
         if (!user) {
             throw new Error (
-                '가입되지 않은 회원입니다.'
+                '가입하지 않은 이메일입니다.'
             );}
         const hashedPassword = user.password;
         const isPassword = await bcrypt.compare(
@@ -183,7 +186,7 @@ class UserService {
 
         if (!user) {
             throw new Error (
-                '가입되지 않은 회원입니다.'
+                '가입하지 않은 이메일입니다.'
             );}
 
         const hashedPassword = user.password;
@@ -209,6 +212,56 @@ class UserService {
             }
         }
         
+    }
+
+    async passwordInitialization(email: string) {
+        const user = await this.User.findOne({email: email});
+        if(!user) {
+            throw new Error(
+                '가입하지 않은 이메일입니다.'
+            )
+        } else {
+            const resetPw = Math.random().toString(36).substring(2);
+            const smtpTransport = nodemailer.createTransport({
+                service: 'Naver',
+                host: 'smtp.naver.com',
+                auth: {
+                    user: SMTPID,
+                    pass: SMTPPW,
+                },
+                port: 465,
+                tls: {
+                    rejectUnauthorized: false,
+                }
+            });
+
+            const mailOptions = {
+                from: `FOCO<${SMTPID}>`,
+                to: email,
+                subject: '[FOCO 비밀번호 초기화]',
+                text: `비밀번호를 ${resetPw}로 초기화 했습니다. 로그인 후 비밀번호를 변경해 주세요`
+            };
+
+            try {
+                await smtpTransport.sendMail(mailOptions);
+            } catch (err) {
+                throw new Error('비밀번호 초기화 메일 전송 실패');
+            }
+
+            try {
+                const password = await bcrypt.hash(resetPw, 10);
+                await this.User.findOneAndUpdate(
+                    {email},
+                    {password: password},
+                    {new: true}).exec();
+            } catch(err) {
+                throw new Error('비밀번호 초기화 실패');
+            }
+            return {
+                status: 'OK',
+                message: '비밀번호 초기화 및 메일 전송 성공'
+            }
+        }
     }
 }
 
