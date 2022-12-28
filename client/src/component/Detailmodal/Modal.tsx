@@ -25,8 +25,9 @@ import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import ScrollHorizontal from 'react-scroll-horizontal';
-// import ScrollMenu from 'react-horizontal-scrolling-menu';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { Icontent } from '../Icontent';
+// import { ScrollMenu } from 'react-horizontal-scrolling-menu/dist/types';
 
 interface Iprops {
   postNum: number;
@@ -36,7 +37,7 @@ interface Iprops {
 }
 
 const Modal = (props: Iprops) => {
-  const [data, setData] = useState<Icontent>();
+  const [data, setData] = useState<any>();
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('lightgray');
@@ -158,7 +159,25 @@ const Modal = (props: Iprops) => {
       window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
   }, []);
+  type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
+  const onWheel = (
+    apiObj: scrollVisibilityApiType,
+    ev: React.WheelEvent
+  ): void => {
+    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+    if (isThouchpad) {
+      ev.stopPropagation();
+      return;
+    }
+
+    if (ev.deltaY < 0) {
+      apiObj.scrollNext();
+    } else if (ev.deltaY > 0) {
+      apiObj.scrollPrev();
+    }
+  };
   return (
     <ModalBackground>
       <ModalWrapper>
@@ -195,10 +214,12 @@ const Modal = (props: Iprops) => {
         </TitleWrapper>
         <Box>
           <ImgBox>
-            {/* <ScrollHorizontal> */}
-            {data?.img.map((img: string) => {
-              return <ItemB src={img} alt={data.storeName} />;
-            })}
+            {/* <ScrollHorizontal className="scrollh"> */}
+            <ScrollMenu onWheel={onWheel}>
+              {data?.img.map((img: string) => {
+                return <ItemB src={img} alt={data.storeName} />;
+              })}
+            </ScrollMenu>
             {/* </ScrollHorizontal> */}
           </ImgBox>
           <Content>
