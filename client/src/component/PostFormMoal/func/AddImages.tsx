@@ -8,15 +8,15 @@ import {
 } from '../style';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from './Arrows';
-
 import { useState, useEffect } from 'react';
-
 import { RiCloseFill } from 'react-icons/ri';
+
+import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
-  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     props.setFiles(e.target.files);
 
     if (e.target.files) {
@@ -28,6 +28,25 @@ const AddImages = (props: any) => {
         return;
       }
 
+      const compressImage = async (image: File) => {
+        try {
+          const options = {
+            maxSizeMb: 1,
+            maxWidthOrHeight: 200,
+          };
+          return await imageCompression(image, options);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      if (e.target.files !== null) {
+        for (let i = 0; e.target.files.length; i++) {
+          compressImage(e.target.files[i]);
+        }
+      }
+
+      // blob url 생성
       const fileArray: string[] = Array.from(e.target.files).map((file: any) =>
         URL.createObjectURL(file)
       );
