@@ -145,6 +145,7 @@ export const ImgBox = styled.div`
     display: none;
   }
   & .react-horizontal-scrolling-menu--wrapper {
+    margin-left: 0.2vw;
     width: 100%;
     & img {
       margin-right: 0.5rem;
