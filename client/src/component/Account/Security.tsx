@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { validatePassword } from '../util/usefulFunctions';
 import Menu from './Menu';
-import { ROUTE } from '../../Route';
 import {
   AccountContainer,
   ContentsBox,
