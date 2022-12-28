@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Cookies } from 'react-cookie';
 import axios from 'axios';
 import Menu from './Menu';
 import { ROUTE } from '../../Route';
@@ -16,31 +17,67 @@ import {
   Button,
 } from './account-style';
 
+interface inputData {
+  email: string;
+  password: string;
+}
+
 const Deactivate = () => {
-  const [email, setEmail] = useState<String>();
-
-  const getUserData = async () => {
-    const { params }: any = useParams;
-    const userNum = sessionStorage.getItem('userNum');
-
-    axios
-      .get(`${ROUTE.DEACTIVATE.link}/${userNum}`, { params })
-      .then((res) => {
-        const data = res.data.user;
-        setEmail(data.email);
-        console.log(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const cookies = new Cookies();
+  const navigate = useNavigate();
+  const userNum = localStorage.getItem('userNum');
+  const [info, setInfo] = useState<inputData>({
+    email: '',
+    password: '',
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getUserData();
+    const { params }: any = useParams;
+    const getUserData = async () => {
+      await axios
+        .get(`${ROUTE.DEACTIVATE.link}/${userNum}`, { params })
+        .then((res) => {
+          const data = res.data.user;
+          setInfo((prev) => ({
+            ...prev,
+            email: data.email,
+          }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-    fetchData();
-  }, [email]);
+    getUserData();
+  }, [userNum]);
+
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInfo((prev) => ({
+      ...prev,
+      password: e.target.value,
+    }));
+  };
+
+  const handleDelete = () => {
+    if (window.confirm('Are you sure you want to delete your account?')) {
+      cookies.remove('token', { path: '/' });
+      axios
+        .delete('/user', { data: info })
+        .then((res) => {
+          cookies.remove('token');
+          localStorage.clear();
+          alert('Delete Your Account');
+          navigate(`${ROUTE.HOME.link}`);
+        })
+        .catch((err) => {
+          alert('Please Check Your Password');
+          console.log(err);
+        });
+    } else {
+      alert('Canceled');
+    }
+  };
+
+  console.log(info);
 
   return (
     <AccountContainer>
@@ -52,17 +89,17 @@ const Deactivate = () => {
             <InfoItem>
               <Label htmlFor="nickname">
                 <p>Email</p>
-                <FixedValue>{email}</FixedValue>
+                <FixedValue>{info.email}</FixedValue>
               </Label>
             </InfoItem>
             <InfoItem>
               <Label htmlFor="password">
                 <p>Password</p>
-                <Input type="password" />
+                <Input type="password" onChange={handleChangePassword} />
               </Label>
             </InfoItem>
           </DeactivateBox>
-          <Button>Delete my account</Button>
+          <Button onClick={handleDelete}>Delete my account</Button>
         </MainContainer>
       </ContentsBox>
     </AccountContainer>

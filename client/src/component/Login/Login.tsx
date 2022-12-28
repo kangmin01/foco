@@ -100,15 +100,16 @@ const Login = () => {
           localStorage.setItem('userNum', userNum);
           localStorage.setItem('userName', userName);
           localStorage.setItem('userCountry', userCountry);
+          alert('Success Login!');
+          navigate(`${ROUTE.HOME.link}`);
           console.log(res);
         })
         .catch((error) => {
           console.log(error);
+          alert('Please Check Your Email or Password!');
         });
-      alert('Success Login!');
-      navigate(`${ROUTE.HOME.link}`);
     } else {
-      alert('Please Check Your Info!');
+      alert('Please Check Your Email or Password!');
     }
   };
 
@@ -143,7 +144,7 @@ const Login = () => {
           Log in
         </SubmitBtn>
         <Register>
-          Don't have an account?
+          Don't have an account?{' '}
           <span>
             <Link to={'/register'}>Register</Link>
           </span>

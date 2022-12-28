@@ -31,6 +31,7 @@ interface userData {
   email: string;
   password: string;
   country: string;
+  img: string;
 }
 
 interface errorData {
@@ -49,6 +50,7 @@ const Register = () => {
     email: '',
     password: '',
     country: '',
+    img: 'https://foco-images.s3.ap-northeast-2.amazonaws.com/1672209773539_basic_profile.jpg',
   });
 
   const [error, setError] = useState<errorData>({
@@ -166,15 +168,16 @@ const Register = () => {
       axios
         .post('/user/register', info)
         .then((res) => {
+          alert('Success Register!');
+          navigate(`${ROUTE.LOGIN.link}`);
           console.log(res);
         })
         .catch((error) => {
-          console.log(error);
+          alert('This email has already been used.');
+          console.log(error.response.data);
         });
-      alert('WELCOME');
-      navigate(`${ROUTE.LOGIN.link}`);
     } else {
-      alert('FAILED');
+      alert('Please Check Your Info!');
     }
   };
 

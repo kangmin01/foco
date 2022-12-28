@@ -9,6 +9,7 @@ import { HeaderWrapper, Title, Icons, UserBox, MenuBox, Menu } from './style';
 import { ROUTE } from '../../Route';
 
 const Header = () => {
+  const userNum = localStorage.getItem('userNum');
   const [show, setShow] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -47,13 +48,9 @@ const Header = () => {
 
   const UserMenu = () => {
     const handleLogout = () => {
-      cookies.remove('token');
+      cookies.remove('token', { path: '/' });
       localStorage.clear();
-      setIsLogin(false);
     };
-
-    const cookies = new Cookies();
-    const userNum = sessionStorage.getItem('userNum');
 
     return (
       <MenuBox>
