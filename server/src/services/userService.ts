@@ -144,19 +144,7 @@ class UserService {
     }
 
     async updateUser(userNum: any, userInfo: UserInterface) {
-        // const user = await this.User.findOne({ email: userInfo.email });
-        // const hashedPassword = userInfo.password
-        // ? await bcrypt.hash(userInfo.password, 10)
-        // : null;
-        // const userInfoUpdated = {
-        // ...user,
-        // ...(hashedPassword ? { password: hashedPassword } : {}),
-        // };
-        // return await this.User.findOneAndUpdate(
-        // { name: userInfo.name },
-        // userInfoUpdated
-        // );
-        return await this.User.findOneAndUpdate({userNum}, { $set: userInfo}).exec();
+        return await this.User.findOneAndUpdate({userNum}, { $set: userInfo}, {new: true}).exec();
     }
 
     async deleteUser(loginInfo: LoginInterface) {
@@ -180,11 +168,47 @@ class UserService {
         
     }
 
+    //유저 게시글 db에 추가
     async addUserPost(id: any, userNum: any) {
         return await this.User.findOneAndUpdate(
             {userNum}, 
             {$push: {post: id}}
             ,{new: true}).exec();
+    }
+
+    //유저 비밀번호 수정
+    async userPasswordUpdate(loginInfo: LoginInterface, newPassword: any, newPassword2: any) {
+        const { email, password } = loginInfo;
+        const user = await this.User.findOne({email: email});
+
+        if (!user) {
+            throw new Error (
+                '가입되지 않은 회원입니다.'
+            );}
+
+        const hashedPassword = user.password;
+        const isPassword = await bcrypt.compare(
+            password,
+            hashedPassword
+        )
+        if (!isPassword) {
+            throw new Error('비밀번호가 일치하지 않습니다.');
+        }
+        else {
+            const newHashedPassword = await bcrypt.hash(newPassword, 10);
+            if (newPassword !== newPassword2) {
+                throw new Error(
+                    '변경할 비밀번호가 일치하지 않습니다.'
+                )
+            }
+            else {
+                return await this.User.findOneAndUpdate(
+                    {email},
+                    {password: newHashedPassword},
+                    {new: true}).exec();
+            }
+        }
+        
     }
 }
 
