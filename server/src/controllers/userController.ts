@@ -12,6 +12,7 @@ interface userControllerInterface {
     registerUser: AsyncRequestHandler;
     addUserPost: AsyncRequestHandler;
     userPasswordUpdate: AsyncRequestHandler;
+    passwordInitialization: AsyncRequestHandler;
 }
 
 export const userController: userControllerInterface = {
@@ -73,6 +74,11 @@ export const userController: userControllerInterface = {
         const newPassword = req.body.newPassword;
         const newPassword2 = req.body.newPassword2;
         const user = await userService.userPasswordUpdate({ email, password }, newPassword, newPassword2);
+        res.json(user);
+    },
+    async passwordInitialization(req, res) {
+        const email = req.body.email;
+        const user = await userService.passwordInitialization(email);
         res.json(user);
     }
 };
