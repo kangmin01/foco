@@ -19,7 +19,8 @@ import {
   Button,
 } from './account-style';
 
-interface inputData {
+interface userData {
+  email: string;
   password: string;
 }
 
@@ -29,9 +30,12 @@ interface errorData {
 }
 
 const Security = () => {
-  const [info, setInfo] = useState<inputData>({
+  const [userData, setUserData] = useState<userData>({
+    email: '',
     password: '',
   });
+  const [newPwd, setNewPwd] = useState<String>();
+  const [confirmPwd, setConfirmPwd] = useState<String>();
 
   const [error, setError] = useState<errorData>({
     passwordError: '',
@@ -39,8 +43,26 @@ const Security = () => {
   });
 
   const validateConfirmPassword = (password: string) => {
-    return password === info.password;
+    return password === newPwd;
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const { params }: any = useParams;
+      const userNum = localStorage.getItem('userNum');
+
+      axios
+        .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
+        .then((res) => {
+          const data = res.data.user;
+          setUserData({ email: data.email, password: data.password });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getUserData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'password') {
@@ -54,10 +76,7 @@ const Security = () => {
           ...prev,
           passwordError: '',
         }));
-        setInfo((prev) => ({
-          ...prev,
-          [e.target.name]: e.target.value,
-        }));
+        setNewPwd(e.target.value);
       }
     } else if (e.target.name === 'confirmPassword') {
       if (!validateConfirmPassword(e.target.value)) {
@@ -70,41 +89,29 @@ const Security = () => {
           ...prev,
           confirmPasswordError: '',
         }));
+        setConfirmPwd(e.target.value);
       }
     }
   };
 
-  const [email, setEmail] = useState<String>();
-
-  const getUserData = async () => {
-    const { params }: any = useParams;
-    const userNum = sessionStorage.getItem('userNum');
-
-    axios
-      .get(`${ROUTE.SECURITY.link}/${userNum}`, { params })
-      .then((res) => {
-        const data = res.data.user;
-        setEmail(data.email);
-        console.log(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await getUserData();
-    };
-    fetchData();
-  }, [email]);
-
   const handleSubmit = () => {
-    if (error.passwordError === '' && error.confirmPasswordError === '') {
-      alert('비밀번호 변경 성공');
-      console.log(info);
+    const data = { userData, newPwd, confirmPwd };
+    console.log(data);
+    if (error.passwordError !== '') {
+      alert(error.passwordError);
+    } else if (error.confirmPasswordError !== '') {
+      alert(error.confirmPasswordError);
     } else {
-      alert('내용확인!');
+      axios
+        .patch('/user/password', data)
+        .then((res) => {
+          alert('Password Changed!');
+          console.log(res);
+        })
+        .catch((err) => {
+          alert('Please Check Your Password');
+          console.log(err);
+        });
     }
   };
 
@@ -118,12 +125,28 @@ const Security = () => {
             <InfoItem>
               <Label htmlFor="nickname">
                 <p>Email</p>
-                <FixedValue>{email}</FixedValue>
+                <FixedValue>{userData.email}</FixedValue>
               </Label>
             </InfoItem>
             <InfoItem>
               <Label htmlFor="password">
-                <p>Password</p>
+                <p>Current Password</p>
+                <InputBox>
+                  <Input
+                    type="password"
+                    name="current password"
+                    onChange={handleChange}
+                    placeholder="Current password"
+                  />
+                  <Errormsg>
+                    <p>{}</p>
+                  </Errormsg>
+                </InputBox>
+              </Label>
+            </InfoItem>
+            <InfoItem>
+              <Label htmlFor="password">
+                <p>New Password</p>
                 <InputBox>
                   <Input
                     type="password"
