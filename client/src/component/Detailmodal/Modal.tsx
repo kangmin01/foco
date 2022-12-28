@@ -38,7 +38,7 @@ const Modal = (props: Iprops) => {
   const [data, setData] = useState<Icontent>();
   const [count, setCount] = useState(0);
   const [heart, setHeart] = useState<string>('');
-  const [spoon, setSpoon] = useState<string>('lightgray');
+  const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
 
   // 데이터 불러오기
@@ -51,6 +51,7 @@ const Modal = (props: Iprops) => {
 
       // 좋아요 유저 확인
       checkLikeUser(res);
+      checkBookMarkUser();
     });
   };
 
@@ -64,12 +65,34 @@ const Modal = (props: Iprops) => {
     });
   };
 
+  const checkBookMarkUser = () => {
+    return axios({
+      method: 'get',
+      url: `/bookmark/${userNum}`,
+    }).then((res) => {
+      res.data.filter((x: any) => {
+        if (x.postNum == props.postNum) {
+          setSpoon('gold');
+        } else {
+          setSpoon('lightgray');
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       await getData();
     };
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await checkBookMarkUser();
+  //   };
+  //   fetchData();
+  // }, [spoon]);
 
   // 좋아요 업데이트시, page reload
   useEffect(() => {
@@ -130,7 +153,6 @@ const Modal = (props: Iprops) => {
       },
     }).then((res) => {
       console.log(res);
-      // props.setLike(res.data.likeCount);
     });
   };
 
