@@ -6,7 +6,6 @@ import Select from 'react-select';
 const DropDown = (props: any) => {
   const [countries, setCountries] = useState<any[]>([]);
   const [path, setPath] = useState<string[]>([]);
-
   const options = countries.map((x) => {
     return {
       value: x.properties.name,
@@ -58,9 +57,17 @@ const DropDown = (props: any) => {
     findCordinates(selected.value);
   };
 
+  const handleCountry = (selected: any) => {
+    props.setCountry(selected.value);
+  };
+
   return (
     <DropDownWrapper>
-      <Select options={options} placeholder="Country" onChange={handleChange} />
+      <Select
+        options={options}
+        placeholder="Country"
+        onChange={props.setCountry ? handleCountry : handleChange}
+      />
     </DropDownWrapper>
   );
 };

@@ -4,15 +4,14 @@ import DropDown from '../DropDown/DropDown';
 import MultiSelectBox from '../MultiSelectBox/MultiSelectBox';
 
 const BookMark = () => {
-  // bookmark 서버 연결 전 임시로 데이터 넣음
-  const [country, setCountry] = useState<string>('South Korea');
-
+  const [country, setCountry] = useState<string>('');
+  const title: string = 'My BookMark';
   return (
     <BookMarkWrapper>
-      <BookMarkTitle>My BookMark</BookMarkTitle>
+      <BookMarkTitle>{title}</BookMarkTitle>
       <SelectBoxWrapper>
-        <DropDown />
-        <MultiSelectBox country={country} />
+        <DropDown setCountry={setCountry} title={title} />
+        <MultiSelectBox country={country} title={title} />
       </SelectBoxWrapper>
     </BookMarkWrapper>
   );
