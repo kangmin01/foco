@@ -22,13 +22,19 @@ const MultiSelectBox = (props: Iprops) => {
   const [moodSelect, setMoodSelect] = useState<string | undefined>();
   const [foodSelect, setFoodSelect] = useState<string | undefined>();
   console.log(props.country);
+  const userNum = localStorage.getItem('userNum');
 
   const getData = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}`,
+      //url: `/post?country=${props.country}`,
+      url:
+        props.title != 'My BookMark'
+          ? `/post?country=${props.country}`
+          : `/bookmark/${userNum}?country=${props.country}`,
     }).then((res) => {
       setData(res.data);
+      console.log(res.data);
     });
   };
 
@@ -37,7 +43,7 @@ const MultiSelectBox = (props: Iprops) => {
       await getData();
     };
     fetchData();
-  }, []);
+  }, [props.country]);
 
   const getSelectData = () => {
     let url = '';

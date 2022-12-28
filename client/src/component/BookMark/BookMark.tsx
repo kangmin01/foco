@@ -10,7 +10,7 @@ const BookMark = () => {
     <BookMarkWrapper>
       <BookMarkTitle>{title}</BookMarkTitle>
       <SelectBoxWrapper>
-        <DropDown setCountry={setCountry} />
+        <DropDown setCountry={setCountry} title={title} />
         <MultiSelectBox country={country} title={title} />
       </SelectBoxWrapper>
     </BookMarkWrapper>
