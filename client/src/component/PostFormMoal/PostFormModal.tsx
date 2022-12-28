@@ -221,13 +221,14 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            {content?.img && (
+            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
+            {/* {content?.img && (
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
                 img={content?.img}
               ></AddImages>
-            )}
+            )} */}
             {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
             {/* {content?.img ? (
               <AddImages
