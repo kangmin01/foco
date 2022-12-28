@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { validateNickname } from '../util/usefulFunctions';
 import Menu from './Menu';
-import { ROUTE } from '../../Route';
 import { FaCamera } from 'react-icons/fa';
 import {
   AccountContainer,
