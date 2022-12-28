@@ -54,13 +54,13 @@ const Header = () => {
 
     return (
       <MenuBox>
-        <Link to={`${ROUTE.REVIEW.link}/${userNum}`}>
+        <Link to={ROUTE.REVIEW.link}>
           <Menu>
             <FaPen />
             <span>My Review</span>
           </Menu>
         </Link>
-        <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>
+        <Link to={ROUTE.PROFILE.link}>
           <Menu>
             <FaCog />
             <span>Account</span>
@@ -94,7 +94,6 @@ const Header = () => {
             {show ? isLogin ? <UserMenu /> : <LoginMenu /> : null}
           </UserBox>
           <Link to={ROUTE.BOOKMARK.link}>
-            {/* 얘도 userNum해야하지 않는지 물어보기 */}
             <ImSpoonKnife />
           </Link>
         </Icons>

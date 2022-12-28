@@ -110,6 +110,7 @@ export const Title = styled.div`
   justify-content: center;
   font-family: 'Rubik Spray Paint', cursive;
   width: 100%;
+  margin: 0 10px;
 `;
 export const StoreName = styled.div`
   font-weight: 400;
@@ -137,19 +138,20 @@ export const Box = styled.div`
 export const ImgBox = styled.div`
   display: flex;
   flex-direction: row;
-  width: 30vw;
-  margin-left: 18%;
+  // flex-direction: column;
+  width: 38vw;
+  margin-left: 10%;
   padding: 0.5rem;
   height: 25vh;
-  /* 
-  & :scroll {
-    width: 70%;
-  } */
-
+  // height: 25vh;
+  overflow-x: scroll;
+  :: -webkit-scrollbar {
+    display: none;
+  }
   // 스크롤 오류가 변하지 않을 경우를 대비한 예비 코드
   // overflow-x: hidden;
   // overflow-y: scroll;
-  // transform: rotate(-90deg) translateY(-100px);
+  // transform: rotate(-90deg) translateX(270px) translateY(-700px);
   // transform-origin: right top;
   // :: -webkit-scrollbar {
   //   width: 1px;
@@ -167,6 +169,7 @@ export const ItemB = styled.img`
   flex-direction: row;
   border-radius: 10%;
   object-fit: scale-down;
+  // transform: rotate(90deg);
   + img {
     margin-left: 1rem;
   }
@@ -186,13 +189,16 @@ export const TagBox = styled.div`
 
 // 본문 - 하단- 텍스트
 export const TextBox = styled.div`
-  margin-top: 1rem;
+  margin-top: 2rem;
   font-size: 1.5vh;
   width: 90%;
   line-height: 1.8vh;
   letter-spacing: 2px;
   word-spacing: 3px;
   height: 100%;
+  white-space: normal;
+  word-break: break-all;
+
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 10px;
