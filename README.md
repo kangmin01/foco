@@ -23,13 +23,31 @@
 
 ## 🍟개발 환경
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
+
+
 협업 툴: 깃랩, 노션, 지라
+![GitLab](https://img.shields.io/badge/gitlab-444444?style=for-the-badge&logo=gitlab)
+![Notion](https://img.shields.io/badge/notion-444444?style=for-the-badge&logo=notion)
+![Jirra](https://img.shields.io/badge/jirra-444444?style=for-the-badge&logo=jirra)
+
 시스템: `yarn`
+![Yarn](https://img.shields.io/badge/yarn-444444?style=for-the-badge&logo=yarn)
+
 사용 언어: `TypeScript`
+![HTML5](https://img.shields.io/badge/html5-444444?style=for-the-badge&logo=html)
+![CSS3](https://img.shields.io/badge/css-444444?style=for-the-badge&logo=css)
+![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
+
 라이브러리: `React`, `Styled-Component`, `Axios`
+![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
+![styled-component](https://img.shields.io/badge/styled-component-444444?style=for-the-badge&logo=styled-component)
+![Axios](https://img.shields.io/badge/axios-444444?style=for-the-badge&logo=axios)
+
 훅: `useState`, `useEffect`, `useRef`, `useNavigate`, `useParams`, `Cookies` 등
+
 그 외: `ESLint`, `Prettier`
+![ESLint](https://img.shields.io/badge/eslint-444444?style=for-the-badge&logo=eslint)
+![Prettier](https://img.shields.io/badge/prettier-444444?style=for-the-badge&logo=prettier)
 
 ## 🍖개발 규칙
 ### 커밋컨벤션
