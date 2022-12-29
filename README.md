@@ -22,25 +22,30 @@
 한승주 (ESTP): Only One, 단 하나의 백엔드
 
 ## 🍟개발 환경
-협업 툴: 
+협업 툴
+
 ![GitLab](https://img.shields.io/badge/gitlab-444444?style=for-the-badge&logo=gitlab)
 ![Notion](https://img.shields.io/badge/notion-444444?style=for-the-badge&logo=notion)
 ![Jira](https://img.shields.io/badge/jira-444444?style=for-the-badge&logo=jira)
 
-시스템: 
+시스템
+
 ![Yarn](https://img.shields.io/badge/yarn-444444?style=for-the-badge&logo=yarn)
 
-사용 언어: 
+사용 언어
+
 ![HTML5](https://img.shields.io/badge/html5-444444?style=for-the-badge&logo=html5)
 ![CSS3](https://img.shields.io/badge/css3-444444?style=for-the-badge&logo=css3)
 ![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
 
-라이브러리: 
+라이브러리
+
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
 ![styled-components](https://img.shields.io/badge/styled-components-444444?style=for-the-badge&logo=styled-components)
 ![Axios](https://img.shields.io/badge/axios-444444?style=for-the-badge&logo=axios)
 
-그 외: 
+그 외
+
 ![ESLint](https://img.shields.io/badge/eslint-444444?style=for-the-badge&logo=eslint)
 ![Prettier](https://img.shields.io/badge/prettier-444444?style=for-the-badge&logo=prettier)
 
