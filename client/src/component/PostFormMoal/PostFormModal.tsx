@@ -79,6 +79,7 @@ const PostFormModal = (props: any) => {
       setStrLength(500);
     }
   };
+  console.log('df', files);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -95,8 +96,8 @@ const PostFormModal = (props: any) => {
     } else if (!postFormData.grade) {
       alert("You can't give 0 points!");
       return;
-    } else if (!files.length || !content?.img) {
-      console.log('bb', content?.img);
+    } else if (!files.length) {
+      console.log('bb', files.length);
       alert('Please Add Image!');
       return;
     } else if (!postFormData.mood.length) {
@@ -114,11 +115,11 @@ const PostFormModal = (props: any) => {
     for (let i = 0; i < files?.length; i++) {
       formData.append('images', files[i]);
     }
-    console.log(formData);
+    console.log('files', files);
 
     axios.post('/api/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
-      // console.log(imgList);
+      console.log(imgList);
       // setImg(imgList);
       const postData = {
         ...postFormData,
@@ -132,7 +133,7 @@ const PostFormModal = (props: any) => {
         await axios
           .post('/api/post', postData)
           .then(async (response) => {
-            // console.log(response);
+            console.log(response);
             alert('success post!');
             await axios
               .post(`/api/user/${response.data.post._id}/${userNum}`)
@@ -169,6 +170,8 @@ const PostFormModal = (props: any) => {
       });
     };
     getContents();
+    console.log('content', content);
+    console.log('content', content?.storeName);
   }, []);
 
   return (
@@ -229,7 +232,7 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview} ></AddImages> */}
+            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
             {/* {content?.img && (
               <AddImages
                 setFiles={setFiles}
