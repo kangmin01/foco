@@ -17,6 +17,7 @@ import {
   ReviewPage,
   ManagementBox,
   Likes,
+  JungBox,
 } from './style';
 import { MdOutlineModeEdit } from 'react-icons/md';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
@@ -39,7 +40,7 @@ const Post = () => {
 
   useEffect(() => {
     getReviews();
-  }, [reviews]);
+  }, []);
 
   const handleClick = (postNum: number) => {
     setContentModalOpen(true);
@@ -88,32 +89,33 @@ const Post = () => {
           <ReviewList>
             {reviews.map(({ storeName, img, postNum, likeUsers }) => (
               <ReviewItem key={postNum}>
-                <ReviewImageBox>
-                  <ImageHover
-                    className="imageHover"
-                    onClick={() => {
-                      handleClick(postNum);
-                    }}
-                  >
-                    <ManagementBox>
-                      <button
-                        onClick={() => {
-                          handleEdit(postNum);
-                        }}
-                      >
-                        <MdOutlineModeEdit />
-                      </button>
-                      <button
-                        onClick={() => {
-                          handleDelete(postNum);
-                        }}
-                      >
-                        <RiDeleteBin6Fill />
-                      </button>
-                    </ManagementBox>
-                  </ImageHover>
-                  <Image src={img[0]} alt={storeName}></Image>
-                </ReviewImageBox>
+                <JungBox>
+                  <ManagementBox>
+                    <button
+                      onClick={() => {
+                        handleEdit(postNum);
+                      }}
+                    >
+                      <MdOutlineModeEdit />
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleDelete(postNum);
+                      }}
+                    >
+                      <RiDeleteBin6Fill />
+                    </button>
+                  </ManagementBox>
+                  <ReviewImageBox>
+                    <ImageHover
+                      className="imageHover"
+                      onClick={() => {
+                        handleClick(postNum);
+                      }}
+                    ></ImageHover>
+                    <Image src={img[0]} alt={storeName}></Image>
+                  </ReviewImageBox>
+                </JungBox>
                 <Likes>
                   <span>
                     <AiFillHeart />

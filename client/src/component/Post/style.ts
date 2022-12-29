@@ -28,18 +28,19 @@ export const ReviewManagement = styled.div`
 `;
 
 export const ReviewButton = styled.button`
-  width: 140px;
-  font-size: 20px;
+  width: 110px;
+  font-size: 18px;
   padding: 12px;
-  border-radius: 30px;
-  border: 1px solid gray;
+  border-radius: 10px;
+  border: none;
   margin: 80px 0;
   margin-right: 90px;
   align-self: flex-end;
-
+  font-weight: 600;
+  background-color: #d8aaaa;
+  color: #fff;
   &:hover {
-    background-color: white;
-    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 40%) 0px 2px 4px 0px inset;
   }
 `;
 
@@ -58,48 +59,10 @@ export const ReviewItem = styled.div`
   margin: 30px;
 `;
 
-export const ReviewImageBox = styled.div`
-  width: 300px;
-  height: 300px;
-  margin-bottom: 15px;
-  z-index: 5;
-
-  &:hover .imageHover {
-    z-index: 100;
-    cursor: pointer;
-  }
-`;
-
-export const ImageHover = styled.div`
-  // z-index: 5;
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.4);
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-`;
-
-export const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: relative;
-  border-radius: 10px;
-  // width: auto;
-  // height: auto;
-  // max-width: 300px;
-  // max-height: 300px;
-`;
-
 export const ManagementBox = styled.div`
   display: flex;
-  // z-index: 5;
+  z-index: 50;
+  position: absolute;
 
   & button {
     display: flex;
@@ -120,6 +83,53 @@ export const ManagementBox = styled.div`
       margin-right: 30px;
     }
   }
+`;
+
+export const ReviewImageBox = styled.div`
+  width: 300px;
+  height: 300px;
+  margin-bottom: 15px;
+  z-index: 5;
+
+  &:hover .imageHover {
+    z-index: 100;
+    cursor: pointer;
+  }
+`;
+
+export const JungBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+`;
+
+export const ImageHover = styled.div`
+  // z-index: 5;
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  border-radius: 10px;
+  // width: auto;
+  // height: auto;
+  // max-width: 300px;
+  // max-height: 300px;
 `;
 
 export const Likes = styled.div`

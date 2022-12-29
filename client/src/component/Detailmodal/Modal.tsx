@@ -18,6 +18,7 @@ import {
   StoreInfo,
   CloseIcon,
   ItemB,
+  ButtonBox,
 } from './style';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
@@ -27,6 +28,7 @@ import { IoClose } from 'react-icons/io5';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ROUTE } from '../../Route';
 import { Rating } from 'react-simple-star-rating';
+import PostFormModal from '../PostFormMoal/PostFormModal';
 
 interface Iprops {
   [x: string]: any;
@@ -42,6 +44,7 @@ const Modal = (props: Iprops) => {
   const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
   const [user, setUser] = useState<any>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false); // post form
 
   // 콘텐트 데이터 불러오기
   const getData = () => {
@@ -55,6 +58,7 @@ const Modal = (props: Iprops) => {
       checkBookMarkUser();
     });
   };
+
   // 좋아요 업데이트시, page reload
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +72,7 @@ const Modal = (props: Iprops) => {
     const res = await axios.get(`/user/${userNum}`);
     setUser(res.data.user.img);
   };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -81,6 +86,7 @@ const Modal = (props: Iprops) => {
     }
     setHeart('pink');
   };
+
   const checkBookMarkUser = () => {
     return axios({
       method: 'get',
@@ -104,6 +110,7 @@ const Modal = (props: Iprops) => {
       props.setLike(res.data.likeCount);
     });
   };
+
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
@@ -112,6 +119,7 @@ const Modal = (props: Iprops) => {
       props.setLike(res.data.likeCount);
     });
   };
+
   const clickHeart = () => {
     if (heart === 'pink') {
       setHeart('red');
@@ -134,6 +142,7 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
+
   const deleteBookmark = () => {
     return axios({
       method: 'delete',
@@ -146,6 +155,7 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
+
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
@@ -154,6 +164,19 @@ const Modal = (props: Iprops) => {
       setSpoon('lightgray');
       deleteBookmark();
     }
+  };
+
+  const handleEdit = (postNum: number): void => {
+    setModalOpen(true);
+    // setPostNum(props.postNum);
+  };
+
+  const handleDelete = (postNum: number) => {
+    alert('Are you sure you want to delete?');
+    axios.delete(`/post/${postNum}`).then((res) => {
+      console.log(res);
+      props.closeModal();
+    });
   };
 
   // 모달 창 떴을 시 배경 스크롤 막기
@@ -197,6 +220,13 @@ const Modal = (props: Iprops) => {
   }
   return (
     <ModalBackground>
+      {modalOpen && (
+        <PostFormModal
+          setModalOpen={setModalOpen}
+          // setPostNum={setPostNum}
+          postNum={props.postNum}
+        />
+      )}
       <ModalWrapper>
         <TitleWrapper>
           <IconsWrapper>

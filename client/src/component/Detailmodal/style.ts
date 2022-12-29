@@ -11,7 +11,7 @@ export const ModalBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 999;
 `;
 // 모달
 export const ModalWrapper = styled.div`
@@ -203,5 +203,15 @@ export const TextBox = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background: #ccc;
+  }
+`;
+
+export const ButtonBox = styled.div`
+  // background-color: pink;
+  display: flex;
+  justify-content: center;
+
+  & button {
+    margin: 0 10px;
   }
 `;

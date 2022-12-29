@@ -15,6 +15,8 @@ import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  // console.log('>', selectedImages);
+  // console.log('>>', props.img);
   const [filesList, setFilesList] = useState<any>([]);
 
   let compressedImageList: any[] = [];
@@ -71,8 +73,16 @@ const AddImages = (props: any) => {
   useEffect(() => {
     // setSelectedImages(props.img);
     props.setFiles([...filesList]);
+    // console.log(filesList);
     // props.setPreview([...selectedImages]);
-  }, [selectedImages, filesList]);
+  }, [filesList]);
+
+  useEffect(() => {
+    // console.log(props.img); >> s3 링크
+    // setSelectedImages(props.img ? props.img : []);
+    // setFilesList(props.img ? props.img : []);
+    setSelectedImages(props.img ? props.img : []);
+  }, [props.img]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
@@ -127,7 +137,7 @@ const AddImages = (props: any) => {
           />
         </label>
         <button type="button" onClick={handleRemoveAllImages}>
-          전체 삭제
+          All Delete
         </button>
       </ImageButton>
       <ImageList>

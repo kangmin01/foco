@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Select from 'react-select';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { validateNickname } from '../util/usefulFunctions';
 import Menu from './Menu';
 import { FaCamera } from 'react-icons/fa';
@@ -49,7 +50,7 @@ const Profile = () => {
     const { params }: any = useParams;
 
     await axios
-      .get(`user/${userNum}`, { params })
+      .get(`/user/${userNum}`, { params })
       .then((res) => {
         const data = res.data.user;
         setInfo({
@@ -65,7 +66,9 @@ const Profile = () => {
   };
 
   const getCountriesName = async () => {
-    const res = await axios.get('http://localhost:4000/Data/worldmap.json');
+    const res = await axios.get(
+      'http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json'
+    );
     setCountries(res.data.objects.world.geometries);
   };
 
@@ -144,10 +147,10 @@ const Profile = () => {
               const userCountry = newInfo.country;
               localStorage.setItem('userName', userName);
               localStorage.setItem('userCountry', userCountry);
-              alert('Profile Change Completed');
+              SuccessAlert('Profile Change Completed');
             })
             .catch((err) => {
-              alert('Please Check Your Info');
+              InfoAlert('Please Check Your Info');
               console.log(err);
             });
         })
@@ -155,7 +158,7 @@ const Profile = () => {
           console.log(err);
         });
     } else {
-      alert('Please Check Your Info');
+      InfoAlert('Please Check Your Info');
     }
   };
 

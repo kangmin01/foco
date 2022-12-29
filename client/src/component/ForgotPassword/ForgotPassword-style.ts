@@ -53,6 +53,7 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 40px;
   width: 80%;
 `;
 
@@ -73,7 +74,7 @@ export const Input = styled.input`
 `;
 
 export const Email = styled(Input)`
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 `;
 
 export const Errormsg = styled.div`

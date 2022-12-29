@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ROUTE } from '../../Route';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { Cookies } from 'react-cookie';
-import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
 import {
   LoginContainer,
@@ -16,9 +16,6 @@ import {
   ForgotPassword,
   SubmitBtn,
   Register,
-  SocialLoin,
-  GoogleBtn,
-  Border,
 } from './login-style';
 
 interface inputData {
@@ -99,15 +96,15 @@ const Login = () => {
           localStorage.setItem('userNum', userNum);
           localStorage.setItem('userName', userName);
           localStorage.setItem('userCountry', userCountry);
-          alert('Success Login!');
+          SuccessAlert('Success Login!');
           navigate(`${ROUTE.HOME.link}`);
         })
         .catch((error) => {
           console.log(error);
-          alert('Please Check Your Email or Password!');
+          InfoAlert('Please Check Your Email or Password!');
         });
     } else {
-      alert('Please Check Your Email or Password!');
+      InfoAlert('Please Check Your Email or Password!');
     }
   };
 
@@ -147,13 +144,6 @@ const Login = () => {
             <Link to={'/register'}>Register</Link>
           </span>
         </Register>
-        <Border>OR</Border>
-        <SocialLoin>
-          <GoogleBtn>
-            <FaGoogle />
-            <span>Login with Google</span>
-          </GoogleBtn>
-        </SocialLoin>
       </InnerBox>
     </LoginContainer>
   );

@@ -34,6 +34,7 @@ interface postFormDataType {
   foodType: string[];
   city: string;
   country: string;
+  img: string[];
 }
 
 const PostFormModal = (props: any) => {
@@ -44,12 +45,13 @@ const PostFormModal = (props: any) => {
   const userName = localStorage.getItem('userName');
   const userCountry = localStorage.getItem('userCountry');
   const userNum = localStorage.getItem('userNum');
+  const [prev, setPrev] = useState<string[]>([]);
 
   // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
   const [postFormData, setPostFormData] = useState<postFormDataType>({
-    // storeName: content?.storeName,
-    storeName: '',
+    storeName: content?.storeName,
+    // storeName: '',
     review: '',
     grade: 0,
     address: '',
@@ -60,6 +62,7 @@ const PostFormModal = (props: any) => {
     foodType: [],
     city: '',
     country: '',
+    img: [],
   });
 
   const handleChange = (e: any): void => {
@@ -81,28 +84,29 @@ const PostFormModal = (props: any) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!postFormData.storeName) {
+    if (postFormData.storeName === '') {
       alert('Write store name!');
       return;
-    } else if (!postFormData.address) {
+    } else if (postFormData.address === '') {
       alert('Write address!');
       return;
     } else if (userCountry !== postFormData.country) {
       alert('You can only write posts that correspond to your country!');
       return;
-    } else if (!postFormData.grade) {
+    } else if (postFormData.grade < 0.5) {
       alert("You can't give 0 points!");
       return;
-    } else if (!files.length) {
-      alert('Please Add Image!');
-      return;
-    } else if (!postFormData.mood.length) {
+    } else if (files.length === 0) {
+      // console.log('bb', files.length);
+      // alert('Please Add Image!');
+      // return;
+    } else if (postFormData.mood.length === 0) {
       alert('Write mood!');
       return;
-    } else if (!postFormData.foodType.length) {
+    } else if (postFormData.foodType.length === 0) {
       alert('Write food!');
       return;
-    } else if (!postFormData.review) {
+    } else if (postFormData.review === '') {
       alert('Write review!');
       return;
     }
@@ -111,15 +115,19 @@ const PostFormModal = (props: any) => {
     for (let i = 0; i < files?.length; i++) {
       formData.append('images', files[i]);
     }
+    console.log('files는 뭐지', files);
+    console.log('원래 있던 ', postFormData.img);
+    console.log('prev ', prev);
 
     axios.post('/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
-      // console.log(imgList);
+      console.log('s3 링크 부여', imgList);
       // setImg(imgList);
       const postData = {
         ...postFormData,
         userNum,
-        img: imgList,
+        // img: [...content?.img, ...imgList],
+        img: [...prev, ...imgList],
         name: userName,
         country: userCountry,
       };
@@ -143,7 +151,7 @@ const PostFormModal = (props: any) => {
         await axios
           .patch(`/post/${props.postNum}`, postData)
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             alert('success patch!');
             props.setModalOpen(false);
           })
@@ -153,21 +161,23 @@ const PostFormModal = (props: any) => {
   };
 
   useEffect(() => {
+    console.log('start');
     // console.log(postFormData);
     const getContents = async () => {
       return await axios({
         method: 'get',
         url: `/post/${props.postNum}`,
       }).then((res) => {
-        // console.log(res.data);
+        console.log('모달 데이터 받음', res.data);
         setContent(res.data);
+        setPrev(res.data.img);
         // setPostFormData(res.data);
       });
     };
     getContents();
-    // console.log(content?.storeName);
-    // console.log(content?.img);
-  }, [props.postNum, files, strLength, postFormData]);
+    console.log('content', content);
+    // console.log('content', content?.storeName);
+  }, []);
 
   return (
     <Modal>
@@ -202,12 +212,12 @@ const PostFormModal = (props: any) => {
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                // address={content?.city}
+                address={content?.city}
               />
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                // address={content?.address}
+                address={content?.address}
                 type="address"
               />
               {/* {content?.address && (
@@ -227,27 +237,18 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
-            {/* {content?.img && (
+            {content?.img ? (
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
                 img={content?.img}
-              ></AddImages>
-            )} */}
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
-            {/* {content?.img ? (
-              <AddImages
-                setFiles={setFiles}
-                setPreview={setPreview}
-                img={content.img}
               ></AddImages>
             ) : (
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
               ></AddImages>
-            )} */}
+            )}
             {/* TODO : 이미지 css 적용해서 넣어야함 */}
             {/* {content?.img.map((img: string) => {
               return <img src={img} alt={content?.storeName} />;

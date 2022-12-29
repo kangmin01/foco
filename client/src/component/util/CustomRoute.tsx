@@ -10,7 +10,6 @@ export const PrivateRoute = ({ children }: RequireAuthProps) => {
   if (isLogin() === true) {
     return <>{children}</>;
   } else {
-    alert('Only for logged in users');
     return <Navigate to="/login" />;
   }
 };

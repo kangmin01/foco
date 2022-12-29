@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import Menu from './Menu';
 import { ROUTE } from '../../Route';
 import {
@@ -58,23 +60,35 @@ const Deactivate = () => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete your account?')) {
-      cookies.remove('token', { path: '/' });
-      axios
-        .delete('/user', { data: info })
-        .then((res) => {
-          cookies.remove('token');
-          localStorage.clear();
-          alert('Delete Your Account');
-          navigate(`${ROUTE.HOME.link}`);
-        })
-        .catch((err) => {
-          alert('Please Check Your Password');
-          console.log(err);
-        });
-    } else {
-      alert('Canceled');
-    }
+    const primary = '#517DA6';
+    const red = '#F05757';
+
+    Swal.fire({
+      title: 'Are you sure you want to delete your account?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: primary,
+      cancelButtonColor: red,
+      confirmButtonText: 'Yes',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        Swal.fire({ title: 'Changed!', icon: 'success' });
+        axios
+          .delete('/user', { data: info })
+          .then((res) => {
+            cookies.remove('token', { path: '/' });
+            localStorage.clear();
+            SuccessAlert('Delete Your Account');
+            navigate(`${ROUTE.HOME.link}`);
+          })
+          .catch((err) => {
+            InfoAlert('Please Check Your Password');
+            console.log(err);
+          });
+      } else {
+        InfoAlert('Canceled');
+      }
+    });
   };
 
   return (

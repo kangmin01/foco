@@ -48,8 +48,10 @@ const MainMap = () => {
   const location = useGeoLocation();
 
   const checkMyLocation = () => {
-    const myLocation = location.coordinates;
-    setMyLocation(myLocation);
+    if (location.loaded) {
+      const myLocation = location.coordinates;
+      setMyLocation(myLocation);
+    }
   };
 
   const getPostData = () => {
@@ -57,7 +59,6 @@ const MainMap = () => {
       method: 'get',
       url: `/post`,
     }).then((res) => {
-      // console.log(res);
       setData(res.data);
     });
   };
@@ -65,7 +66,7 @@ const MainMap = () => {
   const getCoordinates = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:4000/Data/coordinates.json',
+      url: 'http://kdt-sw3-team11.elicecoding.com/Data/coordinates.json',
     }).then((res) => {
       setPath(res.data);
     });
@@ -96,12 +97,12 @@ const MainMap = () => {
   });
 
   const mapMarker = zoomInMarkers.map(({ country, name, coordinates }: any) => {
-    let color = '#2c4052';
+    let color = '#ffe88c';
     let width;
     let height;
     let font;
     if (name === currentCity) {
-      color = '#97c6f3';
+      color = '#efb71c';
     }
 
     path.map((content: any) => {
