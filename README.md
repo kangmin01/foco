@@ -15,7 +15,7 @@
 ## 🍔멤버구성
 
 | Name | Position | MBTI | Role | 
-| ------ | ------ |
+| ------ | ------ | ----- | ----- |
 | 홍희선 | FrontEnd | ENFJ | 팀장, main map, ranking, contents, multiSelectbox, dropdown 등 담당, 모든 페이지 총괄 및 해결 |
 | 강민희 | FrontEnd | ENTP | review, post modal, autocomplete 담당 |
 | 김혜지 | FrontEnd | ENFJ | bookmark, modal, route 담당 |
