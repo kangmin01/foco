@@ -6,7 +6,6 @@ import { Icontent } from './../Icontent';
 
 const DropDown = (props: any) => {
   const [countries, setCountries] = useState<any[]>([]);
-  const [path, setPath] = useState<string[]>([]);
   const [country, setCountry] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
 
@@ -26,16 +25,21 @@ const DropDown = (props: any) => {
   });
 
   const findCordinates = (country: string) => {
-    path.map((content: any) => {
-      if (country == content.name) {
-        props.zoomInMap(
-          content.name,
-          content.lat,
-          content.lng,
-          content.width,
-          content.height
-        );
-      }
+    return axios({
+      method: 'get',
+      url: 'http://localhost:4000/Data/coordinates.json',
+    }).then((res) => {
+      res.data.map((content: any) => {
+        if (country == content.name) {
+          props.zoomInMap(
+            content.name,
+            content.lat,
+            content.lng,
+            content.width,
+            content.height
+          );
+        }
+      });
     });
   };
 
@@ -45,15 +49,7 @@ const DropDown = (props: any) => {
       url: 'http://localhost:4000/Data/worldmap.json',
     }).then((res) => {
       setCountries(res.data.objects.world.geometries);
-    });
-  };
-
-  const getCoordinates = () => {
-    return axios({
-      method: 'get',
-      url: 'http://localhost:4000/Data/coordinates.json',
-    }).then((res) => {
-      setPath(res.data);
+      console.log(res.data.objects.world.geometries); //배열임
     });
   };
 
@@ -80,7 +76,6 @@ const DropDown = (props: any) => {
   }, []);
 
   const handleChange = (selected: any) => {
-    getCoordinates();
     findCordinates(selected.value);
   };
 
