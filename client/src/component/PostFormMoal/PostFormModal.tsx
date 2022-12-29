@@ -133,7 +133,7 @@ const PostFormModal = (props: any) => {
       // 새로운 글을 작성한다면 post 요청
       if (!props.postNum) {
         await axios
-          .post('/api/post', postData)
+          .post('/post', postData)
           .then(async (response) => {
             console.log(response);
             alert('success post!');

@@ -70,7 +70,7 @@ const Deactivate = () => {
       confirmButtonColor: primary,
       cancelButtonColor: red,
       confirmButtonText: 'Yes',
-    }).then((result) => {
+    }).then((result: any) => {
       if (result.isConfirmed) {
         Swal.fire({ title: 'Changed!', icon: 'success' });
         axios
