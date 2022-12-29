@@ -1,4 +1,4 @@
-<!-- ![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=1800&height=200&section=header) -->
+![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=1800&height=200&section=header)
 
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
@@ -153,13 +153,6 @@
 
 ---
 
-### 정리
-- useState, useEffect를 주로 사용
-- cookie를 사용해  user 정보 확인, token으로 user 상태 확인
-- 
-
----
-
 ### 페이지
 회원가입페이지
 
@@ -186,4 +179,4 @@
 리뷰모달
 
 
-<!-- ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer) -->
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer)
