@@ -45,6 +45,7 @@ const PostFormModal = (props: any) => {
   const userName = localStorage.getItem('userName');
   const userCountry = localStorage.getItem('userCountry');
   const userNum = localStorage.getItem('userNum');
+  const [prev, setPrev] = useState<string[]>([]);
 
   // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
@@ -83,25 +84,22 @@ const PostFormModal = (props: any) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    console.log(postFormData.storeName);
-    console.log(content?.storeName);
-
     if (postFormData.storeName === '') {
       alert('Write store name!');
       return;
     } else if (postFormData.address === '') {
-      // alert('Write address!');
-      // return;
+      alert('Write address!');
+      return;
     } else if (userCountry !== postFormData.country) {
-      // alert('You can only write posts that correspond to your country!');
-      // return;
+      alert('You can only write posts that correspond to your country!');
+      return;
     } else if (postFormData.grade < 0.5) {
       alert("You can't give 0 points!");
       return;
     } else if (files.length === 0) {
-      console.log('bb', files.length);
-      alert('Please Add Image!');
-      return;
+      // console.log('bb', files.length);
+      // alert('Please Add Image!');
+      // return;
     } else if (postFormData.mood.length === 0) {
       alert('Write mood!');
       return;
@@ -117,16 +115,19 @@ const PostFormModal = (props: any) => {
     for (let i = 0; i < files?.length; i++) {
       formData.append('images', files[i]);
     }
-    console.log('files', files);
+    console.log('files는 뭐지', files);
+    console.log('원래 있던 ', postFormData.img);
+    console.log('prev ', prev);
 
     axios.post('/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
-      console.log(imgList);
+      console.log('s3 링크 부여', imgList);
       // setImg(imgList);
       const postData = {
         ...postFormData,
         userNum,
-        img: imgList,
+        // img: [...content?.img, ...imgList],
+        img: [...prev, ...imgList],
         name: userName,
         country: userCountry,
       };
@@ -147,11 +148,10 @@ const PostFormModal = (props: any) => {
           .catch((error) => console.log(error));
       } else {
         // 기존 글이라면 patch 요청
-        console.log(postData.img);
         await axios
           .patch(`/post/${props.postNum}`, postData)
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             alert('success patch!');
             props.setModalOpen(false);
           })
@@ -161,20 +161,22 @@ const PostFormModal = (props: any) => {
   };
 
   useEffect(() => {
+    console.log('start');
     // console.log(postFormData);
     const getContents = async () => {
       return await axios({
         method: 'get',
         url: `/post/${props.postNum}`,
       }).then((res) => {
-        // console.log(res.data);
+        console.log('모달 데이터 받음', res.data);
         setContent(res.data);
+        setPrev(res.data.img);
         // setPostFormData(res.data);
       });
     };
     getContents();
     console.log('content', content);
-    console.log('content', content?.storeName);
+    // console.log('content', content?.storeName);
   }, []);
 
   return (

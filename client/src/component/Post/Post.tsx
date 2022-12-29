@@ -34,7 +34,7 @@ const Post = () => {
   const userNum = localStorage.getItem('userNum');
 
   const getReviews = async () => {
-    const res = await axios.get(`/api/user/${userNum}`);
+    const res = await axios.get(`/user/${userNum}`);
     setReviews(res.data.user.post);
   };
 
@@ -54,9 +54,9 @@ const Post = () => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios.delete(`/api/post/${postNum}`).then((res) => {
+    axios.delete(`/post/${postNum}`).then((res) => {
       console.log(res);
-      axios.get(`/api/user/${userNum}`).then((res) => {
+      axios.get(`/user/${userNum}`).then((res) => {
         setReviews(res.data.user.post);
       });
     });

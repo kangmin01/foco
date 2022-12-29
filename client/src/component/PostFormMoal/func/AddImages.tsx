@@ -78,6 +78,7 @@ const AddImages = (props: any) => {
   }, [filesList]);
 
   useEffect(() => {
+    // console.log(props.img); >> s3 링크
     // setSelectedImages(props.img ? props.img : []);
     // setFilesList(props.img ? props.img : []);
     setSelectedImages(props.img ? props.img : []);

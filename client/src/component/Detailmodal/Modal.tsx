@@ -50,7 +50,7 @@ const Modal = (props: Iprops) => {
   const getData = () => {
     return axios({
       method: 'get',
-      url: `/api/post/${props.postNum}`,
+      url: `/post/${props.postNum}`,
     }).then((res) => {
       setData(res.data);
       // 좋아요 유저 확인
@@ -69,7 +69,7 @@ const Modal = (props: Iprops) => {
 
   // 유저데이터 불러오기
   const getUser = async () => {
-    const res = await axios.get(`/api/user/${userNum}`);
+    const res = await axios.get(`/user/${userNum}`);
     setUser(res.data.user.img);
   };
 
@@ -90,7 +90,7 @@ const Modal = (props: Iprops) => {
   const checkBookMarkUser = () => {
     return axios({
       method: 'get',
-      url: `/api/bookmark/${userNum}`,
+      url: `/bookmark/${userNum}`,
     }).then((res) => {
       for (const x of res.data) {
         if (x.postNum == props.postNum) {
@@ -105,7 +105,7 @@ const Modal = (props: Iprops) => {
   const increaseHeart = () => {
     return axios({
       method: 'post',
-      url: `/api/post/like/${userNum}/${props.postNum}`,
+      url: `/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -114,7 +114,7 @@ const Modal = (props: Iprops) => {
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
-      url: `/api/post/like/${userNum}/${props.postNum}`,
+      url: `/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -133,7 +133,7 @@ const Modal = (props: Iprops) => {
   const addBookmark = () => {
     return axios({
       method: 'post',
-      url: `/api/bookmark`,
+      url: `/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -146,7 +146,7 @@ const Modal = (props: Iprops) => {
   const deleteBookmark = () => {
     return axios({
       method: 'delete',
-      url: `/api/bookmark`,
+      url: `/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -173,7 +173,7 @@ const Modal = (props: Iprops) => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios.delete(`/api/post/${postNum}`).then((res) => {
+    axios.delete(`/post/${postNum}`).then((res) => {
       console.log(res);
       props.closeModal();
     });
