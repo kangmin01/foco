@@ -34,7 +34,6 @@ interface postFormDataType {
   foodType: string[];
   city: string;
   country: string;
-  img: string[];
 }
 
 const PostFormModal = (props: any) => {
@@ -49,7 +48,8 @@ const PostFormModal = (props: any) => {
   // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
   const [postFormData, setPostFormData] = useState<postFormDataType>({
-    storeName: content?.storeName,
+    // storeName: content?.storeName,
+    storeName: '',
     review: '',
     grade: 0,
     address: '',
@@ -60,7 +60,6 @@ const PostFormModal = (props: any) => {
     foodType: [],
     city: '',
     country: '',
-    img: [],
   });
 
   const handleChange = (e: any): void => {
@@ -81,7 +80,6 @@ const PostFormModal = (props: any) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(postFormData);
 
     if (!postFormData.storeName) {
       alert('Write store name!');
@@ -95,7 +93,7 @@ const PostFormModal = (props: any) => {
     } else if (!postFormData.grade) {
       alert("You can't give 0 points!");
       return;
-    } else if (!postFormData.img.length || !files.length) {
+    } else if (!files.length) {
       alert('Please Add Image!');
       return;
     } else if (!postFormData.mood.length) {
@@ -154,6 +152,7 @@ const PostFormModal = (props: any) => {
   };
 
   useEffect(() => {
+    console.log(postFormData);
     const getContents = async () => {
       return await axios({
         method: 'get',
@@ -161,13 +160,13 @@ const PostFormModal = (props: any) => {
       }).then((res) => {
         // console.log(res.data);
         setContent(res.data);
-        setPostFormData(res.data);
+        // setPostFormData(res.data);
       });
     };
     getContents();
     // console.log(content?.storeName);
     // console.log(content?.img);
-  }, [props.postNum, files, preview, strLength, postFormData]);
+  }, [props.postNum, files, strLength, postFormData]);
 
   return (
     <Modal>
