@@ -68,8 +68,6 @@ const Security = () => {
     getUserData();
   }, []);
 
-  console.log(userData);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'password') {
       if (!validatePassword(e.target.value)) {
@@ -121,7 +119,6 @@ const Security = () => {
         .patch('/user/password', userData)
         .then((res) => {
           alert('Password Changed!');
-          console.log(res);
         })
         .catch((err) => {
           alert('Please Check Your Password');
