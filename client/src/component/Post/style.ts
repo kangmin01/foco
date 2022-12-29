@@ -28,18 +28,19 @@ export const ReviewManagement = styled.div`
 `;
 
 export const ReviewButton = styled.button`
-  width: 140px;
-  font-size: 20px;
+  width: 110px;
+  font-size: 18px;
   padding: 12px;
-  border-radius: 30px;
-  border: 1px solid gray;
+  border-radius: 10px;
+  border: none;
   margin: 80px 0;
   margin-right: 90px;
   align-self: flex-end;
-
+  font-weight: 600;
+  background-color: #d8aaaa;
+  color: #fff;
   &:hover {
-    background-color: white;
-    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 40%) 0px 2px 4px 0px inset;
   }
 `;
 
@@ -112,12 +113,11 @@ export const ImageHover = styled.div`
   position: absolute;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
 `;
 
 export const Image = styled.img`

@@ -66,7 +66,9 @@ const Profile = () => {
   };
 
   const getCountriesName = async () => {
-    const res = await axios.get('http://localhost:4000/Data/worldmap.json');
+    const res = await axios.get(
+      'http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json'
+    );
     setCountries(res.data.objects.world.geometries);
   };
 

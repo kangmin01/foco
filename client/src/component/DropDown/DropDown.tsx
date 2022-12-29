@@ -27,7 +27,7 @@ const DropDown = (props: any) => {
   const findCordinates = (country: string) => {
     return axios({
       method: 'get',
-      url: 'http://localhost:4000/Data/coordinates.json',
+      url: 'http://kdt-sw3-team11.elicecoding.com/Data/coordinates.json',
     }).then((res) => {
       res.data.map((content: any) => {
         if (country == content.name) {
@@ -46,7 +46,7 @@ const DropDown = (props: any) => {
   const getCountriesName = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:4000/Data/worldmap.json',
+      url: 'http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json',
     }).then((res) => {
       setCountries(res.data.objects.world.geometries);
       console.log(res.data.objects.world.geometries); //배열임

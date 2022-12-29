@@ -5,7 +5,7 @@ export const ContentsWrapper = styled.span`
   justify-content: center;
   flex-wrap: wrap;
   width: 1200px;
-  height: 135vh;
+  height: 220vh;
   justify-content: flex-start;
 
   @media screen and (max-width: 1212px) {
