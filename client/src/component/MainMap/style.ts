@@ -7,11 +7,13 @@ export const MapWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-top: 140px;
-  padding-bottom: 145px;
+  padding-top: 90px;
+  /* box-sizing: border-box; */
+  /* padding-bottom: 50px; */
   background-color: #fff;
   & .map {
-    width: 64vw;
+    /* width: 60vw; */
+    width: 65%;
     height: 70vh;
   }
 `;
@@ -23,4 +25,5 @@ export const TopWrapper = styled.div`
 export const BottomWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width: 100%;
 `;
