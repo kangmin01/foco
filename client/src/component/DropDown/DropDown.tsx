@@ -45,7 +45,6 @@ const DropDown = (props: any) => {
       url: 'http://localhost:4000/Data/worldmap.json',
     }).then((res) => {
       setCountries(res.data.objects.world.geometries);
-      console.log(res.data.objects.world.geometries); //배열임
     });
   };
 
