@@ -142,6 +142,7 @@ export const ImgBox = styled.div`
   margin: 0 3%;
   padding: 0.5rem;
   height: 25vh;
+  overflow-y: hidden;
   overflow-x: scroll;
 
   :: -webkit-scrollbar {

@@ -170,11 +170,9 @@ const Register = () => {
         .then((res) => {
           alert('Success Register!');
           navigate(`${ROUTE.LOGIN.link}`);
-          console.log(res);
         })
         .catch((error) => {
           alert('This email has already been used.');
-          console.log(error.response.data);
         });
     } else {
       alert('Please Check Your Info!');

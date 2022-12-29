@@ -14,7 +14,6 @@ import {
   Title,
   Address,
   Rate,
-  Input,
 } from './style';
 import StarRating from './func/StarRating';
 import { IoIosClose } from 'react-icons/io';
@@ -24,7 +23,7 @@ import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
 interface postFormDataType {
-  storeName: string;
+  storeName: string | undefined;
   review: string;
   grade: number;
   address: string;
@@ -40,26 +39,16 @@ interface postFormDataType {
 const PostFormModal = (props: any) => {
   const [files, setFiles] = useState<string[]>([]);
   const [preview, setPreview] = useState<string[]>([]);
-  const [content, setContent] = useState<any>();
+  // const [img, setImg] = useState<string[]>([]);
+  const [content, setContent] = useState<postFormDataType>();
   const userName = localStorage.getItem('userName');
   const userCountry = localStorage.getItem('userCountry');
   const userNum = localStorage.getItem('userNum');
 
   // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
-  useEffect(() => {
-    const getContents = () => {
-      return axios({
-        method: 'get',
-        url: `/post/${props.postNum}`,
-      }).then((res) => {
-        setContent(res.data);
-      });
-    };
-    getContents();
-  }, []);
-
   const [postFormData, setPostFormData] = useState<postFormDataType>({
+    // storeName: content?.storeName,
     storeName: '',
     review: '',
     grade: 0,
@@ -91,7 +80,6 @@ const PostFormModal = (props: any) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // console.log(postFormData.country);
 
     if (!postFormData.storeName) {
       alert('Write store name!');
@@ -125,16 +113,18 @@ const PostFormModal = (props: any) => {
     }
 
     axios.post('/post/upload', formData).then(async (response) => {
-      const imgList = [...response.data];
+      const imgList = [...response.data]; //s3링크
+      // console.log(imgList);
+      // setImg(imgList);
       const postData = {
         ...postFormData,
+        userNum,
         img: imgList,
         name: userName,
         country: userCountry,
       };
-
       // 새로운 글을 작성한다면 post 요청
-      if (props.postNum == 0) {
+      if (!props.postNum) {
         await axios
           .post('/post', postData)
           .then(async (response) => {
@@ -163,8 +153,21 @@ const PostFormModal = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(!postFormData.mood.length);
-  }, [userName, userCountry, userNum, files, preview, strLength, postFormData]);
+    // console.log(postFormData);
+    const getContents = async () => {
+      return await axios({
+        method: 'get',
+        url: `/post/${props.postNum}`,
+      }).then((res) => {
+        // console.log(res.data);
+        setContent(res.data);
+        // setPostFormData(res.data);
+      });
+    };
+    getContents();
+    // console.log(content?.storeName);
+    // console.log(content?.img);
+  }, [props.postNum, files, strLength, postFormData]);
 
   return (
     <Modal>
@@ -191,7 +194,7 @@ const PostFormModal = (props: any) => {
                 name="storeName"
                 onChange={handleChange}
                 className="store"
-                defaultValue={props.postNum != 0 ? content?.storeName : ''}
+                defaultValue={props.postNum ? content?.storeName : ''}
                 placeholder="write store name..."
               ></input>
             </Title>
@@ -199,8 +202,21 @@ const PostFormModal = (props: any) => {
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                address={content?.address}
+                // address={content?.city}
               />
+              <LocationSearchInput
+                required
+                setPostFormData={setPostFormData}
+                // address={content?.address}
+                type="address"
+              />
+              {/* {content?.address && (
+                <LocationSearchInput
+                  required
+                  setPostFormData={setPostFormData}
+                  address={content?.address}
+                />
+              )} */}
             </Address>
             <Rate>
               <StarRating
@@ -212,6 +228,26 @@ const PostFormModal = (props: any) => {
           </Intro>
           <ImageBox>
             <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
+            {/* {content?.img && (
+              <AddImages
+                setFiles={setFiles}
+                setPreview={setPreview}
+                img={content?.img}
+              ></AddImages>
+            )} */}
+            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
+            {/* {content?.img ? (
+              <AddImages
+                setFiles={setFiles}
+                setPreview={setPreview}
+                img={content.img}
+              ></AddImages>
+            ) : (
+              <AddImages
+                setFiles={setFiles}
+                setPreview={setPreview}
+              ></AddImages>
+            )} */}
             {/* TODO : 이미지 css 적용해서 넣어야함 */}
             {/* {content?.img.map((img: string) => {
               return <img src={img} alt={content?.storeName} />;
@@ -220,12 +256,14 @@ const PostFormModal = (props: any) => {
           <Tag>
             <CreatableSelectBox
               required
+              data={content?.mood}
               setPostFormData={setPostFormData}
               name="mood"
               placeholder="Mood"
             />
             <CreatableSelectBox
               required
+              data={content?.foodType}
               setPostFormData={setPostFormData}
               name="foodType"
               placeholder="Food"
@@ -239,7 +277,7 @@ const PostFormModal = (props: any) => {
               onChange={handleChange}
               maxLength={500}
               rows={5}
-              defaultValue={props.postNum != 0 ? content?.review : ''}
+              defaultValue={props.postNum ? content?.review : ''}
               placeholder="I’m pleasure to recommend this restaurant to you:) It’s very delicious! What a Nice Day!"
             />
             <span>( {strLength} / 500 )</span>

@@ -26,7 +26,7 @@ import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ROUTE } from '../../Route';
-import { useParams } from 'react-router-dom';
+import { Rating } from 'react-simple-star-rating';
 
 interface Iprops {
   [x: string]: any;
@@ -38,10 +38,10 @@ interface Iprops {
 
 const Modal = (props: Iprops) => {
   const [data, setData] = useState<any>();
-  const [user, setUser] = useState<any>();
   const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
+  const [user, setUser] = useState<any>();
 
   // 콘텐트 데이터 불러오기
   const getData = () => {
@@ -50,7 +50,6 @@ const Modal = (props: Iprops) => {
       url: `/post/${props.postNum}`,
     }).then((res) => {
       setData(res.data);
-
       // 좋아요 유저 확인
       checkLikeUser(res);
       checkBookMarkUser();
@@ -64,25 +63,14 @@ const Modal = (props: Iprops) => {
     fetchData();
   }, [props.like]);
 
-  // 유저데이터 불러오고싶음
-  const getUserData = async () => {
-    const { params }: any = useParams;
-    await axios
-      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
-      .then((res) => {
-        const user = res.data.user;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  // 유저데이터 불러오기
+  const getUser = async () => {
+    const res = await axios.get(`/user/${userNum}`);
+    setUser(res.data.user.img);
   };
   useEffect(() => {
-    const fetchUserData = async () => {
-      await getUserData();
-    };
-    fetchUserData();
+    getUser();
   }, []);
-  console.log(user);
 
   const checkLikeUser = (res: any) => {
     for (const x of res.data.likeUsers) {
@@ -107,13 +95,6 @@ const Modal = (props: Iprops) => {
       setSpoon('lightgray');
     });
   };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await getData();
-  //   };
-  //   fetchData();
-  // }, []);
 
   const increaseHeart = () => {
     return axios({
@@ -242,9 +223,16 @@ const Modal = (props: Iprops) => {
               <Title>
                 <StoreName>{data?.storeName}</StoreName>
                 <Info>{data?.address}</Info>
-                <Info>{data?.grade}</Info>
+                <Info>
+                  <Rating
+                    size={25}
+                    readonly={true}
+                    initialValue={data?.grade}
+                  />
+                  ({data?.grade})
+                </Info>
               </Title>
-              <Profile>{user?.img}</Profile>
+              <Profile src={user} />
             </StoreInfo>
           </TitleBox>
         </TitleWrapper>

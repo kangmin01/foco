@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import PostFormModal from '../PostFormMoal/PostFormModal';
+import Modal from '../Detailmodal/Modal';
 import {
   ReviewButton,
   ReviewContainer,
@@ -26,6 +27,9 @@ const Post = () => {
   const [postNum, setPostNum] = useState<number>(0);
   const [reviews, setReviews] = useState<any[]>([]);
 
+  const [contentModalOpen, setContentModalOpen] = useState<boolean>(false);
+  const [like, setLike] = useState<number>(0); // ?????
+
   const userNum = localStorage.getItem('userNum');
 
   const getReviews = async () => {
@@ -35,7 +39,12 @@ const Post = () => {
 
   useEffect(() => {
     getReviews();
-  }, []);
+  }, [reviews]);
+
+  const handleClick = (postNum: number) => {
+    setContentModalOpen(true);
+    setPostNum(postNum);
+  };
 
   const handleEdit = (postNum: number): void => {
     setModalOpen(true);
@@ -61,6 +70,14 @@ const Post = () => {
           postNum={postNum}
         />
       )}
+      {contentModalOpen && (
+        <Modal
+          postNum={postNum}
+          closeModal={() => setContentModalOpen(false)}
+          like={like}
+          setLike={setLike}
+        />
+      )}
       <Header />
       <ReviewContainer>
         <Title>review management</Title>
@@ -69,10 +86,15 @@ const Post = () => {
             + review
           </ReviewButton>
           <ReviewList>
-            {reviews.map(({ storeName, id, img, postNum, likeUsers }) => (
-              <ReviewItem key={id}>
+            {reviews.map(({ storeName, img, postNum, likeUsers }) => (
+              <ReviewItem key={postNum}>
                 <ReviewImageBox>
-                  <ImageHover className="imageHover">
+                  <ImageHover
+                    className="imageHover"
+                    onClick={() => {
+                      handleClick(postNum);
+                    }}
+                  >
                     <ManagementBox>
                       <button
                         onClick={() => {

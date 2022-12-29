@@ -8,7 +8,7 @@ export const Modal = styled.form`
   align-items: center;
   justify-content: center;
   position: fixed;
-  z-index: 100;
+  z-index: 999;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
@@ -176,7 +176,7 @@ export const Image = styled.div`
 `;
 
 export const ImageOver = styled.div`
-  z-index: 999;
+  z-index: 900;
 
   display: flex;
   flex-direction: column;
@@ -297,26 +297,38 @@ export const Button = styled.div`
 export const Address = styled.div`
   display: flex;
   font-size: 1.6vh;
+  width: 100%;
 
-  & input:first-child {
-    margin-right: 20px;
-  }
+  & div {
+    width: 40%;
+    // position: relative;
 
-  & .location-search-input {
-    padding: 10px;
-    font-size: 16px;
+    &:first-child {
+      width: 20%;
+      margin-right: 50px;
+    }
+
+    & input {
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      // position: relative;
+    }
   }
 
   & .autocomplete-dropdown-container {
-    // border: 1px solid gray;
-    width: 26vw;
     position: absolute;
+    width: 300px;
+    border-radius: 5px;
+    padding: 10px;
+
     z-index: 2;
     color: gray;
     font-size: 16px;
   }
 
   & .suggestion-item {
+    width: 100%;
     padding-top: 5px;
     margin-bottom: 4px;
   }

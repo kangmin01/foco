@@ -5,17 +5,17 @@ export const ContentsWrapper = styled.span`
   justify-content: center;
   flex-wrap: wrap;
   width: 1200px;
-  height: 105vh;
+  height: 135vh;
   justify-content: flex-start;
 
   @media screen and (max-width: 1212px) {
     width: 100%;
-    height: 135vh;
+    height: 200vh;
     justify-content: center;
   }
-  @media screen and (max-width: 820px) {
+  @media screen and (max-width: 920px) {
     width: 100%;
-    height: 255vh;
+    height: 400vh;
   }
 `;
 
