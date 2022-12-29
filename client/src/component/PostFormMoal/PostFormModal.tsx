@@ -118,6 +118,7 @@ const PostFormModal = (props: any) => {
       // setImg(imgList);
       const postData = {
         ...postFormData,
+        userNum,
         img: imgList,
         name: userName,
         country: userCountry,
@@ -152,7 +153,7 @@ const PostFormModal = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(postFormData);
+    // console.log(postFormData);
     const getContents = async () => {
       return await axios({
         method: 'get',
@@ -201,7 +202,13 @@ const PostFormModal = (props: any) => {
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                address={content?.address}
+                // address={content?.city}
+              />
+              <LocationSearchInput
+                required
+                setPostFormData={setPostFormData}
+                // address={content?.address}
+                type="address"
               />
               {/* {content?.address && (
                 <LocationSearchInput

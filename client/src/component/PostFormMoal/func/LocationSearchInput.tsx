@@ -13,32 +13,49 @@ export function randomId(): string {
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
   const [loading, setLoading] = React.useState(false);
+  // const [place, setPlace] = useState('');
 
   const handleChange = async (address: string) => {
     setAddress(address);
-    props.setPostFormData((prev: any) => ({
-      ...prev,
-      address: address,
-    }));
 
-    const city = await FindCity(address);
-    city.filter((x: any) => {
-      if (x.types[0] === 'administrative_area_level_1') {
-        props.setPostFormData((prev: any) => ({
-          ...prev,
-          city: x.long_name,
-        }));
-      }
-    });
+    if (props.type === 'address') {
+      props.setPostFormData((prev: any) => ({
+        ...prev,
+        address: address,
+      }));
+    } else {
+      const place = address.split(',').map((x) => x.trim());
+      props.setPostFormData((prev: any) => ({
+        ...prev,
+        city: place[0],
+        country: place[1],
+      }));
+    }
 
-    city.filter((x: any) => {
-      if (x.types[0] === 'country') {
-        props.setPostFormData((prev: any) => ({
-          ...prev,
-          country: x.long_name,
-        }));
-      }
-    });
+    // if (props.type === 'address') {
+    //   // props.setPostFormData((prev: any) => ({
+    //   //   ...prev,
+    //   //   address: address,
+    //   // }));
+    // } else {
+    // const city = await FindCity(address);
+    // city.filter((x: any) => {
+    //   if (x.types[0] === 'administrative_area_level_1') {
+    //     props.setPostFormData((prev: any) => ({
+    //       ...prev,
+    //       city: x.long_name,
+    //     }));
+    //   }
+    // });
+    // city.filter((x: any) => {
+    //   if (x.types[0] === 'country') {
+    //     props.setPostFormData((prev: any) => ({
+    //       ...prev,
+    //       country: x.long_name,
+    //     }));
+    //   }
+    // });
+    // }
   };
 
   const handleSelect: any = async (address: any) => {
@@ -60,9 +77,7 @@ const LocationSearchInput: any = (props: any) => {
       });
   };
 
-  useEffect(() => {
-    setAddress(props.address);
-  }, [props.address]);
+  useEffect(() => {}, []);
 
   return (
     <PlacesAutocomplete
@@ -74,7 +89,7 @@ const LocationSearchInput: any = (props: any) => {
         <div>
           <input
             {...getInputProps({
-              placeholder: 'Search Places ...',
+              placeholder: props.type === 'address' ? 'Search address' : 'City',
               className: 'location-search-input',
             })}
           />
