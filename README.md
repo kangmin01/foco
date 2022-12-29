@@ -71,16 +71,13 @@
 - **Icontent**: 자주 사용되는 변수의 타입 지정 모듈화
 - **usefulFunction**: 자주 사용되는 validateNickname, validateEmail, validatePassword 함수 저장
 ---
-<details>
-<summary>#### 회원가입</summary>
-<div markdown="1">
+
+#### 회원가입
 - **이메일**: 이메일 형식 체크
 - **닉네임**: 영어 체크
 - **비밀번호**: 글자 수 체크
 - **비밀번호 확인**: 비밀번호 일치 체크
 - **나라 지정**
-</div>
-</details>
 
 #### 로그인
 ##### cookie로 user의 token 확인
