@@ -7,15 +7,10 @@
 글로벌 user를 타겟으로 해 영어를 기본 언어로 사용합니다.
 사용자가 회원가입 시 지정한 나라에서만 게시글을 작성할 수 있으며 
 
-
----
-
 ## 🍕개발기간
 2022년 12월 11일 ~ 2022년 12월 29일 (약 3주)
 주말 제외 매일 아침 8시 45분 스크럼
 ![image](/uploads/1a4274a76419ed1e00f0edbf1b7bb801/image.png)
-
----
 
 ## 🍔멤버구성
 #### 프론트엔드
@@ -26,8 +21,6 @@
 #### 백엔드
 한승주 (ESTP): Only One, 단 하나의 백엔드
 
----
-
 ## 🍟개발 환경
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
@@ -37,8 +30,6 @@
 라이브러리: `React`, `Styled-Component`, `Axios`
 훅: `useState`, `useEffect`, `useRef`, `useNavigate`, `useParams`, `Cookies` 등
 그 외: `ESLint`, `Prettier`
-
----
 
 ## 🍖개발 규칙
 ### 커밋컨벤션
@@ -59,13 +50,12 @@
 - 변수명 `**camelCase**`
 - components 이름은 **`Pascalcase`**
 
----
-
 ## 🌭주요사항 
 ### 기능
 - **라우트**: ROUTE 모듈화 및 사용
 - **Icontent**: 자주 사용되는 변수의 타입 지정 모듈화
 - **usefulFunction**: 자주 사용되는 validateNickname, validateEmail, validatePassword 함수 저장
+---
 #### 회원가입
 - **이메일**: 이메일 형식 체크
 - **닉네임**: 영어 체크
@@ -90,7 +80,7 @@
 ##### cookie로 user의 token 확인
 - **로그인된 유저** ![image](/uploads/1fbc7501d65638d77e3df500b470e2e9/image.png)
 - **로그아웃 유저** ![image](/uploads/b8eef8ad0c03c47441ade3a7ecba5ab3/image.png)
-
+---
 #### 맵
 ##### 구글 맵 API 사용, 지도에서 특정 나라 선택 시 지정된 나라 확대
 - **드롭다운**
@@ -104,7 +94,8 @@
 #### mutiSelectBox
 ##### Content, Bookmark에서 활용
 - **Content**: 지정 나라와 드롭다운에서 선택한 정보대로 필터링해 content 리턴
-- **Bookmark**: 해당 user의 userNum 확인 
+- **Bookmark**: 해당 user의 userNum 확인
+--- 
 #### 상세 컨텐츠 기능(Content)
 ##### 선택한 나라의 맛집 전체를 확인
 - **나라별**: 맵에서 선택한 나라별로 출력되도록 useParams를 사용해 country 필터링
@@ -113,6 +104,7 @@
 - **컨텐츠**
     - 해당 게시글의 좋아요 수 확인 가능 및 hover 시 지역 확인 가능
     - 포스트된 대표 이미지 클릭 시 모달창으로 이동
+---
 #### 모달
 ##### 서버에서 해당 포스트 불러와 user에게 표출
 - **아이콘 바**
@@ -125,7 +117,7 @@
 - **이미지박스**: 해당 포스트의 이미지 나열, 마우스 휠로 가로 스크롤 구동
 - **텍스트박스**: 해당 포스트의 태그와 코멘트 
 - 모달 밖 배경화면 스크롤 금지 
-
+---
 #### 포스트
 - **포스트 작성 모달**: 해당 포스트의 input 저장 및 서버로 전달
     - 상호명
