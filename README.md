@@ -22,31 +22,21 @@
 한승주 (ESTP): Only One, 단 하나의 백엔드
 
 ## 🍟개발 환경
-협업 툴
-
-![GitLab](https://img.shields.io/badge/gitlab-444444?style=flat&logo=gitlab)
+협업 툴 ![GitLab](https://img.shields.io/badge/gitlab-444444?style=flat&logo=gitlab)
 ![Notion](https://img.shields.io/badge/notion-444444?style=flat&logo=notion)
 ![Jira](https://img.shields.io/badge/jira-444444?style=flat&logo=jira)
 
-시스템
+시스템 ![Yarn](https://img.shields.io/badge/yarn-444444?style=flat&logo=yarn)
 
-![Yarn](https://img.shields.io/badge/yarn-444444?style=flat&logo=yarn)
-
-사용 언어
-
-![HTML5](https://img.shields.io/badge/html5-444444?style=flat&logo=html5)
+사용 언어 ![HTML5](https://img.shields.io/badge/html5-444444?style=flat&logo=html5)
 ![CSS3](https://img.shields.io/badge/css3-444444?style=flat&logo=css3)
 ![TypeScript](https://img.shields.io/badge/typescript-444444?style=flat&logo=typescript)
 
-라이브러리
-
-![React](https://img.shields.io/badge/react-444444?style=flat&logo=react)
+라이브러리 ![React](https://img.shields.io/badge/react-444444?style=flat&logo=react)
 ![StyledComponents](https://img.shields.io/badge/styledcomponents-444444?style=flat&logo=styled-components)
 ![Axios](https://img.shields.io/badge/axios-444444?style=flat&logo=axios)
 
-그 외
-
-![ESLint](https://img.shields.io/badge/eslint-444444?style=flat&logo=eslint)
+그 외 ![ESLint](https://img.shields.io/badge/eslint-444444?style=flat&logo=eslint)
 ![Prettier](https://img.shields.io/badge/prettier-444444?style=flat&logo=prettier)
 
 훅: `useState`, `useEffect`, `useRef`, `useNavigate`, `useParams`, `Cookies` 등
