@@ -119,7 +119,7 @@ const PostFormModal = (props: any) => {
     }
     console.log('files', files);
 
-    axios.post('/api/post/upload', formData).then(async (response) => {
+    axios.post('/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
       console.log(imgList);
       // setImg(imgList);
@@ -138,7 +138,7 @@ const PostFormModal = (props: any) => {
             console.log(response);
             alert('success post!');
             await axios
-              .post(`/api/user/${response.data.post._id}/${userNum}`)
+              .post(`/user/${response.data.post._id}/${userNum}`)
               .then((response) => console.log(response))
               .catch((error) => console.log(error));
 
@@ -149,7 +149,7 @@ const PostFormModal = (props: any) => {
         // 기존 글이라면 patch 요청
         console.log(postData.img);
         await axios
-          .patch(`/api/post/${props.postNum}`, postData)
+          .patch(`/post/${props.postNum}`, postData)
           .then(async (response) => {
             console.log(response);
             alert('success patch!');
@@ -165,7 +165,7 @@ const PostFormModal = (props: any) => {
     const getContents = async () => {
       return await axios({
         method: 'get',
-        url: `/api/post/${props.postNum}`,
+        url: `/post/${props.postNum}`,
       }).then((res) => {
         // console.log(res.data);
         setContent(res.data);
