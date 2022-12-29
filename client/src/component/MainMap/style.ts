@@ -5,13 +5,13 @@ export const MapWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding-top: 140px;
   padding-bottom: 145px;
   background-color: #fff;
   & .map {
-    width: 85%;
+    width: 64vw;
     height: 70vh;
   }
 `;
