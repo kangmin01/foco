@@ -34,7 +34,7 @@
 ![Yarn](https://img.shields.io/badge/yarn-444444?style=for-the-badge&logo=yarn)
 
 사용 언어: 
-![HTML5](https://img.shields.io/badge/html5-red?style=for-the-badge&logo=html5)
+![HTML5](https://img.shields.io/badge/html5-444444?style=for-the-badge&logo=html5)
 ![CSS3](https://img.shields.io/badge/css3-444444?style=for-the-badge&logo=css3)
 ![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
 
