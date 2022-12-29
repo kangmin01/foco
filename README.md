@@ -37,7 +37,7 @@
 
 라이브러리: 
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
-![styled-component](https://img.shields.io/badge/styledcomponent-444444?style=for-the-badge&logo=styledcomponent)
+![styled-components](https://img.shields.io/badge/styled-components-444444?style=for-the-badge&logo=styled-components)
 ![Axios](https://img.shields.io/badge/axios-444444?style=for-the-badge&logo=axios)
 
 그 외: 
