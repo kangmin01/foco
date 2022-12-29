@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { validatePassword } from '../util/usefulFunctions';
 import Menu from './Menu';
 import {
@@ -111,17 +112,17 @@ const Security = () => {
 
   const handleSubmit = () => {
     if (error.passwordError !== '') {
-      alert(error.passwordError);
+      InfoAlert('Must be at 8 characters');
     } else if (error.confirmPasswordError !== '') {
-      alert(error.confirmPasswordError);
+      InfoAlert('Passwords do not match');
     } else {
       axios
         .patch('/user/password', userData)
         .then((res) => {
-          alert('Password Changed!');
+          SuccessAlert('Password Changed!');
         })
         .catch((err) => {
-          alert('Please Check Your Password');
+          InfoAlert('Please Check Your Password');
           console.log(err);
         });
     }
