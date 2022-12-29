@@ -81,5 +81,5 @@
     "prettier": "^2.8.1",
     "styled-components": "^5.3.6"
   },
-  "proxy": "http://localhost:3000"
+  "proxy": "http://34.64.195.10:3001"
 }
