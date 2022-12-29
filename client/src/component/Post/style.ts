@@ -62,25 +62,26 @@ export const ReviewImageBox = styled.div`
   width: 300px;
   height: 300px;
   margin-bottom: 15px;
+  z-index: 5;
 
   &:hover .imageHover {
     z-index: 100;
+    cursor: pointer;
   }
 `;
 
 export const ImageHover = styled.div`
-  // z-index: 10;
+  // z-index: 5;
   width: 300px;
   height: 300px;
   position: absolute;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.4);
-
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 `;
 
@@ -98,6 +99,7 @@ export const Image = styled.img`
 
 export const ManagementBox = styled.div`
   display: flex;
+  // z-index: 5;
 
   & button {
     display: flex;

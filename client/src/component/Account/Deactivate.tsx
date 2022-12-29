@@ -77,8 +77,6 @@ const Deactivate = () => {
     }
   };
 
-  console.log(info);
-
   return (
     <AccountContainer>
       <Title>My Account</Title>

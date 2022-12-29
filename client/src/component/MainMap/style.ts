@@ -11,7 +11,7 @@ export const MapWrapper = styled.div`
   padding-bottom: 145px;
   background-color: #fff;
   & .map {
-    width: 60vw;
+    width: 85%;
     height: 70vh;
   }
 `;
@@ -22,4 +22,5 @@ export const TopWrapper = styled.div`
 
 export const BottomWrapper = styled.div`
   display: flex;
+  justify-content: center;
 `;

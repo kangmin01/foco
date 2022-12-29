@@ -90,7 +90,6 @@ const Login = () => {
       axios
         .post('/user/login', info)
         .then((res) => {
-          console.log(res);
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;
           const userNum = res.data.user.user.userNum;
@@ -102,7 +101,6 @@ const Login = () => {
           localStorage.setItem('userCountry', userCountry);
           alert('Success Login!');
           navigate(`${ROUTE.HOME.link}`);
-          console.log(res);
         })
         .catch((error) => {
           console.log(error);

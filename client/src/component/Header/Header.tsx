@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CookiesProvider, Cookies } from 'react-cookie';
+import { ROUTE } from '../../Route';
+import { isLogin } from '../util/isLogin';
 import { HiUser } from 'react-icons/hi2';
 import { MdOutlineLanguage } from 'react-icons/md';
 import { ImSpoonKnife } from 'react-icons/im';
 import { FaPen, FaCog, FaSignInAlt, FaPowerOff, FaKey } from 'react-icons/fa';
 import { HeaderWrapper, Title, Icons, UserBox, MenuBox, Menu } from './style';
-import { ROUTE } from '../../Route';
 
 const Header = () => {
   const [show, setShow] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const cookies = new Cookies();
-  const getCookie = (name: any) => {
-    return cookies.get(name);
-  };
-  const cookie = getCookie('token');
-
-  useEffect(() => {
-    if (cookie !== undefined) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [cookie]);
 
   const LoginMenu = () => {
     return (
@@ -46,6 +33,7 @@ const Header = () => {
 
   const UserMenu = () => {
     const handleLogout = () => {
+      const cookies = new Cookies();
       cookies.remove('token', { path: '/' });
       localStorage.clear();
     };
@@ -89,7 +77,7 @@ const Header = () => {
             onMouseOut={() => setShow(false)}
           >
             <HiUser />
-            {show ? isLogin ? <UserMenu /> : <LoginMenu /> : null}
+            {show ? isLogin() ? <UserMenu /> : <LoginMenu /> : null}
           </UserBox>
           <Link to={ROUTE.BOOKMARK.link}>
             <ImSpoonKnife />

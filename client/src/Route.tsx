@@ -68,4 +68,66 @@ export const ROUTE = {
   },
 };
 
-export const ROUTE_ARR = Object.values(ROUTE);
+export const PUBLIC_ROUTE = {
+  HOME: {
+    path: '/',
+    link: '/',
+    element: MainMap,
+  },
+  COUNTRY: {
+    path: '/:country',
+    link: '/country',
+    element: Country,
+  },
+  REGISTER: {
+    path: '/register',
+    link: '/register',
+    element: Register,
+  },
+  LOGIN: {
+    path: '/login',
+    link: '/login',
+    element: Login,
+  },
+  FORGOTPASSWARD: {
+    path: '/forgotpassword',
+    link: '/forgotpassword',
+    element: ForgotPassword,
+  },
+};
+
+export const PRIVATE_ROUTE = {
+  PROFILE: {
+    path: '/profile',
+    link: '/profile',
+    element: Profile,
+  },
+  SECURITY: {
+    path: '/security',
+    link: '/security',
+    element: Security,
+  },
+  DEACTIVATE: {
+    path: '/deactivate',
+    link: '/deactivate',
+    element: Deactivate,
+  },
+  REVIEW: {
+    path: '/review',
+    link: '/review',
+    element: Review,
+  },
+  BOOKMARK: {
+    path: '/bookmark', // userNum 확인바람
+    link: '/bookmark',
+    element: BookMark,
+  },
+  POSTFORMMODAL: {
+    path: '/postform',
+    link: '/postform',
+    element: PostFormModal,
+  },
+};
+
+export const PUBLIC_ROUTE_ARR = Object.values(PUBLIC_ROUTE);
+export const PRIVATE_ROUTE_ARR = Object.values(PRIVATE_ROUTE);

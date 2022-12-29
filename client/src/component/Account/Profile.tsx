@@ -126,19 +126,17 @@ const Profile = () => {
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append('image', imgData);
-    console.log(formData);
     if (error === '') {
       axios
         .post('/user/upload', formData)
         .then((res) => {
           const newImg = res.data;
-          console.log(newImg);
           const newInfo = {
             name: info.name,
             country: info.country,
             img: newImg,
           };
-          console.log(newInfo);
+
           axios
             .patch(`/user/${userNum}`, newInfo)
             .then((res) => {
@@ -146,8 +144,7 @@ const Profile = () => {
               const userCountry = newInfo.country;
               localStorage.setItem('userName', userName);
               localStorage.setItem('userCountry', userCountry);
-              alert('SUCCESS');
-              console.log(res);
+              alert('Profile Change Completed');
             })
             .catch((err) => {
               alert('Please Check Your Info');
