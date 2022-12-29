@@ -1,7 +1,7 @@
-import { setegid } from 'process';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { validateEmail, validatePassword } from '../util/usefulFunctions';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { validateEmail } from '../util/usefulFunctions';
 import {
   ForgotPasswordContainer,
   InnerBox,
@@ -15,8 +15,8 @@ import {
 } from './ForgotPassword-style';
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<String>('');
-
   const [error, setError] = useState<String>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +32,18 @@ const ForgotPassword = () => {
 
   const handleSubmit = () => {
     if (error === '' && email !== '') {
-      alert('임시 비밀번호 전송!');
+      axios
+        .post('/user/pwInit', { email: email })
+        .then((res) => {
+          console.log(res);
+          alert('Please check your email.');
+          navigate('/login');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      alert('내용확인!');
+      alert('This is not a valid email');
     }
   };
 

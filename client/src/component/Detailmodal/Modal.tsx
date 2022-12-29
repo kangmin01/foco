@@ -25,8 +25,11 @@ import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import { ROUTE } from '../../Route';
+import { Rating } from 'react-simple-star-rating';
 
 interface Iprops {
+  [x: string]: any;
   postNum: number;
   closeModal: () => void;
   like: number;
@@ -38,20 +41,36 @@ const Modal = (props: Iprops) => {
   const [heart, setHeart] = useState<string>('');
   const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
+  const [user, setUser] = useState<any>();
 
-  // 데이터 불러오기
+  // 콘텐트 데이터 불러오기
   const getData = () => {
     return axios({
       method: 'get',
       url: `/post/${props.postNum}`,
     }).then((res) => {
       setData(res.data);
-
       // 좋아요 유저 확인
       checkLikeUser(res);
       checkBookMarkUser();
     });
   };
+  // 좋아요 업데이트시, page reload
+  useEffect(() => {
+    const fetchData = async () => {
+      await getData();
+    };
+    fetchData();
+  }, [props.like]);
+
+  // 유저데이터 불러오기
+  const getUser = async () => {
+    const res = await axios.get(`/user/${userNum}`);
+    setUser(res.data.user.img);
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const checkLikeUser = (res: any) => {
     for (const x of res.data.likeUsers) {
@@ -62,7 +81,6 @@ const Modal = (props: Iprops) => {
     }
     setHeart('pink');
   };
-
   const checkBookMarkUser = () => {
     return axios({
       method: 'get',
@@ -78,21 +96,6 @@ const Modal = (props: Iprops) => {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await getData();
-    };
-    fetchData();
-  }, []);
-
-  // 좋아요 업데이트시, page reload
-  useEffect(() => {
-    const fetchData = async () => {
-      await getData();
-    };
-    fetchData();
-  }, [props.like]);
-
   const increaseHeart = () => {
     return axios({
       method: 'post',
@@ -101,7 +104,6 @@ const Modal = (props: Iprops) => {
       props.setLike(res.data.likeCount);
     });
   };
-
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
@@ -110,7 +112,6 @@ const Modal = (props: Iprops) => {
       props.setLike(res.data.likeCount);
     });
   };
-
   const clickHeart = () => {
     if (heart === 'pink') {
       setHeart('red');
@@ -133,7 +134,6 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
-
   const deleteBookmark = () => {
     return axios({
       method: 'delete',
@@ -146,7 +146,6 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
-
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
@@ -170,6 +169,8 @@ const Modal = (props: Iprops) => {
       window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     };
   }, []);
+
+  // 스크롤
   type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
 
   const onWheel = (
@@ -222,9 +223,16 @@ const Modal = (props: Iprops) => {
               <Title>
                 <StoreName>{data?.storeName}</StoreName>
                 <Info>{data?.address}</Info>
-                <Info>{data?.grade}</Info>
+                <Info>
+                  <Rating
+                    size={25}
+                    readonly={true}
+                    initialValue={data?.grade}
+                  />
+                  ({data?.grade})
+                </Info>
               </Title>
-              <Profile src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
+              <Profile src={user} />
             </StoreInfo>
           </TitleBox>
         </TitleWrapper>

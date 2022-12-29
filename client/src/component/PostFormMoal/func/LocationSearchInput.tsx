@@ -4,6 +4,11 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import FindCity from './FindCity';
+import { v4 as uuidv4 } from 'uuid';
+
+export function randomId(): string {
+  return uuidv4();
+}
 
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
@@ -55,7 +60,10 @@ const LocationSearchInput: any = (props: any) => {
       });
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setAddress(props.address);
+  }, [props.address]);
+
   return (
     <PlacesAutocomplete
       value={address}
@@ -67,8 +75,6 @@ const LocationSearchInput: any = (props: any) => {
           <input
             {...getInputProps({
               placeholder: 'Search Places ...',
-              // TODO : dafultValue 들어오지 않음..
-              defaultValue: props.address,
               className: 'location-search-input',
             })}
           />

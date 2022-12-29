@@ -20,6 +20,7 @@ import {
 import { MdOutlineModeEdit } from 'react-icons/md';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { AiFillHeart } from 'react-icons/ai';
+import { v4 as uuidv4 } from 'uuid';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -69,8 +70,8 @@ const Post = () => {
             + review
           </ReviewButton>
           <ReviewList>
-            {reviews.map(({ storeName, id, img, postNum, likeUsers }) => (
-              <ReviewItem key={id}>
+            {reviews.map(({ storeName, img, postNum, likeUsers }) => (
+              <ReviewItem key={postNum}>
                 <ReviewImageBox>
                   <ImageHover className="imageHover">
                     <ManagementBox>
