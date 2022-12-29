@@ -15,44 +15,45 @@ import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [filesList, setFilesList] = useState<any>([]);
 
-  const handleImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.setFiles(e.target.files);
+  let compressedImageList: any[] = [];
 
-    if (e.target.files) {
-      if (
-        e.target.files.length >= 6 ||
-        selectedImages.length + e.target.files.length >= 6
-      ) {
-        alert('You can only choose up to 5 photos');
-        return;
+  const handleImgChange = async (e: any) => {
+    if (
+      e.target.files.length >= 6 ||
+      selectedImages.length + e.target.files.length >= 6
+    ) {
+      alert('You can only choose up to 5 photos');
+      return;
+    }
+
+    const options = {
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1000,
+    };
+
+    try {
+      for (const img of e.target.files) {
+        const compressedFile = await imageCompression(img, options);
+        compressedImageList.push(compressedFile);
       }
 
-      const compressImage = async (image: File) => {
-        try {
-          const options = {
-            maxSizeMb: 1,
-            maxWidthOrHeight: 200,
-          };
-          return await imageCompression(image, options);
-        } catch (e) {
-          console.log(e);
-        }
-      };
+      setFilesList((prev: any) => [...prev, ...compressedImageList]);
 
-      if (e.target.files !== null) {
-        for (let i = 0; e.target.files.length; i++) {
-          compressImage(e.target.files[i]);
-        }
-      }
-
-      // blob url 생성
-      const fileArray: string[] = Array.from(e.target.files).map((file: any) =>
-        URL.createObjectURL(file)
+      const fileArray: string[] = Array.from(compressedImageList).map(
+        (file: any) => URL.createObjectURL(file)
       );
+      Array.from(compressedImageList).map((file: any) =>
+        URL.revokeObjectURL(file)
+      );
+      compressedImageList = [];
 
       const newArr = [...fileArray];
+
       setSelectedImages((prevImages) => prevImages.concat(newArr));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -67,18 +68,11 @@ const AddImages = (props: any) => {
     setSelectedImages([]);
   };
 
-  // useEffect(() => {
-  //   if (props.img !== undefined) {
-  //     setSelectedImages(props.img);
-  //   }
-  //   props.setPreview([...selectedImages]);
-  // }, []);
-
   useEffect(() => {
-    setSelectedImages(props.img);
-
-    props.setPreview([...selectedImages]);
-  }, [props.img]);
+    // setSelectedImages(props.img);
+    props.setFiles([...filesList]);
+    // props.setPreview([...selectedImages]);
+  }, [selectedImages, filesList]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
