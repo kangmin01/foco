@@ -151,7 +151,7 @@
     - 수정: post 작성 모달로 이동
     - 삭제: post 삭제 재확인
 
----
+<!-- ---
 
 ### 페이지
 회원가입페이지
@@ -177,6 +177,6 @@
 리뷰페이지
 
 리뷰모달
-
+ -->
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer)
