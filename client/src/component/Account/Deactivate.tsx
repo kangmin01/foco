@@ -37,7 +37,9 @@ const Deactivate = () => {
     const { params }: any = useParams;
     const getUserData = async () => {
       await axios
-        .get(`user/${userNum}`, { params })
+        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+          params,
+        })
         .then((res) => {
           const data = res.data.user;
           setInfo((prev) => ({
@@ -74,7 +76,9 @@ const Deactivate = () => {
       if (result.isConfirmed) {
         Swal.fire({ title: 'Changed!', icon: 'success' });
         axios
-          .delete('/user', { data: info })
+          .delete('http://kdt-sw3-team11.elicecoding.com/api/user', {
+            data: info,
+          })
           .then((res) => {
             cookies.remove('token', { path: '/' });
             localStorage.clear();

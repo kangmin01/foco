@@ -57,7 +57,7 @@ const MainMap = () => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `/post`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post`,
     }).then((res) => {
       setData(res.data);
     });
@@ -125,7 +125,7 @@ const MainMap = () => {
     return (
       <Marker key={name} coordinates={coordinates} className="markWrapper">
         {modalOpen && (
-          <Link to={`/${country}/${name}`}>
+          <Link to={`/`}>
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +279,7 @@ const MainMap = () => {
           projection="geoEquirectangular"
           projectionConfig={{ scale: 180 }}
         >
-          <Geographies geography="/Data/worldmap.json">
+          <Geographies geography="http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json">
             {({ geographies }) =>
               geographies.map((geo: any) => (
                 <Geography

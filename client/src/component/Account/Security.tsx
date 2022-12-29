@@ -54,7 +54,9 @@ const Security = () => {
       const userNum = localStorage.getItem('userNum');
 
       axios
-        .get(`user/${userNum}`, { params })
+        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+          params,
+        })
         .then((res) => {
           const data = res.data.user;
           setUserData((prev) => ({
@@ -117,7 +119,10 @@ const Security = () => {
       InfoAlert('Passwords do not match');
     } else {
       axios
-        .patch('/user/password', userData)
+        .patch(
+          'http://kdt-sw3-team11.elicecoding.com/api/user/password',
+          userData
+        )
         .then((res) => {
           SuccessAlert('Password Changed!');
         })

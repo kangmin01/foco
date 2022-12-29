@@ -50,7 +50,9 @@ const Profile = () => {
     const { params }: any = useParams;
 
     await axios
-      .get(`/user/${userNum}`, { params })
+      .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+        params,
+      })
       .then((res) => {
         const data = res.data.user;
         setInfo({
@@ -131,7 +133,7 @@ const Profile = () => {
     formData.append('image', imgData);
     if (error === '') {
       axios
-        .post('/user/upload', formData)
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/upload', formData)
         .then((res) => {
           const newImg = res.data;
           const newInfo = {
@@ -141,7 +143,10 @@ const Profile = () => {
           };
 
           axios
-            .patch(`/user/${userNum}`, newInfo)
+            .patch(
+              `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`,
+              newInfo
+            )
             .then((res) => {
               const userName = newInfo.name;
               const userCountry = newInfo.country;

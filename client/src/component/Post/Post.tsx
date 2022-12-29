@@ -34,7 +34,9 @@ const Post = () => {
   const userNum = localStorage.getItem('userNum');
 
   const getReviews = async () => {
-    const res = await axios.get(`/user/${userNum}`);
+    const res = await axios.get(
+      `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`
+    );
     setReviews(res.data.user.post);
   };
 
@@ -54,12 +56,16 @@ const Post = () => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios.delete(`/post/${postNum}`).then((res) => {
-      console.log(res);
-      axios.get(`/user/${userNum}`).then((res) => {
-        setReviews(res.data.user.post);
+    axios
+      .delete(`http://kdt-sw3-team11.elicecoding.com/api/post/${postNum}`)
+      .then((res) => {
+        console.log(res);
+        axios
+          .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`)
+          .then((res) => {
+            setReviews(res.data.user.post);
+          });
       });
-    });
   };
 
   return (
