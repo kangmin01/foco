@@ -2,14 +2,20 @@
 
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
+
 ## 🥨프로젝트 소개
 글로벌 user를 타겟으로 해 영어를 기본 언어로 사용합니다.
 사용자가 회원가입 시 지정한 나라에서만 게시글을 작성할 수 있으며 
+
+
+---
 
 ## 🍕개발기간
 2022년 12월 11일 ~ 2022년 12월 29일 (약 3주)
 주말 제외 매일 아침 8시 45분 스크럼
 ![image](/uploads/1a4274a76419ed1e00f0edbf1b7bb801/image.png)
+
+---
 
 ## 🍔멤버구성
 #### 프론트엔드
@@ -19,6 +25,8 @@
 이화정 (INFP): 로그인 및 회원관련 페이지 뚝딱
 #### 백엔드
 한승주 (ESTP): Only One, 단 하나의 백엔드
+
+---
 
 ## 🍟개발 환경
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
@@ -30,27 +38,31 @@
 훅: `useState`, `useEffect`, `useRef`, `useNavigate`, `useParams`, `Cookies` 등
 그 외: `ESLint`, `Prettier`
 
+---
+
 ## 🍖개발 규칙
 ### 커밋컨벤션
-    - `feat`: 기능 추가
-    - `fix`: 버그 고친 경우
-    - `design`: css 등 사용자 UI 디자인 변경
-    - `docs`: 문서를 수정한 경우
-    - `style`: 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
-    - `rename`: 파일 혹은 폴더명 수정하거나 옮기는 경우
-    - `remove`: 파일을 삭제하는 작업만 수행한 경우
-    - `refactor`: 코드 리펙토링
+- `feat`: 기능 추가
+- `fix`: 버그 고친 경우
+- `design`: css 등 사용자 UI 디자인 변경
+- `docs`: 문서를 수정한 경우
+- `style`: 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
+- `rename`: 파일 혹은 폴더명 수정하거나 옮기는 경우
+- `remove`: 파일을 삭제하는 작업만 수행한 경우
+- `refactor`: 코드 리펙토링
 ### 브랜치
-    `master`
-    `dev`
-    `feature/FE/기능명`
-    `featrue/BE/기능명`
+`master`
+`dev`
+`feature/FE/기능명`
+`featrue/BE/기능명`
 ### 코딩컨벤션
-    - 변수명 `**camelCase**`
-    - components 이름은 **`Pascalcase`**
+- 변수명 `**camelCase**`
+- components 이름은 **`Pascalcase`**
+
+---
 
 ## 🌭주요사항 
-### **기능**
+### 기능
 - **라우트**: ROUTE 모듈화 및 사용
 - **Icontent**: 자주 사용되는 변수의 타입 지정 모듈화
 - **usefulFunction**: 자주 사용되는 validateNickname, validateEmail, validatePassword 함수 저장
@@ -126,17 +138,21 @@
 - **리뷰**: user가 작성한 리뷰 내역 확인 및 수정, 삭제 가능
     - 수정: 포스트 작성 모달로 이동
     - 삭제: 포스트 삭제 재확인
+
 ---
+
 ### 정리
 - useState, useEffect를 주로 사용
 - cookie를 사용해  user 정보 확인, token으로 user 상태 확인
 - 
 
+---
+
 ### 페이지
 회원가입페이지
 
 로그인페이지
-![image](/uploads/46e546bead36b8c769dfc020a689c1ee/image.png)
+
 회원정보수정페이지
 ![image](/uploads/4d27886e41dee922a793c35b903077b4/image.png)
 비밀번호 변경 페이지
