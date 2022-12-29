@@ -109,6 +109,7 @@
     - 해당 나라의 맛집 정보가 좋아요 순으로 표시
     - 각 게시물의 좋아요 수 확인 가능
 - **more**: 해당 나라의 맛집 전체를 확인하는 페이지로 이동
+---
 #### mutiSelectBox
 ###### Content, Bookmark에서 활용
 - **Content**: 지정 나라와 Dropdown에서 선택한 정보대로 filtering해 content 리턴
@@ -126,6 +127,7 @@
 #### Bookmark
 ###### user가 bookmark 한 post를 불러와 user에게 표출
 - 컨텐츠와 기능적으로 동일하며 bookmark에 대한 필터만 추가
+---
 #### 모달
 ###### 서버에서 해당 post 불러와 user에게 표출
 - **아이콘 바**
