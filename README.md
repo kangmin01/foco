@@ -24,30 +24,30 @@
 ## 🍟개발 환경
 협업 툴
 
-![GitLab](https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=gitlab)
-![Notion](https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion)
-![Jira](https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira)
+![GitLab](https://img.shields.io/badge/gitlab-444444?style=for-the-badge&logo=gitlab)
+![Notion](https://img.shields.io/badge/notion-444444?style=for-the-badge&logo=notion)
+![Jira](https://img.shields.io/badge/jira-444444?style=for-the-badge&logo=jira)
 
 시스템
 
-![Yarn](https://img.shields.io/badge/yarn-2C8EBB?style=for-the-badge&logo=yarn)
+![Yarn](https://img.shields.io/badge/yarn-444444?style=for-the-badge&logo=yarn)
 
 사용 언어
 
-![HTML5](https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5)
-![CSS3](https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3)
-![TypeScript](https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript)
+![HTML5](https://img.shields.io/badge/html5-444444?style=for-the-badge&logo=html5)
+![CSS3](https://img.shields.io/badge/css3-444444?style=for-the-badge&logo=css3)
+![TypeScript](https://img.shields.io/badge/typescript-444444?style=for-the-badge&logo=typescript)
 
 라이브러리
 
-![React](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react)
-![StyledComponents](https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styled-components)
-![Axios](https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios)
+![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
+![StyledComponents](https://img.shields.io/badge/styledcomponents-444444?style=for-the-badge&logo=styled-components)
+![Axios](https://img.shields.io/badge/axios-444444?style=for-the-badge&logo=axios)
 
 그 외
 
-![ESLint](https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&logo=eslint)
-![Prettier](https://img.shields.io/badge/prettier-F7B93E?style=for-the-badge&logo=prettier)
+![ESLint](https://img.shields.io/badge/eslint-444444?style=for-the-badge&logo=eslint)
+![Prettier](https://img.shields.io/badge/prettier-444444?style=for-the-badge&logo=prettier)
 
 훅: `useState`, `useEffect`, `useRef`, `useNavigate`, `useParams`, `Cookies` 등
 
