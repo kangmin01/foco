@@ -1,4 +1,4 @@
-![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=header)
+<!-- ![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=1800&height=200&section=header) -->
 
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
@@ -186,4 +186,4 @@
 리뷰모달
 
 
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer)
+<!-- ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer) -->
