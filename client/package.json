@@ -84,5 +84,5 @@
     "prettier": "^2.8.1",
     "styled-components": "^5.3.6"
   },
-  "proxy": "http://34.64.195.10:3001/api"
+  "proxy": "http://127.0.0.1:3001/api"
 }
