@@ -4,6 +4,7 @@ autoIncrement.initialize(mongoose.connection);
 
 export interface PostInterface {
     name: string;
+    userNum: number;
     storeName: string;
     grade: number;
     img: string[];
@@ -23,6 +24,10 @@ export interface PostInterface {
 export const PostSchema = new Schema<PostInterface>({
     name: {
         type: String,
+        required: true
+    },
+    userNum: {
+        type: Number,
         required: true
     },
     storeName: {
