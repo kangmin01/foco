@@ -6,8 +6,14 @@
   version "4.0.1"
   resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
   integrity sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/@adobe/css-tools/-/css-tools-4.0.1.tgz"
+  integrity sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==
 
 "@ampproject/remapping@^2.1.0":
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
+  integrity sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
   integrity sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==
@@ -19,7 +25,13 @@
   version "0.3.6"
   resolved "https://registry.npmjs.org/@apideck/better-ajv-errors/-/better-ajv-errors-0.3.6.tgz"
   integrity sha512-P+ZygBLZtkp0qqOAJJVX4oX/sFo5JR3eBWwwuqHHhK0GIgQOKWrAfiAaWX0aArHkRWHMuggFEgAZNxVPwPZYaA==
+  version "0.3.6"
+  resolved "https://registry.npmjs.org/@apideck/better-ajv-errors/-/better-ajv-errors-0.3.6.tgz"
+  integrity sha512-P+ZygBLZtkp0qqOAJJVX4oX/sFo5JR3eBWwwuqHHhK0GIgQOKWrAfiAaWX0aArHkRWHMuggFEgAZNxVPwPZYaA==
   dependencies:
+    json-schema "^0.4.0"
+    jsonpointer "^5.0.0"
+    leven "^3.1.0"
     json-schema "^0.4.0"
     jsonpointer "^5.0.0"
     leven "^3.1.0"
@@ -28,10 +40,16 @@
   version "7.18.6"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.18.6.tgz"
   integrity sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==
+  version "7.18.6"
+  resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.18.6.tgz"
+  integrity sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==
   dependencies:
     "@babel/highlight" "^7.18.6"
 
 "@babel/compat-data@^7.17.7", "@babel/compat-data@^7.20.0", "@babel/compat-data@^7.20.1":
+  version "7.20.5"
+  resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.20.5.tgz"
+  integrity sha512-KZXo2t10+/jxmkhNXc7pZTqRvSOIvVv/+lJwHS+B2rErwOyjuVRh60yVpb7liQ1U5t7lLJ1bz+t8tSypUZdm0g==
   version "7.20.5"
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.20.5.tgz"
   integrity sha512-KZXo2t10+/jxmkhNXc7pZTqRvSOIvVv/+lJwHS+B2rErwOyjuVRh60yVpb7liQ1U5t7lLJ1bz+t8tSypUZdm0g==
@@ -1249,8 +1267,12 @@
     "@emotion/utils" "^1.2.0"
     "@emotion/weak-memoize" "^0.3.0"
     hoist-non-react-statics "^3.3.1"
+    hoist-non-react-statics "^3.3.1"
 
 "@emotion/serialize@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@emotion/serialize/-/serialize-1.1.1.tgz"
+  integrity sha512-Zl/0LFggN7+L1liljxXdsVSVlg6E/Z/olVWpfxUTxOAmi8NU7YoeWeLfi1RmnB2TATHoaWwIBRoL+FvAJiTUQA==
   version "1.1.1"
   resolved "https://registry.npmjs.org/@emotion/serialize/-/serialize-1.1.1.tgz"
   integrity sha512-Zl/0LFggN7+L1liljxXdsVSVlg6E/Z/olVWpfxUTxOAmi8NU7YoeWeLfi1RmnB2TATHoaWwIBRoL+FvAJiTUQA==
