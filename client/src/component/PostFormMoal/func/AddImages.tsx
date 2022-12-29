@@ -79,7 +79,8 @@ const AddImages = (props: any) => {
 
   useEffect(() => {
     // setSelectedImages(props.img ? props.img : []);
-    setFilesList(props.img ? props.img : []);
+    // setFilesList(props.img ? props.img : []);
+    setSelectedImages(props.img ? props.img : []);
   }, [props.img]);
 
   const renderImages = (source: string[]) => {

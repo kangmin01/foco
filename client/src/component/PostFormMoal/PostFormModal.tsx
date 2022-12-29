@@ -79,7 +79,6 @@ const PostFormModal = (props: any) => {
       setStrLength(500);
     }
   };
-  console.log('df', files);
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -245,7 +244,7 @@ const PostFormModal = (props: any) => {
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
-                img={content.img}
+                img={content?.img}
               ></AddImages>
             ) : (
               <AddImages
