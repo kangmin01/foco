@@ -83,29 +83,32 @@ const PostFormModal = (props: any) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!postFormData.storeName || content?.storeName) {
+    console.log(postFormData.storeName);
+    console.log(content?.storeName);
+
+    if (postFormData.storeName === '') {
       alert('Write store name!');
       return;
-    } else if (!postFormData.address) {
-      alert('Write address!');
-      return;
+    } else if (postFormData.address === '') {
+      // alert('Write address!');
+      // return;
     } else if (userCountry !== postFormData.country) {
-      alert('You can only write posts that correspond to your country!');
-      return;
-    } else if (!postFormData.grade) {
+      // alert('You can only write posts that correspond to your country!');
+      // return;
+    } else if (postFormData.grade < 0.5) {
       alert("You can't give 0 points!");
       return;
-    } else if (!files.length) {
+    } else if (files.length === 0) {
       console.log('bb', files.length);
       alert('Please Add Image!');
       return;
-    } else if (!postFormData.mood.length) {
+    } else if (postFormData.mood.length === 0) {
       alert('Write mood!');
       return;
-    } else if (!postFormData.foodType.length) {
+    } else if (postFormData.foodType.length === 0) {
       alert('Write food!');
       return;
-    } else if (!postFormData.review) {
+    } else if (postFormData.review === '') {
       alert('Write review!');
       return;
     }
@@ -147,7 +150,7 @@ const PostFormModal = (props: any) => {
         await axios
           .patch(`/api/post/${props.postNum}`, postData)
           .then(async (response) => {
-            // console.log(response);
+            console.log(response);
             alert('success patch!');
             props.setModalOpen(false);
           })
@@ -231,15 +234,6 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
-            {/* {content?.img && (
-              <AddImages
-                setFiles={setFiles}
-                setPreview={setPreview}
-                img={content?.img}
-              ></AddImages>
-            )} */}
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
             {content?.img ? (
               <AddImages
                 setFiles={setFiles}
