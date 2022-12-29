@@ -136,7 +136,7 @@ const AddImages = (props: any) => {
           />
         </label>
         <button type="button" onClick={handleRemoveAllImages}>
-          전체 삭제
+          All Delete
         </button>
       </ImageButton>
       <ImageList>
