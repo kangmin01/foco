@@ -320,7 +320,7 @@ export const Address = styled.div`
     position: absolute;
     width: 300px;
     border-radius: 5px;
-    padding: 10px;
+    padding: 5px;
 
     z-index: 2;
     color: gray;
