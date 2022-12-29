@@ -56,7 +56,7 @@ const DropDown = (props: any) => {
   const getBookMarkCountries = () => {
     return axios({
       method: 'get',
-      url: `/bookmark/${userNum}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
     }).then((res) => {
       const bookMarkCountries = res.data.map((x: any) => {
         return x.country;

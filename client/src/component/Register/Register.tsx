@@ -163,7 +163,7 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('/user/register', info)
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/register', info)
         .then((res) => {
           SuccessAlert('Success Register!');
           navigate(`${ROUTE.LOGIN.link}`);

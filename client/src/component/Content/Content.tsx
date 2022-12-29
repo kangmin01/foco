@@ -52,8 +52,8 @@ const Content = (props: Iprops) => {
       method: 'get',
       url:
         props.title != 'My BookMark'
-          ? `/post?country=${props.country}${url}`
-          : `/bookmark/${userNum}?country=${props.country}${url}`,
+          ? `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}${url}`
+          : `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}?country=${props.country}${url}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -69,7 +69,7 @@ const Content = (props: Iprops) => {
   const getPostContents = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -78,7 +78,7 @@ const Content = (props: Iprops) => {
   const getMyBookmark = () => {
     return axios({
       method: 'get',
-      url: `/bookmark/${userNum}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
     }).then((res) => {
       setContents(res.data);
     });

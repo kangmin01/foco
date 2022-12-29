@@ -37,7 +37,7 @@ const Ranking = (props: Iprops) => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${country}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post?country=${country}`,
     }).then((res) => {
       setData(res.data);
     });

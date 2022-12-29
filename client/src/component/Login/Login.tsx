@@ -85,7 +85,7 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('/user/login', info)
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/login', info)
         .then((res) => {
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;

@@ -31,7 +31,9 @@ const Menu = () => {
     const { params }: any = useParams;
     const getUserData = () => {
       axios
-        .get(`/user/${userNum}`, { params })
+        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+          params,
+        })
         .then((res) => {
           const data = res.data.user;
           setInfo({

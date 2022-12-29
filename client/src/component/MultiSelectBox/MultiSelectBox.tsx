@@ -30,8 +30,8 @@ const MultiSelectBox = (props: Iprops) => {
       //url: `/post?country=${props.country}`,
       url:
         props.title != 'My BookMark'
-          ? `/post?country=${props.country}`
-          : `/bookmark/${userNum}?country=${props.country}`,
+          ? `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`
+          : `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}?country=${props.country}`,
     }).then((res) => {
       setData(res.data);
       console.log(res.data);
@@ -48,9 +48,9 @@ const MultiSelectBox = (props: Iprops) => {
   const getSelectData = () => {
     let url = '';
     if (citySelect) {
-      url = `/post?country=${props.country}&city=${citySelect}`;
+      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}&city=${citySelect}`;
     } else {
-      url = `/post?country=${props.country}`;
+      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`;
     }
     return axios({
       method: 'get',

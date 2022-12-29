@@ -34,7 +34,9 @@ const ForgotPassword = () => {
   const handleSubmit = () => {
     if (error === '' && email !== '') {
       axios
-        .post('/user/pwInit', { email: email })
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/pwInit', {
+          email: email,
+        })
         .then((res) => {
           console.log(res);
           InfoAlert('Please check your email.');
