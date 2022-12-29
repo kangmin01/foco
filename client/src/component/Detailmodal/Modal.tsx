@@ -285,22 +285,6 @@ const Modal = (props: Iprops) => {
             </TagBox>
             <TextBox>{data?.review}</TextBox>
           </Content>
-          <ButtonBox>
-            <button
-              onClick={() => {
-                handleEdit(props.postNum);
-              }}
-            >
-              edit
-            </button>
-            <button
-              onClick={() => {
-                handleDelete(props.postNum);
-              }}
-            >
-              delete
-            </button>
-          </ButtonBox>
         </Box>
       </ModalWrapper>
     </ModalBackground>
