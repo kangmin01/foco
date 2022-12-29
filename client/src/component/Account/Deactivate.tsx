@@ -74,7 +74,7 @@ const Deactivate = () => {
       if (result.isConfirmed) {
         Swal.fire({ title: 'Changed!', icon: 'success' });
         axios
-          .delete('/api/user', { data: info })
+          .delete('/user', { data: info })
           .then((res) => {
             cookies.remove('token', { path: '/' });
             localStorage.clear();
