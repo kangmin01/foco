@@ -58,6 +58,32 @@ export const ReviewItem = styled.div`
   margin: 30px;
 `;
 
+export const ManagementBox = styled.div`
+  display: flex;
+  z-index: 50;
+  position: absolute;
+
+  & button {
+    display: flex;
+    font-size: 50px;
+    border: 3px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+    background-color: transparent;
+
+    &:hover {
+      cursor: pointer;
+      color: #bdbdbd;
+      border-color: #bdbdbd;
+    }
+
+    &:first-child {
+      margin-right: 30px;
+    }
+  }
+`;
+
 export const ReviewImageBox = styled.div`
   width: 300px;
   height: 300px;
@@ -68,6 +94,15 @@ export const ReviewImageBox = styled.div`
     z-index: 100;
     cursor: pointer;
   }
+`;
+
+export const JungBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
 `;
 
 export const ImageHover = styled.div`
@@ -95,31 +130,6 @@ export const Image = styled.img`
   // height: auto;
   // max-width: 300px;
   // max-height: 300px;
-`;
-
-export const ManagementBox = styled.div`
-  display: flex;
-  // z-index: 5;
-
-  & button {
-    display: flex;
-    font-size: 50px;
-    border: 3px solid white;
-    border-radius: 50%;
-    padding: 10px;
-    color: white;
-    background-color: transparent;
-
-    &:hover {
-      cursor: pointer;
-      color: #bdbdbd;
-      border-color: #bdbdbd;
-    }
-
-    &:first-child {
-      margin-right: 30px;
-    }
-  }
 `;
 
 export const Likes = styled.div`

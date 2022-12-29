@@ -11,7 +11,7 @@ export const ModalBackground = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 999;
 `;
 // 모달
 export const ModalWrapper = styled.div`

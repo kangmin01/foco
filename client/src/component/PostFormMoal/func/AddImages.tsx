@@ -15,8 +15,8 @@ import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  console.log('>', selectedImages);
-  console.log('>>', props.img);
+  // console.log('>', selectedImages);
+  // console.log('>>', props.img);
   const [filesList, setFilesList] = useState<any>([]);
 
   let compressedImageList: any[] = [];
@@ -73,10 +73,13 @@ const AddImages = (props: any) => {
   useEffect(() => {
     // setSelectedImages(props.img);
     props.setFiles([...filesList]);
+    // console.log(filesList);
     // props.setPreview([...selectedImages]);
-  }, []);
+  }, [filesList]);
 
   useEffect(() => {
+    // setSelectedImages(props.img ? props.img : []);
+    // setFilesList(props.img ? props.img : []);
     setSelectedImages(props.img ? props.img : []);
   }, [props.img]);
 

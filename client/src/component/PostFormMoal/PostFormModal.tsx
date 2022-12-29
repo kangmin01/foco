@@ -83,29 +83,32 @@ const PostFormModal = (props: any) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!postFormData.storeName || content?.storeName) {
+    console.log(postFormData.storeName);
+    console.log(content?.storeName);
+
+    if (postFormData.storeName === '') {
       alert('Write store name!');
       return;
-    } else if (!postFormData.address) {
-      alert('Write address!');
-      return;
+    } else if (postFormData.address === '') {
+      // alert('Write address!');
+      // return;
     } else if (userCountry !== postFormData.country) {
-      alert('You can only write posts that correspond to your country!');
-      return;
-    } else if (!postFormData.grade) {
+      // alert('You can only write posts that correspond to your country!');
+      // return;
+    } else if (postFormData.grade < 0.5) {
       alert("You can't give 0 points!");
       return;
-    } else if (!files.length || !content?.img) {
-      console.log('bb', content?.img);
+    } else if (files.length === 0) {
+      console.log('bb', files.length);
       alert('Please Add Image!');
       return;
-    } else if (!postFormData.mood.length) {
+    } else if (postFormData.mood.length === 0) {
       alert('Write mood!');
       return;
-    } else if (!postFormData.foodType.length) {
+    } else if (postFormData.foodType.length === 0) {
       alert('Write food!');
       return;
-    } else if (!postFormData.review) {
+    } else if (postFormData.review === '') {
       alert('Write review!');
       return;
     }
@@ -114,11 +117,11 @@ const PostFormModal = (props: any) => {
     for (let i = 0; i < files?.length; i++) {
       formData.append('images', files[i]);
     }
-    console.log(formData);
+    console.log('files', files);
 
     axios.post('/api/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
-      // console.log(imgList);
+      console.log(imgList);
       // setImg(imgList);
       const postData = {
         ...postFormData,
@@ -132,7 +135,7 @@ const PostFormModal = (props: any) => {
         await axios
           .post('/api/post', postData)
           .then(async (response) => {
-            // console.log(response);
+            console.log(response);
             alert('success post!');
             await axios
               .post(`/api/user/${response.data.post._id}/${userNum}`)
@@ -144,10 +147,11 @@ const PostFormModal = (props: any) => {
           .catch((error) => console.log(error));
       } else {
         // 기존 글이라면 patch 요청
+        console.log(postData.img);
         await axios
           .patch(`/api/post/${props.postNum}`, postData)
           .then(async (response) => {
-            // console.log(response);
+            console.log(response);
             alert('success patch!');
             props.setModalOpen(false);
           })
@@ -169,6 +173,8 @@ const PostFormModal = (props: any) => {
       });
     };
     getContents();
+    console.log('content', content);
+    console.log('content', content?.storeName);
   }, []);
 
   return (
@@ -229,20 +235,11 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview} ></AddImages> */}
-            {/* {content?.img && (
-              <AddImages
-                setFiles={setFiles}
-                setPreview={setPreview}
-                img={content?.img}
-              ></AddImages>
-            )} */}
-            {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
             {content?.img ? (
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
-                img={content.img}
+                img={content?.img}
               ></AddImages>
             ) : (
               <AddImages

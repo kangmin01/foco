@@ -13,22 +13,20 @@
 ![image](/uploads/1a4274a76419ed1e00f0edbf1b7bb801/image.png)
 
 ## 🍔멤버구성
-#### 프론트엔드
-홍희선 (ENFJ): 팀장으로써 모든 페이지 총괄 및 어려운 기능 나서서 해결해줌
 
-강민희 (ENTP): 리뷰 및 포스트 모달 담당 뚝딱
-
-김혜지 (ENFJ): 북마크 및 상세 모달 담당
-
-이화정 (INFP): 로그인 및 회원관련 페이지 뚝딱
-
-#### 백엔드
-한승주 (ESTP): Only One, 단 하나의 백엔드
+| Name | Position | MBTI | Role | 
+| ------ | ------ | ----- | ----- |
+| 홍희선 | FrontEnd | ENFJ | 팀장, main map, ranking, contents, multiSelectbox, dropdown 등 담당, 모든 페이지 총괄 및 해결 |
+| 강민희 | FrontEnd | ENTP | review, post modal, autocomplete 담당 |
+| 김혜지 | FrontEnd | ENFJ | bookmark, modal, route 담당 |
+| 이화정 | FrontEnd | INFP | user 관련 login, logout, resister, profile, user정보 수정 등 담당 |
+| 한승주 | BackEnd | ESTP | Only One, 단 하나의 백엔드 |
 
 ## 🍟개발 환경
 협업 툴 ![GitLab](https://img.shields.io/badge/gitlab-444444?style=flat&logo=gitlab)
 ![Notion](https://img.shields.io/badge/notion-444444?style=flat&logo=notion)
 ![Jira](https://img.shields.io/badge/jira-444444?style=flat&logo=jira)
+![Figma](https://img.shields.io/badge/figma-444444?style=flat&logo=figma)
 
 시스템 ![Yarn](https://img.shields.io/badge/yarn-444444?style=flat&logo=yarn)
 
