@@ -85,6 +85,5 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.1",
     "styled-components": "^5.3.6"
-  },
-  "proxy": "http://localhost:3000/api"
-}
+  }
+  }
