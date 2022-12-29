@@ -1,3 +1,5 @@
+![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=header)
+
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
 ## 🥨프로젝트 소개
@@ -52,17 +54,19 @@
 - **라우트**: ROUTE 모듈화 및 사용
 - **Icontent**: 자주 사용되는 변수의 타입 지정 모듈화
 - **usefulFunction**: 자주 사용되는 validateNickname, validateEmail, validatePassword 함수 저장
-- **회원가입**
+#### 회원가입
     - **이메일**: 이메일 형식 체크
     - **닉네임**: 영어 체크
     - **비밀번호**: 글자 수 체크
     - **비밀번호 확인**: 비밀번호 일치 체크
     - **나라 지정**
-- **로그인**: cookie로 user의 token 확인
+#### 로그인
+##### cookie로 user의 token 확인
     - **이메일**: 이메일 형식 체크
     - **비밀번호**: 글자 수 체크
     - **비밀번호 찾기**: 이메일 확인 후 해당 이메일로 임시 비밀번호 전송
-- **회원정보수정**: localStorage로 userNum 확인
+#### 회원정보수정
+##### localStorage로 userNum 확인
     - **메뉴**: 클릭 시 지정 링크로 이동
         - **프로필 변경**
             - 기기 내에 저장된 이미지를 리사이징해 저장 및 프로필 이미지 변경
@@ -70,11 +74,13 @@
             - 현재 비밀번호, 바꾼 비밀번호, 비밀번호 재확인 후 alert
         - **회원탈퇴**: 쿠키로 해당 유저 확인
             - 비밀번호: 비밀번호 확인 후 alert로 탈퇴 재확인
-- **회원 상태별 헤더 변경**: cookie로 user의 token 확인
+#### 회원 상태별 헤더 변경
+#####cookie로 user의 token 확인
     - **로그인된 유저** ![image](/uploads/1fbc7501d65638d77e3df500b470e2e9/image.png)
     - **로그아웃 유저** ![image](/uploads/b8eef8ad0c03c47441ade3a7ecba5ab3/image.png)
 
-- **맵**: 구글 맵 API 사용, 지도에서 특정 나라 선택 시 지정된 나라 확대
+#### 맵
+##### 구글 맵 API 사용, 지도에서 특정 나라 선택 시 지정된 나라 확대
     - **드롭다운**
         -geometries 사용
         - 선택된 나라의 저장된 위경도를 불러와 해당 나라로 이동 및 확대
@@ -83,17 +89,20 @@
         - 해당 나라의 맛집 정보가 좋아요 순으로 표시
         - 각 게시물의 좋아요 수 확인 가능
     - **more**: 해당 나라의 맛집 전체를 확인하는 페이지로 이동
-- **mutiSelectBox**: Content, Bookmark에서 활용
+#### mutiSelectBox
+##### Content, Bookmark에서 활용
     - **Content**: 지정 나라와 드롭다운에서 선택한 정보대로 필터링해 content 리턴
     - **Bookmark**: 해당 user의 userNum 확인 
-- **상세 컨텐츠 기능(Content)**: 선택한 나라의 맛집 전체를 확인
+#### 상세 컨텐츠 기능(Content)
+##### 선택한 나라의 맛집 전체를 확인
     - **나라별**: 맵에서 선택한 나라별로 출력되도록 useParams를 사용해 country 필터링
     - **드롭다운**: user가 원하는 정보만 필터링 가능
         - city, food, mood
     - **컨텐츠**
         - 해당 게시글의 좋아요 수 확인 가능 및 hover 시 지역 확인 가능
         - 포스트된 대표 이미지 클릭 시 모달창으로 이동
-- **모달**: 서버에서 해당 포스트 불러와 user에게 표출
+#### 모달
+##### 서버에서 해당 포스트 불러와 user에게 표출
     - **아이콘 바**
         - 좋아요 상태, 좋아요 수, 북마크 상태 확인
         - 모달 닫기
@@ -105,7 +114,7 @@
     - **텍스트박스**: 해당 포스트의 태그와 코멘트 
     - 모달 밖 배경화면 스크롤 금지 
 
-- **포스트**
+#### 포스트
     - **포스트 작성 모달**: 해당 포스트의 input 저장 및 서버로 전달
         - 상호명
         - 위치: autocomplete 사용해 상호명 입력 시 위도와 경도 저장
@@ -118,7 +127,7 @@
         - 수정: 포스트 작성 모달로 이동
         - 삭제: 포스트 삭제 재확인
 ---
-#### 정리
+### 정리
 - useState, useEffect를 주로 사용
 - cookie를 사용해  user 정보 확인, token으로 user 상태 확인
 - 
@@ -149,4 +158,4 @@
 리뷰모달
 
 
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer)
