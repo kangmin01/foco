@@ -15,12 +15,11 @@ import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [filesList, setFilesList] = useState<any>([]);
 
   let compressedImageList: any[] = [];
 
   const handleImgChange = async (e: any) => {
-    props.setFiles(e.target.files);
-
     if (
       e.target.files.length >= 6 ||
       selectedImages.length + e.target.files.length >= 6
@@ -30,8 +29,8 @@ const AddImages = (props: any) => {
     }
 
     const options = {
-      maxSizeMB: 0.1,
-      maxWidthOrHeight: 300,
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1000,
     };
 
     try {
@@ -39,6 +38,8 @@ const AddImages = (props: any) => {
         const compressedFile = await imageCompression(img, options);
         compressedImageList.push(compressedFile);
       }
+
+      setFilesList((prev: any) => [...prev, ...compressedImageList]);
 
       const fileArray: string[] = Array.from(compressedImageList).map(
         (file: any) => URL.createObjectURL(file)
@@ -67,17 +68,11 @@ const AddImages = (props: any) => {
     setSelectedImages([]);
   };
 
-  // useEffect(() => {
-  //   if (props.img !== undefined) {
-  //     setSelectedImages(props.img);
-  //   }
-  //   props.setPreview([...selectedImages]);
-  // }, []);
-
   useEffect(() => {
     // setSelectedImages(props.img);
+    props.setFiles([...filesList]);
     // props.setPreview([...selectedImages]);
-  }, []);
+  }, [selectedImages, filesList]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
