@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ROUTE } from '../../Route';
 import Select from 'react-select';
-import { FaGoogle } from 'react-icons/fa';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import {
   validateNickname,
   validateEmail,
@@ -21,9 +21,6 @@ import {
   Errormsg,
   CountrySelect,
   SubmitBtn,
-  SocialLoin,
-  GoogleBtn,
-  Border,
 } from './register-style';
 
 interface userData {
@@ -166,16 +163,17 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('/api/user/register', info)
+        .post('/user/register', info)
         .then((res) => {
-          alert('Success Register!');
+          SuccessAlert('Success Register!');
           navigate(`${ROUTE.LOGIN.link}`);
         })
         .catch((error) => {
-          alert('This email has already been used.');
+          InfoAlert('This email has already been used.');
         });
     } else {
-      alert('Please Check Your Info!');
+      InfoAlert('Please Check Your Info!');
+      // alert('Please Check Your Info!');
     }
   };
 
@@ -235,13 +233,6 @@ const Register = () => {
         <SubmitBtn type="submit" onClick={handleSubmit}>
           Register
         </SubmitBtn>
-        <Border>OR</Border>
-        <SocialLoin>
-          <GoogleBtn>
-            <FaGoogle />
-            <span>Login with Google</span>
-          </GoogleBtn>
-        </SocialLoin>
       </InnerBox>
     </RegisterContainer>
   );

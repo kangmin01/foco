@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { validateEmail } from '../util/usefulFunctions';
 import {
   ForgotPasswordContainer,
@@ -36,14 +37,14 @@ const ForgotPassword = () => {
         .post('/user/pwInit', { email: email })
         .then((res) => {
           console.log(res);
-          alert('Please check your email.');
+          InfoAlert('Please check your email.');
           navigate('/login');
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      alert('This is not a valid email');
+      SuccessAlert('This is not a valid email');
     }
   };
 

@@ -31,7 +31,7 @@ const Menu = () => {
     const { params }: any = useParams;
     const getUserData = () => {
       axios
-        .get(`user/${userNum}`, { params })
+        .get(`/user/${userNum}`, { params })
         .then((res) => {
           const data = res.data.user;
           setInfo({
