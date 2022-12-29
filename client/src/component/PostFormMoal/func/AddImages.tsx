@@ -73,7 +73,7 @@ const AddImages = (props: any) => {
   useEffect(() => {
     // setSelectedImages(props.img);
     props.setFiles([...filesList]);
-    console.log(filesList);
+    // console.log(filesList);
     // props.setPreview([...selectedImages]);
   }, [filesList]);
 

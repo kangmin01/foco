@@ -147,6 +147,7 @@ const PostFormModal = (props: any) => {
           .catch((error) => console.log(error));
       } else {
         // 기존 글이라면 patch 요청
+        console.log(postData.img);
         await axios
           .patch(`/api/post/${props.postNum}`, postData)
           .then(async (response) => {
