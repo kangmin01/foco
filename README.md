@@ -41,7 +41,7 @@
 라이브러리
 
 ![React](https://img.shields.io/badge/react-444444?style=for-the-badge&logo=react)
-![StyledComponents](https://img.shields.io/badge/styledcomponents-#DB7093?style=for-the-badge&logo=styled-components)
+![StyledComponents](https://img.shields.io/badge/styled-components-#DB7093?style=for-the-badge&logo=styled-components)
 ![Axios](https://img.shields.io/badge/axios-444444?style=for-the-badge&logo=axios)
 
 그 외
