@@ -13,7 +13,6 @@ export function randomId(): string {
 const LocationSearchInput: any = (props: any) => {
   const [address, setAddress] = useState('');
   const [loading, setLoading] = React.useState(false);
-  // const [place, setPlace] = useState('');
 
   const handleChange = async (address: string) => {
     setAddress(address);
@@ -31,31 +30,6 @@ const LocationSearchInput: any = (props: any) => {
         country: place[1],
       }));
     }
-
-    // if (props.type === 'address') {
-    //   // props.setPostFormData((prev: any) => ({
-    //   //   ...prev,
-    //   //   address: address,
-    //   // }));
-    // } else {
-    // const city = await FindCity(address);
-    // city.filter((x: any) => {
-    //   if (x.types[0] === 'administrative_area_level_1') {
-    //     props.setPostFormData((prev: any) => ({
-    //       ...prev,
-    //       city: x.long_name,
-    //     }));
-    //   }
-    // });
-    // city.filter((x: any) => {
-    //   if (x.types[0] === 'country') {
-    //     props.setPostFormData((prev: any) => ({
-    //       ...prev,
-    //       country: x.long_name,
-    //     }));
-    //   }
-    // });
-    // }
   };
 
   const handleSelect: any = async (address: any) => {
@@ -77,7 +51,9 @@ const LocationSearchInput: any = (props: any) => {
       });
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setAddress(props.address);
+  }, []);
 
   return (
     <PlacesAutocomplete

@@ -166,7 +166,7 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('/user/register', info)
+        .post('/api/user/register', info)
         .then((res) => {
           alert('Success Register!');
           navigate(`${ROUTE.LOGIN.link}`);

@@ -88,7 +88,7 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('/user/login', info)
+        .post('/api/user/login', info)
         .then((res) => {
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;

@@ -34,6 +34,7 @@ interface postFormDataType {
   foodType: string[];
   city: string;
   country: string;
+  img: string[];
 }
 
 const PostFormModal = (props: any) => {
@@ -48,8 +49,8 @@ const PostFormModal = (props: any) => {
   // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
   const [postFormData, setPostFormData] = useState<postFormDataType>({
-    // storeName: content?.storeName,
-    storeName: '',
+    storeName: content?.storeName,
+    // storeName: '',
     review: '',
     grade: 0,
     address: '',
@@ -60,6 +61,7 @@ const PostFormModal = (props: any) => {
     foodType: [],
     city: '',
     country: '',
+    img: [],
   });
 
   const handleChange = (e: any): void => {
@@ -81,7 +83,7 @@ const PostFormModal = (props: any) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!postFormData.storeName) {
+    if (!postFormData.storeName || content?.storeName) {
       alert('Write store name!');
       return;
     } else if (!postFormData.address) {
@@ -93,7 +95,8 @@ const PostFormModal = (props: any) => {
     } else if (!postFormData.grade) {
       alert("You can't give 0 points!");
       return;
-    } else if (!files.length) {
+    } else if (!files.length || !content?.img) {
+      console.log('bb', content?.img);
       alert('Please Add Image!');
       return;
     } else if (!postFormData.mood.length) {
@@ -111,8 +114,9 @@ const PostFormModal = (props: any) => {
     for (let i = 0; i < files?.length; i++) {
       formData.append('images', files[i]);
     }
+    console.log(formData);
 
-    axios.post('/post/upload', formData).then(async (response) => {
+    axios.post('/api/post/upload', formData).then(async (response) => {
       const imgList = [...response.data]; //s3링크
       // console.log(imgList);
       // setImg(imgList);
@@ -126,12 +130,12 @@ const PostFormModal = (props: any) => {
       // 새로운 글을 작성한다면 post 요청
       if (!props.postNum) {
         await axios
-          .post('/post', postData)
+          .post('/api/post', postData)
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             alert('success post!');
             await axios
-              .post(`/user/${response.data.post._id}/${userNum}`)
+              .post(`/api/user/${response.data.post._id}/${userNum}`)
               .then((response) => console.log(response))
               .catch((error) => console.log(error));
 
@@ -141,9 +145,9 @@ const PostFormModal = (props: any) => {
       } else {
         // 기존 글이라면 patch 요청
         await axios
-          .patch(`/post/${props.postNum}`, postData)
+          .patch(`/api/post/${props.postNum}`, postData)
           .then(async (response) => {
-            console.log(response);
+            // console.log(response);
             alert('success patch!');
             props.setModalOpen(false);
           })
@@ -157,7 +161,7 @@ const PostFormModal = (props: any) => {
     const getContents = async () => {
       return await axios({
         method: 'get',
-        url: `/post/${props.postNum}`,
+        url: `/api/post/${props.postNum}`,
       }).then((res) => {
         // console.log(res.data);
         setContent(res.data);
@@ -165,9 +169,7 @@ const PostFormModal = (props: any) => {
       });
     };
     getContents();
-    // console.log(content?.storeName);
-    // console.log(content?.img);
-  }, [props.postNum, files, strLength, postFormData]);
+  }, []);
 
   return (
     <Modal>
@@ -202,12 +204,12 @@ const PostFormModal = (props: any) => {
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                // address={content?.city}
+                address={content?.city}
               />
               <LocationSearchInput
                 required
                 setPostFormData={setPostFormData}
-                // address={content?.address}
+                address={content?.address}
                 type="address"
               />
               {/* {content?.address && (
@@ -227,7 +229,7 @@ const PostFormModal = (props: any) => {
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
+            {/* <AddImages setFiles={setFiles} setPreview={setPreview} ></AddImages> */}
             {/* {content?.img && (
               <AddImages
                 setFiles={setFiles}
@@ -236,7 +238,7 @@ const PostFormModal = (props: any) => {
               ></AddImages>
             )} */}
             {/* <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages> */}
-            {/* {content?.img ? (
+            {content?.img ? (
               <AddImages
                 setFiles={setFiles}
                 setPreview={setPreview}
@@ -247,7 +249,7 @@ const PostFormModal = (props: any) => {
                 setFiles={setFiles}
                 setPreview={setPreview}
               ></AddImages>
-            )} */}
+            )}
             {/* TODO : 이미지 css 적용해서 넣어야함 */}
             {/* {content?.img.map((img: string) => {
               return <img src={img} alt={content?.storeName} />;

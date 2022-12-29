@@ -18,6 +18,7 @@ import {
   StoreInfo,
   CloseIcon,
   ItemB,
+  ButtonBox,
 } from './style';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
@@ -27,6 +28,7 @@ import { IoClose } from 'react-icons/io5';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ROUTE } from '../../Route';
 import { Rating } from 'react-simple-star-rating';
+import PostFormModal from '../PostFormMoal/PostFormModal';
 
 interface Iprops {
   [x: string]: any;
@@ -42,12 +44,13 @@ const Modal = (props: Iprops) => {
   const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
   const [user, setUser] = useState<any>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false); // post form
 
   // 콘텐트 데이터 불러오기
   const getData = () => {
     return axios({
       method: 'get',
-      url: `/post/${props.postNum}`,
+      url: `/api/post/${props.postNum}`,
     }).then((res) => {
       setData(res.data);
       // 좋아요 유저 확인
@@ -55,6 +58,7 @@ const Modal = (props: Iprops) => {
       checkBookMarkUser();
     });
   };
+
   // 좋아요 업데이트시, page reload
   useEffect(() => {
     const fetchData = async () => {
@@ -65,9 +69,10 @@ const Modal = (props: Iprops) => {
 
   // 유저데이터 불러오기
   const getUser = async () => {
-    const res = await axios.get(`/user/${userNum}`);
+    const res = await axios.get(`/api/user/${userNum}`);
     setUser(res.data.user.img);
   };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -81,10 +86,11 @@ const Modal = (props: Iprops) => {
     }
     setHeart('pink');
   };
+
   const checkBookMarkUser = () => {
     return axios({
       method: 'get',
-      url: `/bookmark/${userNum}`,
+      url: `/api/bookmark/${userNum}`,
     }).then((res) => {
       for (const x of res.data) {
         if (x.postNum == props.postNum) {
@@ -99,19 +105,21 @@ const Modal = (props: Iprops) => {
   const increaseHeart = () => {
     return axios({
       method: 'post',
-      url: `/post/like/${userNum}/${props.postNum}`,
+      url: `/api/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
   };
+
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
-      url: `/post/like/${userNum}/${props.postNum}`,
+      url: `/api/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
   };
+
   const clickHeart = () => {
     if (heart === 'pink') {
       setHeart('red');
@@ -125,7 +133,7 @@ const Modal = (props: Iprops) => {
   const addBookmark = () => {
     return axios({
       method: 'post',
-      url: `/bookmark`,
+      url: `/api/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -134,10 +142,11 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
+
   const deleteBookmark = () => {
     return axios({
       method: 'delete',
-      url: `/bookmark`,
+      url: `/api/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -146,6 +155,7 @@ const Modal = (props: Iprops) => {
       console.log(res);
     });
   };
+
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
@@ -154,6 +164,19 @@ const Modal = (props: Iprops) => {
       setSpoon('lightgray');
       deleteBookmark();
     }
+  };
+
+  const handleEdit = (postNum: number): void => {
+    setModalOpen(true);
+    // setPostNum(props.postNum);
+  };
+
+  const handleDelete = (postNum: number) => {
+    alert('Are you sure you want to delete?');
+    axios.delete(`/api/post/${postNum}`).then((res) => {
+      console.log(res);
+      props.closeModal();
+    });
   };
 
   // 모달 창 떴을 시 배경 스크롤 막기
@@ -197,6 +220,13 @@ const Modal = (props: Iprops) => {
   }
   return (
     <ModalBackground>
+      {modalOpen && (
+        <PostFormModal
+          setModalOpen={setModalOpen}
+          // setPostNum={setPostNum}
+          postNum={props.postNum}
+        />
+      )}
       <ModalWrapper>
         <TitleWrapper>
           <IconsWrapper>
@@ -255,6 +285,22 @@ const Modal = (props: Iprops) => {
             </TagBox>
             <TextBox>{data?.review}</TextBox>
           </Content>
+          <ButtonBox>
+            <button
+              onClick={() => {
+                handleEdit(props.postNum);
+              }}
+            >
+              edit
+            </button>
+            <button
+              onClick={() => {
+                handleDelete(props.postNum);
+              }}
+            >
+              delete
+            </button>
+          </ButtonBox>
         </Box>
       </ModalWrapper>
     </ModalBackground>

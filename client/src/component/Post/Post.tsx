@@ -33,13 +33,13 @@ const Post = () => {
   const userNum = localStorage.getItem('userNum');
 
   const getReviews = async () => {
-    const res = await axios.get(`/user/${userNum}`);
+    const res = await axios.get(`/api/user/${userNum}`);
     setReviews(res.data.user.post);
   };
 
   useEffect(() => {
     getReviews();
-  }, [reviews]);
+  }, []);
 
   const handleClick = (postNum: number) => {
     setContentModalOpen(true);
@@ -53,9 +53,9 @@ const Post = () => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios.delete(`/post/${postNum}`).then((res) => {
+    axios.delete(`/api/post/${postNum}`).then((res) => {
       console.log(res);
-      axios.get(`/user/${userNum}`).then((res) => {
+      axios.get(`/api/user/${userNum}`).then((res) => {
         setReviews(res.data.user.post);
       });
     });

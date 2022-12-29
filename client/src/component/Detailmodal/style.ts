@@ -205,3 +205,13 @@ export const TextBox = styled.div`
     background: #ccc;
   }
 `;
+
+export const ButtonBox = styled.div`
+  // background-color: pink;
+  display: flex;
+  justify-content: center;
+
+  & button {
+    margin: 0 10px;
+  }
+`;
