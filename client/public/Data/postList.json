@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "식당1",
+    "src": "https://cdn.discordapp.com/attachments/1025667513629016165/1055539761479168070/tteokbokki-2545943_1920.jpg"
+  },
+  {
+    "id": 2,
+    "name": "식당2",
+    "src": "https://cdn.discordapp.com/attachments/1025667513629016165/1055539761730814112/vietnam-4506690_1920.jpg"
+  },
+  {
+    "id": 3,
+    "name": "식당3",
+    "src": "https://cdn.discordapp.com/attachments/1025667513629016165/1055539761139417098/restaurant-1690696_1920.jpg"
+  },
+  {
+    "id": 4,
+    "name": "식당4",
+    "src": "https://cdn.discordapp.com/attachments/1025667513629016165/1055540412896526416/food-5981232_1920.jpg"
+  }
+]
