@@ -1,7 +1,11 @@
 {
-  "extends": ["react-app", "prettier"],
+  "root": true,
+  "extends": ["prettier"],
   "plugins": ["prettier"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    "prettier/prettier": "error",
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off"
   }
 }
