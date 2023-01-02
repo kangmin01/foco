@@ -8,32 +8,54 @@ import {
 } from '../style';
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { LeftArrow, RightArrow } from './Arrows';
-
 import { useState, useEffect } from 'react';
-
 import { RiCloseFill } from 'react-icons/ri';
+
+import imageCompression from 'browser-image-compression';
 
 const AddImages = (props: any) => {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  // console.log('>', selectedImages);
+  // console.log('>>', props.img);
+  const [filesList, setFilesList] = useState<any>([]);
 
-  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    props.setFiles(e.target.files);
+  let compressedImageList: any[] = [];
 
-    if (e.target.files) {
-      if (
-        e.target.files.length >= 6 ||
-        selectedImages.length + e.target.files.length >= 6
-      ) {
-        alert('You can only choose up to 5 photos');
-        return;
+  const handleImgChange = async (e: any) => {
+    if (
+      e.target.files.length >= 6 ||
+      selectedImages.length + e.target.files.length >= 6
+    ) {
+      alert('You can only choose up to 5 photos');
+      return;
+    }
+
+    const options = {
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1000,
+    };
+
+    try {
+      for (const img of e.target.files) {
+        const compressedFile = await imageCompression(img, options);
+        compressedImageList.push(compressedFile);
       }
 
-      const fileArray: string[] = Array.from(e.target.files).map((file: any) =>
-        URL.createObjectURL(file)
+      setFilesList((prev: any) => [...prev, ...compressedImageList]);
+
+      const fileArray: string[] = Array.from(compressedImageList).map(
+        (file: any) => URL.createObjectURL(file)
       );
+      Array.from(compressedImageList).map((file: any) =>
+        URL.revokeObjectURL(file)
+      );
+      compressedImageList = [];
 
       const newArr = [...fileArray];
+
       setSelectedImages((prevImages) => prevImages.concat(newArr));
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -49,8 +71,18 @@ const AddImages = (props: any) => {
   };
 
   useEffect(() => {
-    props.setPreview([...selectedImages]);
-  }, [selectedImages]);
+    // setSelectedImages(props.img);
+    props.setFiles([...filesList]);
+    // console.log(filesList);
+    // props.setPreview([...selectedImages]);
+  }, [filesList]);
+
+  useEffect(() => {
+    // console.log(props.img); >> s3 링크
+    // setSelectedImages(props.img ? props.img : []);
+    // setFilesList(props.img ? props.img : []);
+    setSelectedImages(props.img ? props.img : []);
+  }, [props.img]);
 
   const renderImages = (source: string[]) => {
     return source.map((src: any, idx: number) => {
@@ -61,7 +93,7 @@ const AddImages = (props: any) => {
           </Image>
           <ImageOver>
             <ImageItemButton>
-              <button onClick={() => handleRemoveImage(idx)}>
+              <button type="button" onClick={() => handleRemoveImage(idx)}>
                 <RiCloseFill />
               </button>
             </ImageItemButton>
@@ -104,7 +136,9 @@ const AddImages = (props: any) => {
             multiple
           />
         </label>
-        <button onClick={handleRemoveAllImages}>전체 삭제</button>
+        <button type="button" onClick={handleRemoveAllImages}>
+          All Delete
+        </button>
       </ImageButton>
       <ImageList>
         {selectedImages.length !== 0 && (

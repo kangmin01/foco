@@ -20,6 +20,7 @@
     "@types/styled-components": "^5.1.26",
     "@types/yaireo__tagify": "^4.16.0",
     "axios": "^1.2.1",
+    "browser-image-compression": "^2.0.0",
     "cross-env": "^7.0.3",
     "gsap": "^3.11.3",
     "react": "^18.2.0",
@@ -40,7 +41,10 @@
     "react-simple-maps": "^3.0.0",
     "react-simple-star-rating": "^5.1.7",
     "redux": "^4.2.0",
+    "sweetalert2": "^11.6.16",
+    "sweetalert2-react-content": "^5.0.7",
     "typescript": "^4.4.2",
+    "uuid": "^9.0.0",
     "v6": "^0.0.0",
     "web-vitals": "^2.1.0"
   },
@@ -70,6 +74,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "eslint": "^8.29.0",
@@ -80,6 +85,5 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.8.1",
     "styled-components": "^5.3.6"
-  },
-  "proxy": "http://localhost:3000"
-}
+  }
+  }

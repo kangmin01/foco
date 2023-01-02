@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { validatePassword } from '../util/usefulFunctions';
 import Menu from './Menu';
-import { ROUTE } from '../../Route';
 import {
   AccountContainer,
   ContentsBox,
@@ -19,8 +19,11 @@ import {
   Button,
 } from './account-style';
 
-interface inputData {
+interface userData {
+  email: string;
   password: string;
+  newPassword: string;
+  newPassword2: string;
 }
 
 interface errorData {
@@ -29,8 +32,11 @@ interface errorData {
 }
 
 const Security = () => {
-  const [info, setInfo] = useState<inputData>({
+  const [userData, setUserData] = useState<userData>({
+    email: '',
     password: '',
+    newPassword: '',
+    newPassword2: '',
   });
 
   const [error, setError] = useState<errorData>({
@@ -39,8 +45,31 @@ const Security = () => {
   });
 
   const validateConfirmPassword = (password: string) => {
-    return password === info.password;
+    return password === userData.newPassword;
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const { params }: any = useParams;
+      const userNum = localStorage.getItem('userNum');
+
+      axios
+        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+          params,
+        })
+        .then((res) => {
+          const data = res.data.user;
+          setUserData((prev) => ({
+            ...prev,
+            email: data.email,
+          }));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getUserData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'password') {
@@ -54,9 +83,9 @@ const Security = () => {
           ...prev,
           passwordError: '',
         }));
-        setInfo((prev) => ({
+        setUserData((prev) => ({
           ...prev,
-          [e.target.name]: e.target.value,
+          newPassword: e.target.value,
         }));
       }
     } else if (e.target.name === 'confirmPassword') {
@@ -70,41 +99,37 @@ const Security = () => {
           ...prev,
           confirmPasswordError: '',
         }));
+        setUserData((prev) => ({
+          ...prev,
+          newPassword2: e.target.value,
+        }));
       }
+    } else if (e.target.name === 'currentPassword') {
+      setUserData((prev) => ({
+        ...prev,
+        password: e.target.value,
+      }));
     }
   };
 
-  const [email, setEmail] = useState<String>();
-
-  const getUserData = async () => {
-    const { params }: any = useParams;
-    const userNum = sessionStorage.getItem('userNum');
-
-    axios
-      .get(`${ROUTE.SECURITY.link}/${userNum}`, { params })
-      .then((res) => {
-        const data = res.data.user;
-        setEmail(data.email);
-        console.log(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await getUserData();
-    };
-    fetchData();
-  }, [email]);
-
   const handleSubmit = () => {
-    if (error.passwordError === '' && error.confirmPasswordError === '') {
-      alert('비밀번호 변경 성공');
-      console.log(info);
+    if (error.passwordError !== '') {
+      InfoAlert('Must be at 8 characters');
+    } else if (error.confirmPasswordError !== '') {
+      InfoAlert('Passwords do not match');
     } else {
-      alert('내용확인!');
+      axios
+        .patch(
+          'http://kdt-sw3-team11.elicecoding.com/api/user/password',
+          userData
+        )
+        .then((res) => {
+          SuccessAlert('Password Changed!');
+        })
+        .catch((err) => {
+          InfoAlert('Please Check Your Password');
+          console.log(err);
+        });
     }
   };
 
@@ -118,12 +143,28 @@ const Security = () => {
             <InfoItem>
               <Label htmlFor="nickname">
                 <p>Email</p>
-                <FixedValue>{email}</FixedValue>
+                <FixedValue>{userData.email}</FixedValue>
               </Label>
             </InfoItem>
             <InfoItem>
               <Label htmlFor="password">
-                <p>Password</p>
+                <p>Current Password</p>
+                <InputBox>
+                  <Input
+                    type="password"
+                    name="currentPassword"
+                    onChange={handleChange}
+                    placeholder="Current password"
+                  />
+                  <Errormsg>
+                    <p>{}</p>
+                  </Errormsg>
+                </InputBox>
+              </Label>
+            </InfoItem>
+            <InfoItem>
+              <Label htmlFor="password">
+                <p>New Password</p>
                 <InputBox>
                   <Input
                     type="password"

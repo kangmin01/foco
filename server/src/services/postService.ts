@@ -20,6 +20,7 @@ class PostServie {
             storeName,
             grade,
             img,
+            userNum,
             review,
             city,
             country,

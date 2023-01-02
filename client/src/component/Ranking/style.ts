@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const RankingWrapper = styled.div`
-  width: 35vw;
-  height: 80vh;
+  width: 30vw;
+  height: 73vh;
   margin: 0 20px;
   padding: 40px;
   box-sizing: border-box;
@@ -50,18 +50,27 @@ export const MoreButton = styled(Button)`
 `;
 
 export const ContentBox = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin: 25px 0;
-  padding: 25px 20px;
+  padding: 30px 28px;
   box-sizing: border-box;
   background-color: #f5f5f5;
   border-radius: 10px;
   cursor: pointer;
   & img {
+    position: relative;
     width: 60%;
     border-radius: 10px;
+    margin-right: 15px;
+  }
+
+  & .openButton {
+    position: absolute;
+    right: 20px;
+    top: 20px;
   }
 `;
 

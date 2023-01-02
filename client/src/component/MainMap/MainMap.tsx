@@ -11,6 +11,7 @@ import {
 } from 'react-simple-maps';
 import { MapWrapper, TopWrapper, BottomWrapper } from './style';
 import DropDown from '../DropDown/DropDown';
+import useGeoLocation from '../useGeolocation/useGeolocation';
 
 // TODO : 타입 에러 해결해야함
 interface Icontent {
@@ -32,19 +33,32 @@ interface Icoordinates {
   width: number;
 }
 
+interface IMyLocation {
+  lat: number;
+  lng: number;
+}
+
 const MainMap = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [country, setCountry] = useState<string>('');
   const [data, setData] = useState<string[]>([]);
   const [currentCity, setcurrentCity] = useState<string>('');
   const [path, setPath] = useState<string[]>([]);
+  const [myLocation, setMyLocation] = useState<IMyLocation>();
+  const location = useGeoLocation();
+
+  const checkMyLocation = () => {
+    if (location.loaded) {
+      const myLocation = location.coordinates;
+      setMyLocation(myLocation);
+    }
+  };
 
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `/post`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post`,
     }).then((res) => {
-      // console.log(res);
       setData(res.data);
     });
   };
@@ -52,7 +66,7 @@ const MainMap = () => {
   const getCoordinates = () => {
     return axios({
       method: 'get',
-      url: 'http://localhost:4000/Data/coordinates.json',
+      url: 'http://kdt-sw3-team11.elicecoding.com/Data/coordinates.json',
     }).then((res) => {
       setPath(res.data);
     });
@@ -61,9 +75,17 @@ const MainMap = () => {
   useEffect(() => {
     const fetchData = async () => {
       await getCoordinates();
+      await checkMyLocation();
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await checkMyLocation();
+    };
+    fetchData();
+  }, [myLocation]);
 
   const zoomInMarkers = data.map((content: any) => {
     return {
@@ -75,12 +97,12 @@ const MainMap = () => {
   });
 
   const mapMarker = zoomInMarkers.map(({ country, name, coordinates }: any) => {
-    let color = '#2c4052';
+    let color = '#ffe88c';
     let width;
     let height;
     let font;
     if (name === currentCity) {
-      color = '#97c6f3';
+      color = '#efb71c';
     }
 
     path.map((content: any) => {
@@ -103,7 +125,7 @@ const MainMap = () => {
     return (
       <Marker key={name} coordinates={coordinates} className="markWrapper">
         {modalOpen && (
-          <Link to={`/${country}/${name}`}>
+          <Link to={`/`}>
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
@@ -151,6 +173,51 @@ const MainMap = () => {
       </Marker>
     );
   });
+
+  const myLocationMarker = [
+    {
+      markerOffset: 15,
+      name: ' You are hear!',
+      coordinates: [myLocation?.lng, myLocation?.lat],
+    },
+  ];
+
+  const MyMarker = myLocationMarker.map(
+    ({ markerOffset, name, coordinates }: any) => {
+      return location.loaded && myLocation !== undefined ? (
+        <Marker key={name} coordinates={coordinates}>
+          {!modalOpen && (
+            <Link to={`/`}>
+              <g
+                fill="none"
+                stroke="#FF5533"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                transform="translate(-12, -24)"
+              >
+                <circle cx="12" cy="10" r="3" />
+                <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z" />
+              </g>
+              <text
+                textAnchor="middle"
+                y={markerOffset}
+                style={{
+                  fontFamily: 'system-ui',
+                  fill: '#383838',
+                  fontWeight: '700',
+                }}
+              >
+                {name}
+              </text>
+            </Link>
+          )}
+        </Marker>
+      ) : (
+        'Location data not available yet.'
+      );
+    }
+  );
 
   const showWholeMap = () => {
     gsap.to(`.map`, 1, {
@@ -212,7 +279,7 @@ const MainMap = () => {
           projection="geoEquirectangular"
           projectionConfig={{ scale: 180 }}
         >
-          <Geographies geography="/Data/worldmap.json">
+          <Geographies geography="http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json">
             {({ geographies }) =>
               geographies.map((geo: any) => (
                 <Geography
@@ -243,6 +310,7 @@ const MainMap = () => {
             }
           </Geographies>
           {mapMarker}
+          {MyMarker}
         </ComposableMap>
         {modalOpen && (
           <Ranking

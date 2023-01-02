@@ -98,6 +98,7 @@ export const CountrySelect = styled.div`
 
 export const SubmitBtn = styled.button`
   all: unset;
+  margin-top: 20px;
   width: 80%;
   height: 50px;
   border-radius: 30px;
@@ -112,48 +113,49 @@ export const SubmitBtn = styled.button`
   }
 `;
 
-export const SocialLoin = styled.div`
-  width: 100%;
-`;
+//소셜로그인 스타일
+// export const SocialLoin = styled.div`
+//   width: 100%;
+// `;
 
-export const GoogleBtn = styled(SubmitBtn)`
-  border: 2px solid var(--secondary-color);
-  background-color: white;
-  color: #000000;
-  & > span {
-    margin-left: 10px;
-  }
-  &:hover {
-    border: 2px solid var(--primary-color);
-    background-color: white;
-  }
-`;
+// export const GoogleBtn = styled(SubmitBtn)`
+//   border: 2px solid var(--secondary-color);
+//   background-color: white;
+//   color: #000000;
+//   & > span {
+//     margin-left: 10px;
+//   }
+//   &:hover {
+//     border: 2px solid var(--primary-color);
+//     background-color: white;
+//   }
+// `;
 
-export const Border = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 30px 0px;
-  width: 80%;
-  color: #b3b3b3;
-  font-size: 12px;
+// export const Border = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin: 30px 0px;
+//   width: 80%;
+//   color: #b3b3b3;
+//   font-size: 12px;
 
-  &::before {
-    content: '';
-    flex-grow: 1;
-    background: #d9d9d9;
-    height: 1px;
-    font-size: 0px;
-    line-height: 0px;
-    margin-right: 16px;
-  }
+//   &::before {
+//     content: '';
+//     flex-grow: 1;
+//     background: #d9d9d9;
+//     height: 1px;
+//     font-size: 0px;
+//     line-height: 0px;
+//     margin-right: 16px;
+//   }
 
-  &::after {
-    content: '';
-    flex-grow: 1;
-    background: #d9d9d9;
-    height: 1px;
-    font-size: 0px;
-    line-height: 0px;
-    margin-left: 16px;
-  }
-`;
+//   &::after {
+//     content: '';
+//     flex-grow: 1;
+//     background: #d9d9d9;
+//     height: 1px;
+//     font-size: 0px;
+//     line-height: 0px;
+//     margin-left: 16px;
+//   }
+// `;

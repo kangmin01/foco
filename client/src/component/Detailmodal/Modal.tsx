@@ -18,16 +18,20 @@ import {
   StoreInfo,
   CloseIcon,
   ItemB,
+  ButtonBox,
 } from './style';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaUtensilSpoon } from 'react-icons/fa';
 import { IoClose } from 'react-icons/io5';
-import ScrollHorizontal from 'react-scroll-horizontal';
-import { Icontent } from '../Icontent';
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import { ROUTE } from '../../Route';
+import { Rating } from 'react-simple-star-rating';
+import PostFormModal from '../PostFormMoal/PostFormModal';
 
 interface Iprops {
+  [x: string]: any;
   postNum: number;
   closeModal: () => void;
   like: number;
@@ -35,45 +39,27 @@ interface Iprops {
 }
 
 const Modal = (props: Iprops) => {
-  const [data, setData] = useState<Icontent>();
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState<any>();
   const [heart, setHeart] = useState<string>('');
-  const [spoon, setSpoon] = useState<string>('lightgray');
-
-  console.log(heart);
-  console.log('start'); // 데이터 확인
-  console.log(props.postNum); //23
+  const [spoon, setSpoon] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
-  console.log(userNum); //14
+  const [user, setUser] = useState<any>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false); // post form
 
-  // 데이터 불러오기
+  // 콘텐트 데이터 불러오기
   const getData = () => {
     return axios({
       method: 'get',
-      url: `/post/${props.postNum}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
     }).then((res) => {
-      console.log(res.data.likeUsers);
       setData(res.data);
       // 좋아요 유저 확인
-      res.data.likeUsers.filter((x: any) => {
-        console.log(x);
-        if (x == userNum) {
-          setHeart('red');
-        } else {
-          setHeart('pink');
-        }
-      });
+      checkLikeUser(res);
+      checkBookMarkUser();
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await getData();
-    };
-    fetchData();
-  }, []);
-
-  // 좋아요 업데이트시, 적용하기 위한 useEffect
+  // 좋아요 업데이트시, page reload
   useEffect(() => {
     const fetchData = async () => {
       await getData();
@@ -81,10 +67,47 @@ const Modal = (props: Iprops) => {
     fetchData();
   }, [props.like]);
 
+  // 유저데이터 불러오기
+  const getUser = async () => {
+    const res = await axios.get(
+      `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`
+    );
+    setUser(res.data.user.img);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const checkLikeUser = (res: any) => {
+    for (const x of res.data.likeUsers) {
+      if (x == userNum) {
+        setHeart('red');
+        return;
+      }
+    }
+    setHeart('pink');
+  };
+
+  const checkBookMarkUser = () => {
+    return axios({
+      method: 'get',
+      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
+    }).then((res) => {
+      for (const x of res.data) {
+        if (x.postNum == props.postNum) {
+          setSpoon('gold');
+          return;
+        }
+      }
+      setSpoon('lightgray');
+    });
+  };
+
   const increaseHeart = () => {
     return axios({
       method: 'post',
-      url: `/post/like/${userNum}/${props.postNum}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -93,7 +116,7 @@ const Modal = (props: Iprops) => {
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
-      url: `/post/like/${userNum}/${props.postNum}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -109,12 +132,55 @@ const Modal = (props: Iprops) => {
     }
   };
 
+  const addBookmark = () => {
+    return axios({
+      method: 'post',
+      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark`,
+      data: {
+        userNum,
+        postNum: props.postNum,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const deleteBookmark = () => {
+    return axios({
+      method: 'delete',
+      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark`,
+      data: {
+        userNum,
+        postNum: props.postNum,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
+
   const clickSpoon = () => {
     if (spoon === 'lightgray') {
       setSpoon('gold');
+      addBookmark();
     } else {
       setSpoon('lightgray');
+      deleteBookmark();
     }
+  };
+
+  const handleEdit = (postNum: number): void => {
+    setModalOpen(true);
+    // setPostNum(props.postNum);
+  };
+
+  const handleDelete = (postNum: number) => {
+    alert('Are you sure you want to delete?');
+    axios
+      .delete(`http://kdt-sw3-team11.elicecoding.com/api/post/${postNum}`)
+      .then((res) => {
+        console.log(res);
+        props.closeModal();
+      });
   };
 
   // 모달 창 떴을 시 배경 스크롤 막기
@@ -131,8 +197,40 @@ const Modal = (props: Iprops) => {
     };
   }, []);
 
+  // 스크롤
+  type scrollVisibilityApiType = React.ContextType<typeof VisibilityContext>;
+
+  const onWheel = (
+    apiObj: scrollVisibilityApiType,
+    ev: React.WheelEvent
+  ): void => {
+    const isThouchpad = Math.abs(ev.deltaX) !== 0 || Math.abs(ev.deltaY) < 15;
+
+    if (isThouchpad) {
+      ev.stopPropagation();
+      return;
+    }
+
+    if (ev.deltaY < 0) {
+      apiObj.scrollNext();
+    } else if (ev.deltaY > 0) {
+      apiObj.scrollPrev();
+    }
+  };
+
+  // 서버에서 불러오는 시간 차이 에러를 해결하기 위해
+  if (spoon === '' || heart === '') {
+    return <></>;
+  }
   return (
     <ModalBackground>
+      {modalOpen && (
+        <PostFormModal
+          setModalOpen={setModalOpen}
+          // setPostNum={setPostNum}
+          postNum={props.postNum}
+        />
+      )}
       <ModalWrapper>
         <TitleWrapper>
           <IconsWrapper>
@@ -159,19 +257,26 @@ const Modal = (props: Iprops) => {
               <Title>
                 <StoreName>{data?.storeName}</StoreName>
                 <Info>{data?.address}</Info>
-                <Info>{data?.grade}</Info>
+                <Info>
+                  <Rating
+                    size={25}
+                    readonly={true}
+                    initialValue={data?.grade}
+                  />
+                  ({data?.grade})
+                </Info>
               </Title>
-              <Profile src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" />
+              <Profile src={user} />
             </StoreInfo>
           </TitleBox>
         </TitleWrapper>
         <Box>
-          <ImgBox id="scroll-horizontal">
-            <ScrollHorizontal>
+          <ImgBox>
+            <ScrollMenu onWheel={onWheel}>
               {data?.img.map((img: string) => {
                 return <ItemB src={img} alt={data.storeName} />;
               })}
-            </ScrollHorizontal>
+            </ScrollMenu>
           </ImgBox>
           <Content>
             <TagBox>

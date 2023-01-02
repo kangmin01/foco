@@ -25,32 +25,28 @@ const Menu = () => {
     name: '',
     img: '',
   });
-  const userNum = sessionStorage.getItem('userNum');
-
-  const getUserData = async () => {
-    const { params }: any = useParams;
-
-    axios
-      .get(`${ROUTE.PROFILE.link}/${userNum}`, { params })
-      .then((res) => {
-        const data = res.data.user;
-        setInfo({
-          name: data.name,
-          img: '',
-        });
-        console.log(res.data.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const userNum = localStorage.getItem('userNum');
 
   useEffect(() => {
-    const fetchData = async () => {
-      await getUserData();
+    const { params }: any = useParams;
+    const getUserData = () => {
+      axios
+        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+          params,
+        })
+        .then((res) => {
+          const data = res.data.user;
+          setInfo({
+            name: data.name,
+            img: data.img,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-    fetchData();
-  }, []);
+    getUserData();
+  }, [userNum]);
 
   return (
     <MenuContainer>
@@ -66,7 +62,7 @@ const Menu = () => {
             <HiUserCircle />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.PROFILE.link}/${userNum}`}>Profile</Link>
+            <Link to={ROUTE.PROFILE.link}>Profile</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -74,7 +70,7 @@ const Menu = () => {
             <HiShieldCheck />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.SECURITY.link}/${userNum}`}>Security</Link>
+            <Link to={ROUTE.SECURITY.link}>Security</Link>
           </MenuBtn>
         </Item>
         <Item>
@@ -82,7 +78,7 @@ const Menu = () => {
             <HiCog6Tooth />
           </Icon>
           <MenuBtn>
-            <Link to={`${ROUTE.DEACTIVATE.link}/${userNum}`}>Deactivate</Link>
+            <Link to={ROUTE.DEACTIVATE.link}>Deactivate</Link>
           </MenuBtn>
         </Item>
       </ItemBox>

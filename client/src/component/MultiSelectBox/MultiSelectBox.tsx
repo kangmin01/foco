@@ -6,6 +6,7 @@ import { Icontent } from '../Icontent';
 import Content from '../Content/Content';
 
 interface Iprops {
+  title: string;
   country: string;
 }
 
@@ -20,13 +21,20 @@ const MultiSelectBox = (props: Iprops) => {
   const [citySelect, setCitySelect] = useState<string | undefined>();
   const [moodSelect, setMoodSelect] = useState<string | undefined>();
   const [foodSelect, setFoodSelect] = useState<string | undefined>();
+  console.log(props.country);
+  const userNum = localStorage.getItem('userNum');
 
   const getData = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${props.country}`,
+      //url: `/post?country=${props.country}`,
+      url:
+        props.title != 'My BookMark'
+          ? `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`
+          : `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}?country=${props.country}`,
     }).then((res) => {
       setData(res.data);
+      console.log(res.data);
     });
   };
 
@@ -35,14 +43,14 @@ const MultiSelectBox = (props: Iprops) => {
       await getData();
     };
     fetchData();
-  }, []);
+  }, [props.country]);
 
   const getSelectData = () => {
     let url = '';
     if (citySelect) {
-      url = `/post?country=${props.country}&city=${citySelect}`;
+      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}&city=${citySelect}`;
     } else {
-      url = `/post?country=${props.country}`;
+      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`;
     }
     return axios({
       method: 'get',
@@ -149,7 +157,7 @@ const MultiSelectBox = (props: Iprops) => {
       </MultiSelectBoxWrapper>
       <Content
         country={props.country}
-        // postSelect={postSelect.join('')}
+        title={props.title}
         citySelect={citySelect}
         moodSelect={moodSelect}
         foodTypeSelect={foodSelect}

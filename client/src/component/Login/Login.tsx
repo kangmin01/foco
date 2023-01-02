@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ROUTE } from '../../Route';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import { Cookies } from 'react-cookie';
-import { FaGoogle } from 'react-icons/fa';
 import { validateEmail, validatePassword } from '../util/usefulFunctions';
 import {
   LoginContainer,
@@ -16,9 +16,6 @@ import {
   ForgotPassword,
   SubmitBtn,
   Register,
-  SocialLoin,
-  GoogleBtn,
-  Border,
 } from './login-style';
 
 interface inputData {
@@ -88,9 +85,8 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('/user/login', info)
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/login', info)
         .then((res) => {
-          console.log(res);
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;
           const userNum = res.data.user.user.userNum;
@@ -100,15 +96,15 @@ const Login = () => {
           localStorage.setItem('userNum', userNum);
           localStorage.setItem('userName', userName);
           localStorage.setItem('userCountry', userCountry);
-          console.log(res);
+          SuccessAlert('Success Login!');
+          navigate(`${ROUTE.HOME.link}`);
         })
         .catch((error) => {
           console.log(error);
+          InfoAlert('Please Check Your Email or Password!');
         });
-      alert('Success Login!');
-      navigate(`${ROUTE.HOME.link}`);
     } else {
-      alert('Please Check Your Info!');
+      InfoAlert('Please Check Your Email or Password!');
     }
   };
 
@@ -143,18 +139,11 @@ const Login = () => {
           Log in
         </SubmitBtn>
         <Register>
-          Don't have an account?
+          Don't have an account?{' '}
           <span>
             <Link to={'/register'}>Register</Link>
           </span>
         </Register>
-        <Border>OR</Border>
-        <SocialLoin>
-          <GoogleBtn>
-            <FaGoogle />
-            <span>Login with Google</span>
-          </GoogleBtn>
-        </SocialLoin>
       </InnerBox>
     </LoginContainer>
   );

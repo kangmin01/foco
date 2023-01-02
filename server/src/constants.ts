@@ -5,7 +5,7 @@ interface EndPointInterface {
 }
 
 export const endPoint: EndPointInterface = {
-    post: '/post',
-    user: '/user',
-    bookmark: '/bookmark',
+    post: '/api/post',
+    user: '/api/user',
+    bookmark: '/api/bookmark',
 }

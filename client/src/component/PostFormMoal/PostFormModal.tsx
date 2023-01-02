@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-
 import {
   Modal,
   ModalBody,
@@ -15,40 +14,44 @@ import {
   Title,
   Address,
   Rate,
-  Input,
 } from './style';
 import StarRating from './func/StarRating';
 import { IoIosClose } from 'react-icons/io';
-
 import AddImages from './func/AddImages';
 import LocationSearchInput from './func/LocationSearchInput';
 import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
 
+interface postFormDataType {
+  storeName: string | undefined;
+  review: string;
+  grade: number;
+  address: string;
+  likeUsers: string[];
+  lat: number;
+  lng: number;
+  mood: string[];
+  foodType: string[];
+  city: string;
+  country: string;
+  img: string[];
+}
+
 const PostFormModal = (props: any) => {
+  const [files, setFiles] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
+  // const [img, setImg] = useState<string[]>([]);
+  const [content, setContent] = useState<postFormDataType>();
   const userName = localStorage.getItem('userName');
   const userCountry = localStorage.getItem('userCountry');
   const userNum = localStorage.getItem('userNum');
+  const [prev, setPrev] = useState<string[]>([]);
 
-  const [files, setFiles] = useState<string[]>([]);
-  const [preview, setPreview] = useState<string[]>([]);
-
-  interface postFormDataType {
-    storeName: string;
-    review: string;
-    grade: number;
-    address: string;
-    likeUsers: string[];
-    lat: number;
-    lng: number;
-    mood: string[];
-    foodType: string[];
-    city: string;
-    country: string;
-  }
+  // 기존의 글을 클릭한 모달이라면 postNum으로 해당 게시글의 글 가져와서 value에 뿌려주기
 
   const [postFormData, setPostFormData] = useState<postFormDataType>({
-    storeName: '',
+    storeName: content?.storeName,
+    // storeName: '',
     review: '',
     grade: 0,
     address: '',
@@ -59,6 +62,7 @@ const PostFormModal = (props: any) => {
     foodType: [],
     city: '',
     country: '',
+    img: [],
   });
 
   const handleChange = (e: any): void => {
@@ -79,69 +83,123 @@ const PostFormModal = (props: any) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(postFormData.country);
 
-    if (userCountry !== postFormData.country) {
+    if (postFormData.storeName === '') {
+      alert('Write store name!');
+      return;
+    } else if (postFormData.address === '') {
+      alert('Write address!');
+      return;
+    } else if (userCountry !== postFormData.country) {
       alert('You can only write posts that correspond to your country!');
-    } else {
-      const formData = new FormData();
+      return;
+    } else if (postFormData.grade < 0.5) {
+      alert("You can't give 0 points!");
+      return;
+    } else if (files.length === 0) {
+      // console.log('bb', files.length);
+      // alert('Please Add Image!');
+      // return;
+    } else if (postFormData.mood.length === 0) {
+      alert('Write mood!');
+      return;
+    } else if (postFormData.foodType.length === 0) {
+      alert('Write food!');
+      return;
+    } else if (postFormData.review === '') {
+      alert('Write review!');
+      return;
+    }
 
-      if (files?.length === undefined) {
-        alert('Please Add Image!');
-        return;
-      } else {
-        for (let i = 0; i < files?.length; i++) {
-          formData.append('images', files[i]);
-        }
-      }
+    const formData = new FormData();
+    for (let i = 0; i < files?.length; i++) {
+      formData.append('images', files[i]);
+    }
+    console.log('files는 뭐지', files);
+    console.log('원래 있던 ', postFormData.img);
+    console.log('prev ', prev);
 
-      axios.post('/post/upload', formData).then(async (response) => {
-        const imgList = [...response.data];
+    axios
+      .post('http://kdt-sw3-team11.elicecoding.com/api/post/upload', formData)
+      .then(async (response) => {
+        const imgList = [...response.data]; //s3링크
+        console.log('s3 링크 부여', imgList);
+        // setImg(imgList);
         const postData = {
           ...postFormData,
-          img: imgList,
+          userNum,
+          // img: [...content?.img, ...imgList],
+          img: [...prev, ...imgList],
           name: userName,
           country: userCountry,
         };
-        console.log(postData);
+        // 새로운 글을 작성한다면 post 요청
+        if (!props.postNum) {
+          await axios
+            .post('http://kdt-sw3-team11.elicecoding.com/api/post', postData)
+            .then(async (response) => {
+              console.log(response);
+              alert('success post!');
+              await axios
+                .post(
+                  `http://kdt-sw3-team11.elicecoding.com/api/user/${response.data.post._id}/${userNum}`
+                )
+                .then((response) => console.log(response))
+                .catch((error) => console.log(error));
 
-        await axios
-          .post('/post', postData)
-          .then(async (response) => {
-            console.log(response);
-            alert('success post!');
-
-            await axios
-              .post(`/user/${response.data.post._id}/${userNum}`)
-              .then((response) => console.log(response))
-              .catch((error) => console.log(error));
-
-            props.setModalOpen(false);
-          })
-          .catch((error) => console.log(error));
+              props.setModalOpen(false);
+            })
+            .catch((error) => console.log(error));
+        } else {
+          // 기존 글이라면 patch 요청
+          await axios
+            .patch(
+              `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
+              postData
+            )
+            .then(async (response) => {
+              // console.log(response);
+              alert('success patch!');
+              props.setModalOpen(false);
+            })
+            .catch((error) => console.log(error));
+        }
       });
-    }
   };
 
-  useEffect(() => {}, [
-    userName,
-    userCountry,
-    userNum,
-    files,
-    preview,
-    strLength,
-    postFormData,
-  ]);
+  useEffect(() => {
+    console.log('start');
+    // console.log(postFormData);
+    const getContents = async () => {
+      return await axios({
+        method: 'get',
+        url: `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
+      }).then((res) => {
+        console.log('모달 데이터 받음', res.data);
+        setContent(res.data);
+        setPrev(res.data.img);
+        // setPostFormData(res.data);
+      });
+    };
+    getContents();
+    console.log('content', content);
+    // console.log('content', content?.storeName);
+  }, []);
 
   return (
     <Modal>
       <ModalBody>
         <Header>
           <Likes>
-            <span>❤️</span>
-            <span>{postFormData.likeUsers?.length}</span>
+            {/* <span>❤️</span>
+            <span>{postFormData.likeUsers?.length}</span> */}
           </Likes>
-          <Close onClick={() => props.setModalOpen(false)}>
+          <Close
+            onClick={() => {
+              props.setModalOpen(false);
+              props.setPostNum(null);
+            }}
+          >
             <IoIosClose />
           </Close>
         </Header>
@@ -149,32 +207,71 @@ const PostFormModal = (props: any) => {
           <Intro>
             <Title>
               <input
+                required
                 name="storeName"
                 onChange={handleChange}
                 className="store"
+                defaultValue={props.postNum ? content?.storeName : ''}
                 placeholder="write store name..."
               ></input>
             </Title>
             <Address>
-              <LocationSearchInput setPostFormData={setPostFormData} />
+              <LocationSearchInput
+                required
+                setPostFormData={setPostFormData}
+                address={content?.city}
+              />
+              <LocationSearchInput
+                required
+                setPostFormData={setPostFormData}
+                address={content?.address}
+                type="address"
+              />
+              {/* {content?.address && (
+                <LocationSearchInput
+                  required
+                  setPostFormData={setPostFormData}
+                  address={content?.address}
+                />
+              )} */}
             </Address>
             <Rate>
               <StarRating
                 name="rate"
                 setPostFormData={setPostFormData}
+                grade={content?.grade}
               ></StarRating>
             </Rate>
           </Intro>
           <ImageBox>
-            <AddImages setFiles={setFiles} setPreview={setPreview}></AddImages>
+            {content?.img ? (
+              <AddImages
+                setFiles={setFiles}
+                setPreview={setPreview}
+                img={content?.img}
+              ></AddImages>
+            ) : (
+              <AddImages
+                setFiles={setFiles}
+                setPreview={setPreview}
+              ></AddImages>
+            )}
+            {/* TODO : 이미지 css 적용해서 넣어야함 */}
+            {/* {content?.img.map((img: string) => {
+              return <img src={img} alt={content?.storeName} />;
+            })} */}
           </ImageBox>
           <Tag>
             <CreatableSelectBox
+              required
+              data={content?.mood}
               setPostFormData={setPostFormData}
               name="mood"
               placeholder="Mood"
             />
             <CreatableSelectBox
+              required
+              data={content?.foodType}
               setPostFormData={setPostFormData}
               name="foodType"
               placeholder="Food"
@@ -182,14 +279,14 @@ const PostFormModal = (props: any) => {
           </Tag>
           <Review>
             <textarea
+              required
               name="review"
               onKeyUp={checkString}
               onChange={handleChange}
               maxLength={500}
               rows={5}
-              placeholder={
-                'I’m pleasure to recommend this restaurant to you:) It’s very delicious! What a Nice Day!'
-              }
+              defaultValue={props.postNum ? content?.review : ''}
+              placeholder="I’m pleasure to recommend this restaurant to you:) It’s very delicious! What a Nice Day!"
             />
             <span>( {strLength} / 500 )</span>
           </Review>
@@ -197,8 +294,6 @@ const PostFormModal = (props: any) => {
             <button type="submit" onClick={handleSubmit}>
               submit
             </button>
-            {/* <button>edit</button>
-            <button>delete</button> */}
           </Button>
         </Main>
       </ModalBody>

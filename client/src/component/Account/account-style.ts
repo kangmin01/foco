@@ -17,8 +17,9 @@ export const ContentsBox = styled(Box)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin: 40px 0;
+  margin: 60px 0;
   padding: 40px 0;
+  width: 80%;
   height: 700px;
 `;
 
@@ -35,7 +36,9 @@ export const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 80%;
   height: 100%;
 `;
 
@@ -122,7 +125,7 @@ export const Button = styled.button`
 //Menu Style
 export const MenuContainer = styled.div`
   padding: 60px 0 60px 60px;
-  width: 300px;
+  width: 30%;
   height: 100%;
   border-right: 2px solid #f3f3f3;
 `;
@@ -131,7 +134,7 @@ export const UserBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 40px 30px 0;
+  margin: 0 60px 30px 0;
 `;
 
 export const ImgBox = styled.div`

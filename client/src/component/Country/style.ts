@@ -8,7 +8,6 @@ export const CountryWrapper = styled.div`
   width: 98vw;
   padding: 0 50px;
   padding-top: 120px;
-  overflow-x: hidden;
 `;
 
 export const Title = styled.div`

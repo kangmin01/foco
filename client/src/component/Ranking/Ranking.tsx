@@ -37,7 +37,7 @@ const Ranking = (props: Iprops) => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `/post?country=${country}`,
+      url: `http://kdt-sw3-team11.elicecoding.com/api/post?country=${country}`,
     }).then((res) => {
       setData(res.data);
     });
@@ -109,12 +109,13 @@ const Ranking = (props: Iprops) => {
               </div>
               <StoreName>{content.storeName}</StoreName>
             </Left>
+            <img src={content.img[0]} alt={content.storeName}></img>
             <MdZoomOutMap
               onClick={() => {
                 openCotentModal(content.postNum);
               }}
+              className="openButton"
             />
-            <img src={content.img[0]} alt={content.storeName}></img>
           </ContentBox>
         );
       })}

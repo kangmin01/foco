@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ROUTE } from '../../Route';
 import Select from 'react-select';
-import { FaGoogle } from 'react-icons/fa';
+import { InfoAlert, SuccessAlert } from '../util/alert';
 import {
   validateNickname,
   validateEmail,
@@ -21,9 +21,6 @@ import {
   Errormsg,
   CountrySelect,
   SubmitBtn,
-  SocialLoin,
-  GoogleBtn,
-  Border,
 } from './register-style';
 
 interface userData {
@@ -31,6 +28,7 @@ interface userData {
   email: string;
   password: string;
   country: string;
+  img: string;
 }
 
 interface errorData {
@@ -49,6 +47,7 @@ const Register = () => {
     email: '',
     password: '',
     country: '',
+    img: 'https://foco-images.s3.ap-northeast-2.amazonaws.com/1672209773539_basic_profile.jpg',
   });
 
   const [error, setError] = useState<errorData>({
@@ -66,7 +65,7 @@ const Register = () => {
   useEffect(() => {
     const getCountriesName = async () => {
       await axios
-        .get('http://localhost:4000/Data/worldmap.json')
+        .get('http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json')
         .then((res) => setCountries(res.data.objects.world.geometries));
     };
     getCountriesName();
@@ -164,17 +163,17 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('/user/register', info)
+        .post('http://kdt-sw3-team11.elicecoding.com/api/user/register', info)
         .then((res) => {
-          console.log(res);
+          SuccessAlert('Success Register!');
+          navigate(`${ROUTE.LOGIN.link}`);
         })
         .catch((error) => {
-          console.log(error);
+          InfoAlert('This email has already been used.');
         });
-      alert('WELCOME');
-      navigate(`${ROUTE.LOGIN.link}`);
     } else {
-      alert('FAILED');
+      InfoAlert('Please Check Your Info!');
+      // alert('Please Check Your Info!');
     }
   };
 
@@ -234,13 +233,6 @@ const Register = () => {
         <SubmitBtn type="submit" onClick={handleSubmit}>
           Register
         </SubmitBtn>
-        <Border>OR</Border>
-        <SocialLoin>
-          <GoogleBtn>
-            <FaGoogle />
-            <span>Login with Google</span>
-          </GoogleBtn>
-        </SocialLoin>
       </InnerBox>
     </RegisterContainer>
   );
