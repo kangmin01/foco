@@ -17,6 +17,7 @@ import {
   SubmitBtn,
   Register,
 } from './login-style';
+import { API_URL } from '../../constant';
 
 interface inputData {
   email: string;
@@ -85,7 +86,7 @@ const Login = () => {
       info.password !== ''
     ) {
       axios
-        .post('http://kdt-sw3-team11.elicecoding.com/api/user/login', info)
+        .post(`${API_URL}/user/login`, info)
         .then((res) => {
           const cookies = new Cookies();
           const token = res.data.user.refreshToken;

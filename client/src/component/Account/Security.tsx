@@ -18,7 +18,7 @@ import {
   FixedValue,
   Button,
 } from './account-style';
-
+import { API_URL, CLIENT_URL } from '../../constant';
 interface userData {
   email: string;
   password: string;
@@ -54,7 +54,7 @@ const Security = () => {
       const userNum = localStorage.getItem('userNum');
 
       axios
-        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+        .get(`${API_URL}/user/${userNum}`, {
           params,
         })
         .then((res) => {
@@ -119,10 +119,7 @@ const Security = () => {
       InfoAlert('Passwords do not match');
     } else {
       axios
-        .patch(
-          'http://kdt-sw3-team11.elicecoding.com/api/user/password',
-          userData
-        )
+        .patch(`${API_URL}/user/password`, userData)
         .then((res) => {
           SuccessAlert('Password Changed!');
         })

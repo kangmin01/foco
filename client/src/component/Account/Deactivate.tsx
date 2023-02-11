@@ -18,6 +18,7 @@ import {
   FixedValue,
   Button,
 } from './account-style';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 interface inputData {
   email: string;
@@ -37,7 +38,7 @@ const Deactivate = () => {
     const { params }: any = useParams;
     const getUserData = async () => {
       await axios
-        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+        .get(`${API_URL}/user/${userNum}`, {
           params,
         })
         .then((res) => {
@@ -76,7 +77,7 @@ const Deactivate = () => {
       if (result.isConfirmed) {
         Swal.fire({ title: 'Changed!', icon: 'success' });
         axios
-          .delete('http://kdt-sw3-team11.elicecoding.com/api/user', {
+          .delete(`${API_URL}/user`, {
             data: info,
           })
           .then((res) => {

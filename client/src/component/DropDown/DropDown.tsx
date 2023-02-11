@@ -3,13 +3,12 @@ import { DropDownWrapper } from './style';
 import axios from 'axios';
 import Select from 'react-select';
 import { Icontent } from './../Icontent';
-
+import { API_URL, CLIENT_URL } from '../../constant';
 const DropDown = (props: any) => {
   const [countries, setCountries] = useState<any[]>([]);
   const [country, setCountry] = useState<string>('');
   const userNum = localStorage.getItem('userNum');
 
-  // console.log(countries);
   const options = countries.map((x) => {
     if (props.title != 'My BookMark') {
       return {
@@ -27,7 +26,7 @@ const DropDown = (props: any) => {
   const findCordinates = (country: string) => {
     return axios({
       method: 'get',
-      url: 'http://kdt-sw3-team11.elicecoding.com/Data/coordinates.json',
+      url: `${CLIENT_URL}/Data/coordinates.json`,
     }).then((res) => {
       res.data.map((content: any) => {
         if (country == content.name) {
@@ -46,7 +45,7 @@ const DropDown = (props: any) => {
   const getCountriesName = () => {
     return axios({
       method: 'get',
-      url: 'http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json',
+      url: `${CLIENT_URL}/Data/worldmap.json`,
     }).then((res) => {
       setCountries(res.data.objects.world.geometries);
       console.log(res.data.objects.world.geometries); //배열임
@@ -56,7 +55,7 @@ const DropDown = (props: any) => {
   const getBookMarkCountries = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
+      url: `${API_URL}/bookmark/${userNum}`,
     }).then((res) => {
       const bookMarkCountries = res.data.map((x: any) => {
         return x.country;

@@ -21,7 +21,7 @@ import AddImages from './func/AddImages';
 import LocationSearchInput from './func/LocationSearchInput';
 import CreatableSelectBox from '../CreatableSelectBox/CreatableSelecBox';
 import axios from 'axios';
-
+import { API_URL } from '../../constant';
 interface postFormDataType {
   storeName: string | undefined;
   review: string;
@@ -119,52 +119,45 @@ const PostFormModal = (props: any) => {
     console.log('원래 있던 ', postFormData.img);
     console.log('prev ', prev);
 
-    axios
-      .post('http://kdt-sw3-team11.elicecoding.com/api/post/upload', formData)
-      .then(async (response) => {
-        const imgList = [...response.data]; //s3링크
-        console.log('s3 링크 부여', imgList);
-        // setImg(imgList);
-        const postData = {
-          ...postFormData,
-          userNum,
-          // img: [...content?.img, ...imgList],
-          img: [...prev, ...imgList],
-          name: userName,
-          country: userCountry,
-        };
-        // 새로운 글을 작성한다면 post 요청
-        if (!props.postNum) {
-          await axios
-            .post('http://kdt-sw3-team11.elicecoding.com/api/post', postData)
-            .then(async (response) => {
-              console.log(response);
-              alert('success post!');
-              await axios
-                .post(
-                  `http://kdt-sw3-team11.elicecoding.com/api/user/${response.data.post._id}/${userNum}`
-                )
-                .then((response) => console.log(response))
-                .catch((error) => console.log(error));
+    axios.post('${API_URL}/post/upload', formData).then(async (response) => {
+      const imgList = [...response.data]; //s3링크
+      console.log('s3 링크 부여', imgList);
+      // setImg(imgList);
+      const postData = {
+        ...postFormData,
+        userNum,
+        // img: [...content?.img, ...imgList],
+        img: [...prev, ...imgList],
+        name: userName,
+        country: userCountry,
+      };
+      // 새로운 글을 작성한다면 post 요청
+      if (!props.postNum) {
+        await axios
+          .post('${API_URL}/post', postData)
+          .then(async (response) => {
+            console.log(response);
+            alert('success post!');
+            await axios
+              .post(`${API_URL}/user/${response.data.post._id}/${userNum}`)
+              .then((response) => console.log(response))
+              .catch((error) => console.log(error));
 
-              props.setModalOpen(false);
-            })
-            .catch((error) => console.log(error));
-        } else {
-          // 기존 글이라면 patch 요청
-          await axios
-            .patch(
-              `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
-              postData
-            )
-            .then(async (response) => {
-              // console.log(response);
-              alert('success patch!');
-              props.setModalOpen(false);
-            })
-            .catch((error) => console.log(error));
-        }
-      });
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      } else {
+        // 기존 글이라면 patch 요청
+        await axios
+          .patch(`${API_URL}/post/${props.postNum}`, postData)
+          .then(async (response) => {
+            // console.log(response);
+            alert('success patch!');
+            props.setModalOpen(false);
+          })
+          .catch((error) => console.log(error));
+      }
+    });
   };
 
   useEffect(() => {
@@ -173,7 +166,7 @@ const PostFormModal = (props: any) => {
     const getContents = async () => {
       return await axios({
         method: 'get',
-        url: `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
+        url: `${API_URL}/post/${props.postNum}`,
       }).then((res) => {
         console.log('모달 데이터 받음', res.data);
         setContent(res.data);

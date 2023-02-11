@@ -16,6 +16,7 @@ import { HiHeart } from 'react-icons/hi';
 import { ImSpoonKnife } from 'react-icons/im';
 import { MdLocationOn } from 'react-icons/md';
 import { Icontent } from '../Icontent';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 interface Iprops {
   title: string;
@@ -52,8 +53,8 @@ const Content = (props: Iprops) => {
       method: 'get',
       url:
         props.title != 'My BookMark'
-          ? `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}${url}`
-          : `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}?country=${props.country}${url}`,
+          ? `${API_URL}/post?country=${props.country}${url}`
+          : `${API_URL}/bookmark/${userNum}?country=${props.country}${url}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -69,7 +70,7 @@ const Content = (props: Iprops) => {
   const getPostContents = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`,
+      url: `${API_URL}/post?country=${props.country}`,
     }).then((res) => {
       setContents(res.data);
     });
@@ -78,7 +79,7 @@ const Content = (props: Iprops) => {
   const getMyBookmark = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
+      url: `${API_URL}/bookmark/${userNum}`,
     }).then((res) => {
       setContents(res.data);
     });

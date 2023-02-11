@@ -14,6 +14,7 @@ import {
   Icon,
   MenuBtn,
 } from './account-style';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 interface inputData {
   name: string;
@@ -31,7 +32,7 @@ const Menu = () => {
     const { params }: any = useParams;
     const getUserData = () => {
       axios
-        .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+        .get(`${API_URL}/user/${userNum}`, {
           params,
         })
         .then((res) => {

@@ -14,6 +14,7 @@ import {
   Errormsg,
   SubmitBtn,
 } from './ForgotPassword-style';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const ForgotPassword = () => {
   const handleSubmit = () => {
     if (error === '' && email !== '') {
       axios
-        .post('http://kdt-sw3-team11.elicecoding.com/api/user/pwInit', {
+        .post(`${API_URL}/user/pwInit`, {
           email: email,
         })
         .then((res) => {

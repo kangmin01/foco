@@ -12,6 +12,7 @@ import {
 import { MapWrapper, TopWrapper, BottomWrapper } from './style';
 import DropDown from '../DropDown/DropDown';
 import useGeoLocation from '../useGeolocation/useGeolocation';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 // TODO : 타입 에러 해결해야함
 interface Icontent {
@@ -57,7 +58,7 @@ const MainMap = () => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post`,
+      url: `${API_URL}/post`,
     }).then((res) => {
       setData(res.data);
     });
@@ -66,7 +67,7 @@ const MainMap = () => {
   const getCoordinates = () => {
     return axios({
       method: 'get',
-      url: 'http://kdt-sw3-team11.elicecoding.com/Data/coordinates.json',
+      url: `${CLIENT_URL}/Data/coordinates.json`,
     }).then((res) => {
       setPath(res.data);
     });
@@ -279,7 +280,7 @@ const MainMap = () => {
           projection="geoEquirectangular"
           projectionConfig={{ scale: 180 }}
         >
-          <Geographies geography="http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json">
+          <Geographies geography={`${CLIENT_URL}/Data/worldmap.json`}>
             {({ geographies }) =>
               geographies.map((geo: any) => (
                 <Geography
