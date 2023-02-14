@@ -4,6 +4,7 @@ import Select, { MultiValue } from 'react-select';
 import axios from 'axios';
 import { Icontent } from '../Icontent';
 import Content from '../Content/Content';
+import { API_URL } from '../../constant';
 
 interface Iprops {
   title: string;
@@ -30,8 +31,8 @@ const MultiSelectBox = (props: Iprops) => {
       //url: `/post?country=${props.country}`,
       url:
         props.title != 'My BookMark'
-          ? `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`
-          : `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}?country=${props.country}`,
+          ? `${API_URL}/post?country=${props.country}`
+          : `${API_URL}/bookmark/${userNum}?country=${props.country}`,
     }).then((res) => {
       setData(res.data);
       console.log(res.data);
@@ -48,9 +49,9 @@ const MultiSelectBox = (props: Iprops) => {
   const getSelectData = () => {
     let url = '';
     if (citySelect) {
-      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}&city=${citySelect}`;
+      url = `${API_URL}/post?country=${props.country}&city=${citySelect}`;
     } else {
-      url = `http://kdt-sw3-team11.elicecoding.com/api/post?country=${props.country}`;
+      url = `${API_URL}/post?country=${props.country}`;
     }
     return axios({
       method: 'get',

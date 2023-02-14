@@ -27,6 +27,7 @@ import {
   Button,
 } from './account-style';
 
+import { API_URL, CLIENT_URL } from '../../constant';
 interface inputData {
   email: string;
   name: string;
@@ -50,7 +51,7 @@ const Profile = () => {
     const { params }: any = useParams;
 
     await axios
-      .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`, {
+      .get(`${API_URL}/user/${userNum}`, {
         params,
       })
       .then((res) => {
@@ -68,9 +69,7 @@ const Profile = () => {
   };
 
   const getCountriesName = async () => {
-    const res = await axios.get(
-      'http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json'
-    );
+    const res = await axios.get(`${CLIENT_URL}/Data/worldmap.json`);
     setCountries(res.data.objects.world.geometries);
   };
 
@@ -133,7 +132,7 @@ const Profile = () => {
     formData.append('image', imgData);
     if (error === '') {
       axios
-        .post('http://kdt-sw3-team11.elicecoding.com/api/user/upload', formData)
+        .post(`${API_URL}/user/upload`, formData)
         .then((res) => {
           const newImg = res.data;
           const newInfo = {
@@ -143,10 +142,7 @@ const Profile = () => {
           };
 
           axios
-            .patch(
-              `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`,
-              newInfo
-            )
+            .patch(`${API_URL}/user/${userNum}`, newInfo)
             .then((res) => {
               const userName = newInfo.name;
               const userCountry = newInfo.country;

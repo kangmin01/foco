@@ -19,7 +19,7 @@ import { HiHeart } from 'react-icons/hi';
 import { MdZoomOutMap } from 'react-icons/md';
 import { Icontent } from '../Icontent';
 import Modal from './../Detailmodal/Modal';
-
+import { API_URL } from '../../constant';
 interface Iprops {
   country: string;
   closeModal: () => void;
@@ -37,7 +37,7 @@ const Ranking = (props: Iprops) => {
   const getPostData = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post?country=${country}`,
+      url: `${API_URL}/post?country=${country}`,
     }).then((res) => {
       setData(res.data);
     });

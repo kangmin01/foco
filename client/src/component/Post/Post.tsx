@@ -22,6 +22,7 @@ import {
 import { MdOutlineModeEdit } from 'react-icons/md';
 import { RiDeleteBin6Fill } from 'react-icons/ri';
 import { AiFillHeart } from 'react-icons/ai';
+import { API_URL } from '../../constant';
 
 const Post = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -34,9 +35,7 @@ const Post = () => {
   const userNum = localStorage.getItem('userNum');
 
   const getReviews = async () => {
-    const res = await axios.get(
-      `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`
-    );
+    const res = await axios.get(`${API_URL}/user/${userNum}`);
     setReviews(res.data.user.post);
   };
 
@@ -56,16 +55,12 @@ const Post = () => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios
-      .delete(`http://kdt-sw3-team11.elicecoding.com/api/post/${postNum}`)
-      .then((res) => {
-        console.log(res);
-        axios
-          .get(`http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`)
-          .then((res) => {
-            setReviews(res.data.user.post);
-          });
+    axios.delete(`${API_URL}/post/${postNum}`).then((res) => {
+      console.log(res);
+      axios.get(`${API_URL}/user/${userNum}`).then((res) => {
+        setReviews(res.data.user.post);
       });
+    });
   };
 
   return (

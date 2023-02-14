@@ -22,6 +22,7 @@ import {
   CountrySelect,
   SubmitBtn,
 } from './register-style';
+import { API_URL, CLIENT_URL } from '../../constant';
 
 interface userData {
   name: string;
@@ -65,7 +66,7 @@ const Register = () => {
   useEffect(() => {
     const getCountriesName = async () => {
       await axios
-        .get('http://kdt-sw3-team11.elicecoding.com/Data/worldmap.json')
+        .get(`${CLIENT_URL}/Data/worldmap.json`)
         .then((res) => setCountries(res.data.objects.world.geometries));
     };
     getCountriesName();
@@ -163,7 +164,7 @@ const Register = () => {
       info.country !== ''
     ) {
       axios
-        .post('http://kdt-sw3-team11.elicecoding.com/api/user/register', info)
+        .post(`${API_URL}/user/register`, info)
         .then((res) => {
           SuccessAlert('Success Register!');
           navigate(`${ROUTE.LOGIN.link}`);

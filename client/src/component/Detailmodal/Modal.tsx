@@ -29,7 +29,7 @@ import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { ROUTE } from '../../Route';
 import { Rating } from 'react-simple-star-rating';
 import PostFormModal from '../PostFormMoal/PostFormModal';
-
+import { API_URL, CLIENT_URL } from '../../constant';
 interface Iprops {
   [x: string]: any;
   postNum: number;
@@ -50,7 +50,7 @@ const Modal = (props: Iprops) => {
   const getData = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post/${props.postNum}`,
+      url: `${API_URL}/post/${props.postNum}`,
     }).then((res) => {
       setData(res.data);
       // 좋아요 유저 확인
@@ -69,9 +69,7 @@ const Modal = (props: Iprops) => {
 
   // 유저데이터 불러오기
   const getUser = async () => {
-    const res = await axios.get(
-      `http://kdt-sw3-team11.elicecoding.com/api/user/${userNum}`
-    );
+    const res = await axios.get(`${API_URL}/api/user/${userNum}`);
     setUser(res.data.user.img);
   };
 
@@ -92,7 +90,7 @@ const Modal = (props: Iprops) => {
   const checkBookMarkUser = () => {
     return axios({
       method: 'get',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark/${userNum}`,
+      url: `${API_URL}/bookmark/${userNum}`,
     }).then((res) => {
       for (const x of res.data) {
         if (x.postNum == props.postNum) {
@@ -107,7 +105,7 @@ const Modal = (props: Iprops) => {
   const increaseHeart = () => {
     return axios({
       method: 'post',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post/like/${userNum}/${props.postNum}`,
+      url: `${API_URL}/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -116,7 +114,7 @@ const Modal = (props: Iprops) => {
   const decreaseHeart = () => {
     return axios({
       method: 'delete',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/post/like/${userNum}/${props.postNum}`,
+      url: `${API_URL}/post/like/${userNum}/${props.postNum}`,
     }).then((res) => {
       props.setLike(res.data.likeCount);
     });
@@ -135,7 +133,7 @@ const Modal = (props: Iprops) => {
   const addBookmark = () => {
     return axios({
       method: 'post',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark`,
+      url: `${API_URL}/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -148,7 +146,7 @@ const Modal = (props: Iprops) => {
   const deleteBookmark = () => {
     return axios({
       method: 'delete',
-      url: `http://kdt-sw3-team11.elicecoding.com/api/bookmark`,
+      url: `${API_URL}/bookmark`,
       data: {
         userNum,
         postNum: props.postNum,
@@ -175,12 +173,10 @@ const Modal = (props: Iprops) => {
 
   const handleDelete = (postNum: number) => {
     alert('Are you sure you want to delete?');
-    axios
-      .delete(`http://kdt-sw3-team11.elicecoding.com/api/post/${postNum}`)
-      .then((res) => {
-        console.log(res);
-        props.closeModal();
-      });
+    axios.delete(`${API_URL}/post/${postNum}`).then((res) => {
+      console.log(res);
+      props.closeModal();
+    });
   };
 
   // 모달 창 떴을 시 배경 스크롤 막기

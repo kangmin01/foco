@@ -13,8 +13,8 @@ if(process.env.MONGODB_URI === undefined) {
 
 const PORT = parseInt(process.env.PORT ?? '8000');
 const MONGODB_URI = process.env.MONGODB_URI;
-const s3AccessKey = process.env.***REMOVED***;
-const s3SecretKey = process.env.***REMOVED***;
+const s3AccessKey = process.env.S3_ACCESS_KEY;
+const s3SecretKey = process.env.S3_SECRET_KEY;
 const bucketName = process.env.BUCKET_NAME;
 const secretKey = process.env.JWT_SECRET_KEY as string;
 const SMTPID = process.env.SMTPID;
