@@ -1,5 +1,5 @@
 ![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=1800&height=200&section=header)
-
+![image](https://github.com/kangmin01/foco/assets/57487175/52d609d1-d380-4013-974b-3d23de343e42)
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
 
@@ -152,33 +152,3 @@ user가 회원가입 시 지정한 나라에서만 게시글을 작성할 수 �
 - **리뷰**: user가 작성한 리뷰 내역 확인 및 수정, 삭제 가능
     - 수정: post 작성 모달로 이동
     - 삭제: post 삭제 재확인
-
----
-
-### 페이지
-<!-- 회원가입페이지
-
-로그인페이지
-
-회원정보수정페이지
-![image](/uploads/4d27886e41dee922a793c35b903077b4/image.png)
-비밀번호 변경 페이지
-![image](/uploads/6fbb050709a03b0106e285b297a3acfd/image.png)
-회원탈퇴 페이지
-![image](/uploads/a535081aa44a73f30f117d15c499046e/image.png) -->
-메인페이지
-![image](/uploads/f0c89b2a012a867c861669280c10852c/image.png)
-<!-- 나라별 페이지
-
-상세페이지
-
-콘텐츠모달
-
-북마크페이지
-
-리뷰페이지
-
-리뷰모달 -->
-
-
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&width=auto&height=200&section=footer)
