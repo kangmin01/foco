@@ -1,7 +1,7 @@
 ![Header](https://capsule-render.vercel.app/api?type=waving&color=auto&width=1800&height=200&section=header)
-![image](https://github.com/kangmin01/foco/assets/57487175/52d609d1-d380-4013-974b-3d23de343e42)
 # 🥄FoCo
 현지인이 알려주는 세계 맛집 탐방
+![image](https://github.com/kangmin01/foco/assets/57487175/52d609d1-d380-4013-974b-3d23de343e42)
 
 ## 🥨프로젝트 소개
 글로벌 user를 타겟으로 해 영어를 기본 언어로 사용합니다.
